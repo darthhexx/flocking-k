@@ -28,6 +28,7 @@ from .integrated_sensing import (
     IntegratedMotionDecision,
 )
 from .metrics import StepRecord
+from .provenance import FINGERPRINT_V1
 from .simulation import scenario_fingerprint
 
 
@@ -68,10 +69,18 @@ def closed_loop_fingerprint(
     config: ExperimentConfig,
     seed: int,
     attack_stop_step: int | None,
+    *,
+    algorithm: str = FINGERPRINT_V1,
 ) -> str:
-    """Fingerprint the exogenous trace and the optional attack-cessation rule."""
+    """Fingerprint the exogenous trace and the optional attack-cessation rule.
+
+    The algorithm default matches :func:`~.simulation.scenario_fingerprint`: v1,
+    so historical M10A.5 artifacts keep verifying bit-exactly.
+    """
     digest = hashlib.sha256()
-    digest.update(scenario_fingerprint(config, seed).encode("ascii"))
+    digest.update(
+        scenario_fingerprint(config, seed, algorithm=algorithm).encode("ascii")
+    )
     digest.update(
         ("none" if attack_stop_step is None else str(attack_stop_step)).encode(
             "ascii"

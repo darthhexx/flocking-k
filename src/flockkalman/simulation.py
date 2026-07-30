@@ -9,6 +9,14 @@ import numpy as np
 from numpy.typing import NDArray
 
 from .config import ExperimentConfig
+from .provenance import (
+    DEFAULT_FLOAT_TOLERANCE,
+    FINGERPRINT_V1,
+    FINGERPRINT_V2,
+    ReplayVerification,
+    digest_arrays,
+    verify_replay,
+)
 
 
 FloatArray = NDArray[np.float64]
@@ -330,8 +338,21 @@ def observe(
     return observations, covariances, available
 
 
-def scenario_fingerprint(config: ExperimentConfig, seed: int) -> str:
-    """Hash a fully materialized scenario for deterministic trace replay."""
+def scenario_fingerprint(
+    config: ExperimentConfig,
+    seed: int,
+    *,
+    algorithm: str = FINGERPRINT_V1,
+    tolerance: float = DEFAULT_FLOAT_TOLERANCE,
+) -> str:
+    """Hash a fully materialized scenario for deterministic trace replay.
+
+    The default is deliberately :data:`~.provenance.FINGERPRINT_V1`, the legacy
+    bit-exact algorithm, so that every historical artifact keeps verifying. New
+    suites should pass ``algorithm=CURRENT_FINGERPRINT_ALGORITHM`` and record the
+    choice alongside the fingerprint; see :mod:`flockkalman.provenance` for why
+    the default is not simply flipped.
+    """
     scenario = make_scenario(config, seed)
     digest = hashlib.sha256()
     digest.update(
@@ -340,18 +361,64 @@ def scenario_fingerprint(config: ExperimentConfig, seed: int) -> str:
         )
     )
     digest.update(str(seed).encode("ascii"))
-    for value in (
-        scenario.truth,
-        scenario.measurement_normals,
-        scenario.measurement_uniforms,
-        scenario.communication_available,
-        scenario.message_ages,
-        scenario.agent_clock_offsets,
-        scenario.sensor_noise_scales,
-        scenario.agent_active,
-        scenario.initial_sensor_positions,
-        scenario.initial_belief_offsets,
-        scenario.agent_fault_types,
-    ):
-        digest.update(np.ascontiguousarray(value).tobytes())
+    if algorithm == FINGERPRINT_V2:
+        # Bind the algorithm and quantum into the digest so a v2 fingerprint can
+        # never be silently compared against a v1 one, or against a v2 computed
+        # at a different tolerance.
+        digest.update(FINGERPRINT_V2.encode("ascii"))
+        digest.update(repr(float(tolerance)).encode("ascii"))
+    digest_arrays(
+        (
+            scenario.truth,
+            scenario.measurement_normals,
+            scenario.measurement_uniforms,
+            scenario.communication_available,
+            scenario.message_ages,
+            scenario.agent_clock_offsets,
+            scenario.sensor_noise_scales,
+            scenario.agent_active,
+            scenario.initial_sensor_positions,
+            scenario.initial_belief_offsets,
+            scenario.agent_fault_types,
+        ),
+        algorithm=algorithm,
+        tolerance=tolerance,
+        digest=digest,
+    )
     return digest.hexdigest()
+
+
+def verify_scenario_replay(
+    rows: "list[dict[str, object]]",
+    suite: "dict[str, object]",
+    *,
+    fingerprint_key: str = "trace_fingerprint",
+) -> ReplayVerification:
+    """Verify recorded scenario fingerprints for a saved suite (M14.3).
+
+    Shared by every suite that carries a ``replay`` validity gate, so the
+    environment-mismatch distinction is implemented once rather than six times.
+    The recorded environment and fingerprint algorithm are read from the
+    artifact; a pre-M14 artifact declares no algorithm and is therefore treated
+    as ``v1-raw-bytes``.
+    """
+    configs = dict(suite.get("scenario_configs", {}))  # type: ignore[arg-type]
+
+    def expected(row: "dict[str, object]", algorithm: str) -> str:
+        config = ExperimentConfig(**configs[str(row["scenario"])])
+        return scenario_fingerprint(config, int(row["seed"]), algorithm=algorithm)
+
+    recorded_environment = {
+        key: suite[key]
+        for key in ("python", "numpy", "platform", "machine")
+        if key in suite
+    }
+    return verify_replay(
+        rows,
+        expected=expected,
+        recorded_environment=recorded_environment or None,
+        recorded_algorithm=str(suite["fingerprint_algorithm"])
+        if suite.get("fingerprint_algorithm")
+        else None,
+        fingerprint_key=fingerprint_key,
+    )

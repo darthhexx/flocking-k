@@ -33,6 +33,12 @@ from .config import ExperimentConfig
 from .experiment import run_trial
 from .integrated_sensing import M9C_RECEDING_ALGORITHM
 from .metrics import StepRecord, summarize_run
+from .provenance import (
+    CURRENT_FINGERPRINT_ALGORITHM,
+    ReplayVerification,
+    environment_fingerprint,
+    verify_replay,
+)
 from .simulation import make_scenario
 from .suite import ScenarioDefinition, _bootstrap_interval, _write_csv
 from .topology_suite import _fit_timing
@@ -232,6 +238,7 @@ def _row(
             config,
             seed,
             scenario.attack_stop_step,
+            algorithm=CURRENT_FINGERPRINT_ALGORITHM,
         ),
         "action_trace": "|".join(actions),
         "action_difference_rate": float(
@@ -455,7 +462,7 @@ def _decision(
     *,
     phase: str,
     seed_count: int,
-    replay_verified: bool,
+    replay: ReplayVerification,
     upstream_verified: bool,
     compatibility_verified: bool,
     compatibility_maximum: float,
@@ -492,7 +499,7 @@ def _decision(
         for name in M10A5_ATTACK_NAMES
     ]
     gates = {
-        "replay": replay_verified,
+        "replay": replay.verified,
         "upstream_frozen": upstream_verified,
         "tail_event_power": phase == "training" or seed_count >= minimum_seeds,
         "baseline_compatibility": compatibility_verified,
@@ -598,9 +605,13 @@ def _decision(
         "tail_event_power",
         "baseline_compatibility",
     }
-    if not all(gates[name] for name in validity):
+    # M14.3: see adversarial_trust_suite for the rationale. An unexplained
+    # mismatch invalidates; an environment-explained one gets its own class.
+    other_validity = validity - {"replay"}
+    substantive = {name: value for name, value in gates.items() if name != "replay"}
+    if replay.blocks_promotion or not all(gates[name] for name in other_validity):
         verdict = "M10A5-INVALID"
-    elif not all(gates.values()):
+    elif not all(substantive.values()):
         verdict = (
             "M10A5-TRAINING-FAIL"
             if phase == "training"
@@ -614,6 +625,8 @@ def _decision(
         )
     return {
         "verdict": verdict,
+        "replay_verification": replay.to_dict(),
+        "environment": environment_fingerprint(),
         "phase": phase,
         "gates": gates,
         "thresholds": M10A5_THRESHOLDS,
@@ -753,6 +766,7 @@ def run_closed_loop_trust_suite(
                         config,
                         seed,
                         scenario.attack_stop_step,
+                        algorithm=CURRENT_FINGERPRINT_ALGORITHM,
                     ),
                 }
             )
@@ -793,20 +807,21 @@ def run_closed_loop_trust_suite(
         )
     )
     effects = _effects(rows, bootstrap_samples)
-    replay_verified = all(
-        str(entry["fingerprint"])
-        == closed_loop_fingerprint(
-            ExperimentConfig(
-                **scenario_configs[str(entry["scenario"])]
-            ),
+    replay = verify_replay(
+        [dict(entry) for entry in manifest],
+        expected=lambda entry, algorithm: closed_loop_fingerprint(
+            ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
             int(entry["seed"]),
             (
                 None
                 if entry["attack_stop_step"] is None
                 else int(entry["attack_stop_step"])
             ),
-        )
-        for entry in manifest
+            algorithm=algorithm,
+        ),
+        recorded_environment=environment_fingerprint(),
+        recorded_algorithm=CURRENT_FINGERPRINT_ALGORITHM,
+        fingerprint_key="fingerprint",
     )
     project_root = Path(__file__).resolve().parents[2]
     upstream_verified, upstream = _verify_upstream(project_root)
@@ -816,7 +831,7 @@ def run_closed_loop_trust_suite(
         effects,
         phase=phase,
         seed_count=seed_count,
-        replay_verified=replay_verified,
+        replay=replay,
         upstream_verified=upstream_verified,
         compatibility_verified=compatibility_verified,
         compatibility_maximum=compatibility_maximum,
@@ -828,7 +843,12 @@ def run_closed_loop_trust_suite(
     _write_csv(output / "paired_effects.csv", effects)
     (output / "trace_manifest.json").write_text(
         json.dumps(
-            {"replay_verified": replay_verified, "entries": manifest},
+            {
+                "replay_verified": replay.verified,
+                "replay_verification": replay.to_dict(),
+                "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
+                "entries": manifest,
+            },
             indent=2,
             sort_keys=True,
         )
@@ -860,8 +880,13 @@ def run_closed_loop_trust_suite(
             (
                 source / "closed_loop_trust.py",
                 source / "closed_loop_trust_suite.py",
+                # M14.4: modules the replay gate depends on.
+                source / "simulation.py",
+                source / "config.py",
+                source / "provenance.py",
             )
         ),
+        "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
         "upstream": upstream,
         "platform_version": "0.15.0",
         "python": platform.python_version(),
@@ -905,12 +930,15 @@ def reanalyze_closed_loop_trust_suite(
         )
     )
     effects = _effects(rows, samples)
-    replay_verified = all(
-        str(row["trace_fingerprint"])
-        == closed_loop_fingerprint(
-            ExperimentConfig(
-                **suite["scenario_configs"][str(row["scenario"])]
-            ),
+    _recorded_env = {
+        key: suite[key]
+        for key in ("python", "numpy", "platform", "machine")
+        if key in suite
+    }
+    replay = verify_replay(
+        rows,
+        expected=lambda row, algorithm: closed_loop_fingerprint(
+            ExperimentConfig(**suite["scenario_configs"][str(row["scenario"])]),
             int(row["seed"]),
             next(
                 (
@@ -920,8 +948,14 @@ def reanalyze_closed_loop_trust_suite(
                 ),
                 None,
             ),
-        )
-        for row in rows
+            algorithm=algorithm,
+        ),
+        recorded_environment=_recorded_env or None,
+        recorded_algorithm=(
+            str(suite["fingerprint_algorithm"])
+            if suite.get("fingerprint_algorithm")
+            else None
+        ),
     )
     project_root = Path(__file__).resolve().parents[2]
     upstream_verified, _ = _verify_upstream(project_root)
@@ -938,7 +972,7 @@ def reanalyze_closed_loop_trust_suite(
         effects,
         phase=str(suite["phase"]),
         seed_count=int(suite["seed_count"]),
-        replay_verified=replay_verified,
+        replay=replay,
         upstream_verified=upstream_verified,
         compatibility_verified=compatibility_verified,
         compatibility_maximum=compatibility_maximum,

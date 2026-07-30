@@ -26,7 +26,17 @@ from .experiment import run_trial
 from .integrated_sensing import M9C_RECEDING_ALGORITHM
 from .integration_suite import M9C_SOURCE_COMPETITION
 from .metrics import StepRecord
-from .simulation import make_scenario, scenario_fingerprint
+from .provenance import (
+    CURRENT_FINGERPRINT_ALGORITHM,
+    ReplayVerification,
+    environment_fingerprint,
+    verify_replay,
+)
+from .simulation import (
+    make_scenario,
+    scenario_fingerprint,
+    verify_scenario_replay,
+)
 from .suite import ScenarioDefinition, _bootstrap_interval, _write_csv
 from .topology import connected_components
 from .topology_suite import M9A_SCENARIOS, _fit_timing
@@ -449,7 +459,11 @@ def _worker(
         step_observer=collector,
     )
     runtime = perf_counter() - started
-    fingerprint = scenario_fingerprint(config, seed)
+    # M14.3: rows and the trace manifest must agree on the algorithm, otherwise
+    # a fresh run's own reanalysis compares v1 against v2 and self-invalidates.
+    fingerprint = scenario_fingerprint(
+        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+    )
     rows: list[dict[str, object]] = []
     for arm, summary in collector.summaries().items():
         rows.append(
@@ -609,7 +623,7 @@ def _decision(
     base_config: ExperimentConfig,
     phase: str,
     seed_count: int,
-    replay_verified: bool,
+    replay: ReplayVerification,
     upstream_verified: bool,
 ) -> dict[str, object]:
     threshold = M10A_THRESHOLDS
@@ -687,7 +701,7 @@ def _decision(
         )
     ]
     gates = {
-        "replay": replay_verified,
+        "replay": replay.verified,
         "upstream_m9c_frozen": upstream_verified,
         "shadow_equivalence": (
             shadow_loss_difference <= float(threshold["shadow_tolerance"])
@@ -793,16 +807,28 @@ def _decision(
         "tail_event_power",
         "diagnostics_exercised",
     }
-    if not all(gates[name] for name in validity):
+    # M14.3: the `replay` gate is adjudicated separately from the other validity
+    # gates. An unexplained fingerprint mismatch still invalidates; a mismatch
+    # that the recorded environment accounts for is reported as its own verdict
+    # class rather than being collapsed into INVALID (which is what made two
+    # held-out GOs read as integrity failures under a referee's NumPy) or
+    # silently promoted to GO (which would overclaim bit-exact verification).
+    other_validity = validity - {"replay"}
+    substantive = {name: value for name, value in gates.items() if name != "replay"}
+    if replay.blocks_promotion or not all(gates[name] for name in other_validity):
         verdict = "M10A-INVALID"
-    elif not all(gates.values()):
+    elif not all(substantive.values()):
         verdict = "M10A-TRAINING-FAIL" if phase == "training" else "M10A-NO-GO"
+    elif not replay.verified:
+        verdict = "M10A-REPLAY-ENV-MISMATCH"
     else:
         verdict = "M10A-TRAINING-PASS" if phase == "training" else "M10A-GO"
     return {
         "verdict": verdict,
         "phase": phase,
         "gates": gates,
+        "replay_verification": replay.to_dict(),
+        "environment": environment_fingerprint(),
         "thresholds": threshold,
         "availability_loss_derivation": {
             "formula": "2 * output_defer_cost",
@@ -960,7 +986,9 @@ def run_adversarial_trust_suite(
                 {
                     "scenario": scenario.name,
                     "seed": seed,
-                    "fingerprint": scenario_fingerprint(config, seed),
+                    "fingerprint": scenario_fingerprint(
+                        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+                    ),
                 }
             )
     worker_count = workers or min(os.cpu_count() or 2, 8)
@@ -994,13 +1022,18 @@ def run_adversarial_trust_suite(
         )
     )
     effects = _effects(rows, bootstrap_samples)
-    replay_verified = all(
-        scenario_fingerprint(
+    # A fresh run is by construction in its own environment, so the manifest is
+    # checked bit-exactly under the algorithm this run records.
+    replay = verify_replay(
+        [dict(entry) for entry in manifest],
+        expected=lambda entry, algorithm: scenario_fingerprint(
             ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
             int(entry["seed"]),
-        )
-        == entry["fingerprint"]
-        for entry in manifest
+            algorithm=algorithm,
+        ),
+        recorded_environment=environment_fingerprint(),
+        recorded_algorithm=CURRENT_FINGERPRINT_ALGORITHM,
+        fingerprint_key="fingerprint",
     )
     project_root = Path(__file__).resolve().parents[2]
     upstream_verified, upstream = _verify_upstream(project_root)
@@ -1011,7 +1044,7 @@ def run_adversarial_trust_suite(
         base_config=base_config,
         phase=phase,
         seed_count=seed_count,
-        replay_verified=replay_verified,
+        replay=replay,
         upstream_verified=upstream_verified,
     )
     output = Path(output_directory)
@@ -1021,7 +1054,12 @@ def run_adversarial_trust_suite(
     _write_csv(output / "paired_effects.csv", effects)
     (output / "trace_manifest.json").write_text(
         json.dumps(
-            {"replay_verified": replay_verified, "entries": manifest},
+            {
+                "replay_verified": replay.verified,
+                "replay_verification": replay.to_dict(),
+                "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
+                "entries": manifest,
+            },
             indent=2,
             sort_keys=True,
         )
@@ -1046,8 +1084,16 @@ def run_adversarial_trust_suite(
             (
                 source / "adversarial_trust.py",
                 source / "adversarial_trust_suite.py",
+                # M14.4: the replay validity gate is derived from these modules,
+                # so drift in them must invalidate the frozen set. Omitting
+                # simulation.py is what let a fingerprint-affecting code path sit
+                # outside the chain of custody it was supposed to be inside.
+                source / "simulation.py",
+                source / "config.py",
+                source / "provenance.py",
             )
         ),
+        "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
         "upstream_m9c": upstream,
         "platform_version": "0.14.0",
         "python": platform.python_version(),
@@ -1092,16 +1138,7 @@ def reanalyze_adversarial_trust_suite(
         )
     )
     effects = _effects(rows, samples)
-    replay_verified = all(
-        str(row["trace_fingerprint"])
-        == scenario_fingerprint(
-            ExperimentConfig(
-                **suite["scenario_configs"][str(row["scenario"])]
-            ),
-            int(row["seed"]),
-        )
-        for row in rows
-    )
+    replay = verify_scenario_replay(rows, suite)
     project_root = Path(__file__).resolve().parents[2]
     upstream_verified, _ = _verify_upstream(project_root)
     base_config = ExperimentConfig(**suite["base_config"])
@@ -1112,7 +1149,7 @@ def reanalyze_adversarial_trust_suite(
         base_config=base_config,
         phase=str(suite["phase"]),
         seed_count=int(suite["seed_count"]),
-        replay_verified=replay_verified,
+        replay=replay,
         upstream_verified=upstream_verified,
     )
     _write_csv(output / "scenario_summary.csv", summaries)

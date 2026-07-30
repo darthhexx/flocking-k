@@ -1,0 +1,18 @@
+{
+  "steps": 30,
+  "dt": 1.0,
+  "n_agents": 8,
+  "hypothesis_positions": [
+    [-5.0, 0.0],
+    [5.0, 0.0]
+  ],
+  "initial_sensor_y_span": 8.0,
+  "measurement_std": 0.8,
+  "sensor_max_speed": 1.5,
+  "fixed_momentum": 0.72,
+  "selection_probability": 0.95,
+  "defer_cost": 0.2,
+  "wrong_selection_cost": 1.0,
+  "movement_cost_per_unit": 0.01,
+  "quadrature_points": 25
+}

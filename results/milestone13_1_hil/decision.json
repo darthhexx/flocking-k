@@ -1,0 +1,45 @@
+{
+  "candidate_vs_central_integrated_loss": {
+    "ci95_lower": -0.004465614282109247,
+    "ci95_upper": -0.0027877491484367576,
+    "mean": -0.0036183466685974944
+  },
+  "deterministic_replay": true,
+  "external_physical_claim_authorized": false,
+  "gates": {
+    "attack_alert_rate": true,
+    "attack_decision_loss": true,
+    "attack_recovery": true,
+    "calibration": true,
+    "decentralized_integrated_loss_lcb": true,
+    "false_alert_rate": true,
+    "ownership_and_message_bounds": true,
+    "safety_intervention_rate_below_1pct": true,
+    "transport_topology_runtime": true,
+    "truth_isolation_and_replay": true,
+    "wrong_action_rate": true,
+    "zero_collisions_and_emergency_stops": true
+  },
+  "implementation_hash": "a876f2319c909ec6d92bf446cb5a247b393e196711b8ead533d1522e010dca21",
+  "implementation_hashes": {
+    "M13_PROTOCOL.md": "1e26a2944d42e6c6b9e5bd687c05a99c2d88fd700373ec5d0002dcb8f6ef4f68",
+    "src/flockkalman/full_loop_contracts.py": "7fd6f715be31c6144a2d101138f3323b01ab1d2a01e7c0ebcfdd35f625c0679b",
+    "src/flockkalman/full_loop_hil.py": "4f653a3e60df6ad7058e5dcf32a4f487775dcf777a5cddbca4389ead698145af"
+  },
+  "milestone": "M13.1",
+  "normal_reference": {
+    "z_0.8": 0.8416212335729144,
+    "z_0.975": 1.9599639845400534
+  },
+  "paired_seeds_per_scenario": 150,
+  "trials": 6000,
+  "truth_isolation_audit": {
+    "operational_process_ids": [
+      "reference_operational_stack"
+    ],
+    "passed": true,
+    "scorer_process_id": "independent_hil_scorer",
+    "violations": []
+  },
+  "verdict": "M13.1-HIL-PILOT-READY"
+}

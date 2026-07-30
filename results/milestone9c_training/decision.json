@@ -1,0 +1,58 @@
+{
+  "aggregate_voi_ci95": [
+    -0.0020060895866071448,
+    6.382748618511441e-05
+  ],
+  "aggregate_voi_improvement": -0.0009641222863418663,
+  "attack_candidate_loss": 3.507622118556243,
+  "gates": {
+    "aggregate_voi_utility": false,
+    "attack_absolute_utility": false,
+    "attack_nonworsening": true,
+    "calibration": true,
+    "movement_efficiency": true,
+    "natural_m9a7_noninferiority": true,
+    "positive_control_exercised": true,
+    "positive_control_voi_utility": false,
+    "replay": true,
+    "tail_event_power": true,
+    "topology_noninterference": true,
+    "upstream_m9a7_frozen_go": true,
+    "wrong_action_safety": true
+  },
+  "maximum_component_increase": 0.013749999999999929,
+  "movement_efficiency_improvement": 0.003583413721409727,
+  "original_m9a7_and_m9b_verdicts_unchanged": true,
+  "phase": "training",
+  "positive_control_action_difference_rate": 0.08625000000000001,
+  "positive_control_voi_improvement": -0.011165284843251078,
+  "power_calculation": {
+    "actual_seed_count": 40,
+    "detection_probability": 0.95,
+    "event_frequency": 0.02,
+    "minimum_seed_count": 149
+  },
+  "production_authorized": false,
+  "thresholds": {
+    "aggregate_voi_improvement_lcb_min": 0.0,
+    "attack_absolute_loss_max": 1.5,
+    "attack_active_motion_rate_max": 0.05,
+    "attack_noninferiority_lcb_min": -0.1,
+    "coverage95_min": 0.88,
+    "delivery_ratio_degradation_lcb_min": -0.05,
+    "mean_nees_max": 6.0,
+    "movement_efficiency_lcb_min": 0.0,
+    "natural_noninferiority_lcb_min": -0.03,
+    "p95_nees_max": 20.0,
+    "positive_control_action_difference_rate_min": 0.02,
+    "positive_control_round_robin_active_rate_min": 0.03,
+    "positive_control_voi_improvement_lcb_min": 0.0,
+    "tail_detection_probability": 0.95,
+    "tail_event_frequency": 0.02,
+    "topology_component_increase_max": 0.25,
+    "wrong_mode_action_rate_max": 0.01
+  },
+  "verdict": "M9C-TRAINING-FAIL",
+  "worst_delivery_ratio_lcb": -0.002786621093750002,
+  "worst_natural_noninferiority_lcb": -0.003269952767258765
+}

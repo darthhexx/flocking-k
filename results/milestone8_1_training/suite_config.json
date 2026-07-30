@@ -1,0 +1,41 @@
+{
+  "assay_config": {
+    "defer_cost": 0.2,
+    "dt": 1.0,
+    "fixed_momentum": 0.72,
+    "hypothesis_positions": [
+      [
+        -5.0,
+        0.0
+      ],
+      [
+        5.0,
+        0.0
+      ]
+    ],
+    "initial_sensor_y_span": 8.0,
+    "measurement_std": 0.8,
+    "movement_cost_per_unit": 0.01,
+    "n_agents": 8,
+    "quadrature_points": 25,
+    "selection_probability": 0.95,
+    "sensor_max_speed": 1.5,
+    "steps": 30,
+    "wrong_selection_cost": 1.0
+  },
+  "bootstrap_samples": 1000,
+  "doses": [
+    0.0,
+    0.1,
+    0.25,
+    0.5,
+    1.0
+  ],
+  "executor": "thread_fallback",
+  "numpy": "2.4.6",
+  "platform_version": "0.7.0",
+  "python": "3.11.11",
+  "seed_count": 30,
+  "seed_start": 6000,
+  "workers": 8
+}

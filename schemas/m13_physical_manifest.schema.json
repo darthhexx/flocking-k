@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flockkalman.local/schemas/m13_physical_manifest.schema.json",
+  "title": "M13 physical run manifest",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "run_id",
+    "phase",
+    "evidence_class",
+    "adapter",
+    "scenario",
+    "arm",
+    "block_id",
+    "trial_date",
+    "operational_process_ids",
+    "observer_robot_ids",
+    "recorder_host_ids",
+    "scorer_process_id",
+    "source_files",
+    "clock_offsets",
+    "attack"
+  ],
+  "properties": {
+    "schema_version": {"const": "m13.0.0"},
+    "run_id": {"type": "string", "minLength": 1},
+    "phase": {"enum": ["pilot", "heldout"]},
+    "evidence_class": {"const": "external_physical"},
+    "adapter": {
+      "enum": ["ros2_mcap", "ros2_dds", "physical_jsonl_bridge"]
+    },
+    "scenario": {"type": "string", "minLength": 1},
+    "arm": {
+      "enum": [
+        "m9c_no_trust",
+        "m10a5_centralized",
+        "m10b_decentralized_no_negotiation",
+        "m10b_decentralized"
+      ]
+    },
+    "block_id": {"type": "string", "minLength": 1},
+    "trial_date": {"type": "string", "minLength": 1},
+    "operational_process_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "observer_robot_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "recorder_host_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string"}
+    },
+    "scorer_process_id": {"type": "string", "minLength": 1},
+    "source_files": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["path", "kind", "host_id"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "kind": {
+            "enum": ["operational_mcap", "truth_mcap", "pcap"]
+          },
+          "host_id": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "clock_offsets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["process_id", "offset_ms"],
+        "properties": {
+          "process_id": {"type": "string"},
+          "offset_ms": {"type": "number"}
+        }
+      }
+    },
+    "attack": {
+      "type": "object",
+      "required": ["kind", "attacker_ids", "start_ns", "stop_ns"]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "acceleration_config": {
+    "acceleration_exercised_threshold": 0.1,
+    "angular_acceleration_exercised_threshold": 0.15,
+    "angular_acceleration_std": 0.5,
+    "initial_angular_velocity_std": 0.12,
+    "initial_velocity_std": 0.08,
+    "linear_acceleration_std": 0.35,
+    "replay": {
+      "bearing_std": 0.1,
+      "bounded_measurements": 2,
+      "dt": 0.5,
+      "initialization_heading_std": 0.03,
+      "initialization_position_std": 0.05,
+      "nis_gate": 25.0,
+      "process_heading_std": 0.06,
+      "process_position_std": 0.1,
+      "range_std": 0.18,
+      "topology_message_ttl": 5.0,
+      "window_seconds": 60.0
+    }
+  },
+  "archive_path": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM1.zip",
+  "archive_sha256": "57c0166b0e2761680e83ffa67b4f58bad7187c41fd723345a4a45ebd50a6557e",
+  "bootstrap_samples": 5000,
+  "candidate_source_sha256": "f68e5b0068af2bbc23ed54c5ea58b10366dd0a218af58a3febb809da321a9add",
+  "canonical_root": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM_Dataset1_canonical",
+  "materialized_sha256": "3820665cd540b852c6a3b1a119480affc876cc6d6ad57c579ff9907028bde8b4",
+  "numpy": "2.4.6",
+  "phase": "development",
+  "platform_version": "0.18.0",
+  "protocol_sha256": "fb69c9cdd6d2d526d2334f726e57dafa1c76d4e4da7baab9dde7b24719d5932d",
+  "python": "3.11.11",
+  "replay_fingerprint": "8b88a4abb4f93fa162674cc32ae6fc03a2a15ce6ca2f0a224aa206261a62bd9e",
+  "source_root": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM_Dataset1"
+}

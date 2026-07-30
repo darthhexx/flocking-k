@@ -1,0 +1,179 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 850" width="1200" height="850">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2D3436"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="3" stdDeviation="3" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#FAF9F6"/>
+  
+  <!-- Title -->
+  <text x="600" y="40" font-family="system-ui, sans-serif" font-size="24" font-weight="800" text-anchor="middle" fill="#1E272C">Figure 2: Preregistered Falsification Milestone Trajectory (M4–M13.3)</text>
+  <text x="600" y="64" font-family="system-ui, sans-serif" font-size="14" text-anchor="middle" fill="#576574">Hashed protocols, held-out seeds, firewalled diagnostics, and recorded verdicts (GO, NO-GO, PARTIAL-GO, DEVELOPMENT-FAIL, INVALID)</text>
+  <!-- LEGEND -->
+  <rect x="50" y="85" width="1100" height="40" rx="6" fill="#FFFFFF" stroke="#DFE4EA"/>
+  <rect x="70" y="97" width="16" height="16" rx="3" fill="#2ED573"/>
+  <text x="94" y="110" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">GO (Promoted)</text>
+  <rect x="250" y="97" width="16" height="16" rx="3" fill="#FF4757"/>
+  <text x="274" y="110" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">NO-GO / FAIL (Rejected)</text>
+  <rect x="460" y="97" width="16" height="16" rx="3" fill="#FFA502"/>
+  <text x="484" y="110" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">PARTIAL-GO (Retained/Refused)</text>
+  <rect x="720" y="97" width="16" height="16" rx="3" fill="#70A1FF"/>
+  <text x="744" y="110" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">INVALID (Protocol Boundary)</text>
+  <rect x="940" y="97" width="16" height="16" rx="3" fill="#A4B0BE"/>
+  <text x="964" y="110" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">Diagnostic Firewall</text>
+  <!-- MILESTONE BOXES LAYOUT (4 Columns x 5 Rows) -->
+  <g filter="url(#shadow)">
+    <rect x="50" y="150" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#FF4757" stroke-width="2"/>
+    <rect x="50" y="150" width="240" height="26" rx="8" fill="#FF4757"/>
+    <text x="170" y="168" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M4: Direct Adaptive Motion</text>
+    <text x="60" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Verdict: NO-GO</text>
+    <text x="60" y="216" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">NIS adaptive recurrence 2.4%</text>
+    <text x="60" y="232" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">worse than fixed. Fixed ρ=0.72 retained.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="50" y="280" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#FF4757" stroke-width="2"/>
+    <rect x="50" y="280" width="240" height="26" rx="8" fill="#FF4757"/>
+    <text x="170" y="298" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M5: Guarded Adaptive Motion</text>
+    <text x="60" y="325" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Verdict: NO-GO</text>
+    <text x="60" y="346" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Corroborated guards safe, but</text>
+    <text x="60" y="362" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">statistically tied with fixed recurrence.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="50" y="410" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="50" y="410" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="170" y="428" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M6: Robust Multi-Flock Fusion</text>
+    <text x="60" y="455" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: GO</text>
+    <text x="60" y="476" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">12/12 gates passed. CI inside</text>
+    <text x="60" y="492" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">hypothesis flocks handles bias/Byzantine.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="50" y="540" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="50" y="540" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="170" y="558" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M7: Truth-Blind Output Policy</text>
+    <text x="60" y="585" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: GO</text>
+    <text x="60" y="606" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">18/18 gates passed. Active</text>
+    <text x="60" y="622" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">select/investigate/defer beats baselines.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="340" y="150" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#FF4757" stroke-width="2"/>
+    <rect x="340" y="150" width="240" height="26" rx="8" fill="#FF4757"/>
+    <text x="460" y="168" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M8: Realism Ladder Transfer</text>
+    <text x="350" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Verdict: NO-GO</text>
+    <text x="350" y="216" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Dynamic topology breached 0</text>
+    <text x="350" y="232" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">margin; investigation motion produced decision gain.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="340" y="280" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="340" y="280" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="460" y="298" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M8.1: Endogenous Ambiguity</text>
+    <text x="350" y="325" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: POSITIVE-CONTROL</text>
+    <text x="350" y="346" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Engineered positive control:</text>
+    <text x="350" y="362" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">lateral motion resolves binary ambiguity.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="340" y="410" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#A4B0BE" stroke-width="2"/>
+    <rect x="340" y="410" width="240" height="26" rx="8" fill="#A4B0BE"/>
+    <text x="460" y="428" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M8.2: Mechanism Sweep</text>
+    <text x="350" y="455" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#A4B0BE">Verdict: UNRESOLVED</text>
+    <text x="350" y="476" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Training sweep did not support</text>
+    <text x="350" y="492" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">spatial-diversity mechanism for fixed recurrence.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="340" y="540" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="340" y="540" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="460" y="558" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M9B: Static VOI Allocation</text>
+    <text x="350" y="585" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: GO</text>
+    <text x="350" y="606" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">12/12 gates passed. Receding</text>
+    <text x="350" y="622" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">2-step VOI beats round-robin when views compete.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="630" y="150" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#FFA502" stroke-width="2"/>
+    <rect x="630" y="150" width="240" height="26" rx="8" fill="#FFA502"/>
+    <text x="750" y="168" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M9A: Topology Evidence Ledger</text>
+    <text x="640" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFA502">Verdict: PARTIAL-GO</text>
+    <text x="640" y="216" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Repaired NEES calibration gate</text>
+    <text x="640" y="232" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">pathology; dynamic transfer failed.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="630" y="280" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#A4B0BE" stroke-width="2"/>
+    <rect x="630" y="280" width="240" height="26" rx="8" fill="#A4B0BE"/>
+    <text x="750" y="298" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M9A.5: Oracle Floor Diagnosis</text>
+    <text x="640" y="325" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#A4B0BE">Verdict: DIAGNOSTIC</text>
+    <text x="640" y="346" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Firewalled reference: gap was</text>
+    <text x="640" y="362" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">policy/representation headroom, not info limit.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="630" y="410" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#FF4757" stroke-width="2"/>
+    <rect x="630" y="410" width="240" height="26" rx="8" fill="#FF4757"/>
+    <text x="750" y="428" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M9A.6: Assignment Posterior</text>
+    <text x="640" y="455" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Verdict: NO-GO</text>
+    <text x="640" y="476" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Exposed rare admission-censored</text>
+    <text x="640" y="492" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">missingness tail on 2/100 seeds.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="630" y="540" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="630" y="540" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="750" y="558" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M9A.7: Split Evidence Admission</text>
+    <text x="640" y="585" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: GO</text>
+    <text x="640" y="606" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">13/13 powered gates passed.</text>
+    <text x="640" y="622" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Split raw/belief channels repair tail risk.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="920" y="150" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="920" y="150" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="1040" y="168" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M10A / 10A.5: Composed Trust</text>
+    <text x="930" y="195" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: GO</text>
+    <text x="930" y="216" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Causal trust layer drops attack</text>
+    <text x="930" y="232" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">loss from 3.51 to 0.43 with zero false alerts.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="920" y="280" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#2ED573" stroke-width="2"/>
+    <rect x="920" y="280" width="240" height="26" rx="8" fill="#2ED573"/>
+    <text x="1040" y="298" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M10B: Decentralized Allocation</text>
+    <text x="930" y="325" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#2ED573">Verdict: GO</text>
+    <text x="930" y="346" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Per-agent asynchronous passes</text>
+    <text x="930" y="362" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">ownership noninferiority gates.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="920" y="410" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#70A1FF" stroke-width="2"/>
+    <rect x="920" y="410" width="240" height="26" rx="8" fill="#70A1FF"/>
+    <text x="1040" y="428" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M11 / 11.1: External MR.CLaM Replay</text>
+    <text x="930" y="455" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#70A1FF">Verdict: INVALID -> GO</text>
+    <text x="930" y="476" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">M11 INVALID on timestamp jump.</text>
+    <text x="930" y="492" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">M11.1 canonicalized replay passes Dataset 6.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="920" y="540" width="240" height="105" rx="8" fill="#FFFFFF" stroke="#FF4757" stroke-width="2"/>
+    <rect x="920" y="540" width="240" height="26" rx="8" fill="#FF4757"/>
+    <text x="1040" y="558" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#FFFFFF">M12: Measured Acceleration</text>
+    <text x="930" y="585" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Verdict: DEVELOPMENT-FAIL</text>
+    <text x="930" y="606" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">Acceleration state strictly on</text>
+    <text x="930" y="622" font-family="system-ui, sans-serif" font-size="10" fill="#2D3436">worse real data (RMSE 0.52 vs 0.31m). Filter frozen.</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="50" y="680" width="1110" height="110" rx="10" fill="#FFFFFF" stroke="#2ED573" stroke-width="3"/>
+    <rect x="50" y="680" width="1110" height="32" rx="10" fill="#2ED573"/>
+    <text x="605" y="702" font-family="system-ui, sans-serif" font-size="15" font-weight="800" text-anchor="middle" fill="#FFFFFF">M13.1 Hardware-in-the-Loop Screen &amp; Physical Transition (HIL-PILOT-READY)</text>
+    <text x="70" y="732" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">• M13.0 Wire &amp; Scorer Boundary: Truth fields structurally isolated; hash-chained evidence ledgers verified.</text>
+    <text x="70" y="752" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#2D3436">• M13.1 Independent HIL Screen: 6,000 paired trials; 12/12 gates passed; decentralized loss within -0.0036 of centralized.</text>
+    <text x="70" y="772" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#C0392B">• M13.2 / M13.3 Physical Pilot &amp; Holdout: Preregistered 320-run randomized plan sealed; awaiting physical robot bundles.</text>
+  </g>
+  <path d="M 170 255 L 170 280" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 170 385 L 170 410" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 170 515 L 170 540" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 290 202 L 340 202" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 460 255 L 460 280" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 460 515 L 460 540" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 580 592 L 630 202" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 750 255 L 750 280" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 750 385 L 750 410" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 750 515 L 750 540" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 870 592 L 920 202" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 1040 255 L 1040 280" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 1040 385 L 1040 410" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 1040 515 L 1040 540" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M 1040 645 L 1040 680" stroke="#2D3436" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

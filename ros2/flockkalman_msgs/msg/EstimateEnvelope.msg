@@ -1,0 +1,11 @@
+string schema_version
+string run_id
+string sender_id
+uint64 seq
+uint64 monotonic_ns
+uint32 local_epoch
+float64[4] estimate
+float64[16] covariance
+float64 minimum_peer_trust
+uint32 trust_alert_count
+uint32 wire_bytes

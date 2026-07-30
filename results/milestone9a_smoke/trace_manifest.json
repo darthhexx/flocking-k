@@ -1,0 +1,86 @@
+{
+  "algorithm_independent_common_random_numbers": true,
+  "entries": [
+    {
+      "fingerprint": "d75b2eeb0923b59d3da8f8e89d93a7823b4e551143597973bc12e7807f42b3c8",
+      "scenario": "stable_control",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "75d0bad1a88eb2062579d845242b6d0d982ac5663d7d3eada40662d2a2812704",
+      "scenario": "stable_control",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "506c31b0996574c5f77251faab452a780c10e730df5eb05f5d275b851ee956cf",
+      "scenario": "failure_only",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "1dc9a714588e948a4df86be2b90d2864830f817d51f68827cfe72669705c06bb",
+      "scenario": "failure_only",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "9fa6770a6f7fc58c3edf1bd58fbb82b3bdf53efa136e760ac57b3fe840ec07a8",
+      "scenario": "partition_only",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "07018696f315316158411fbfd254a0c7a162500bb45c14ee52da7713fc23a6dc",
+      "scenario": "partition_only",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "44ddfc9e9608a3899d06b86c7c8a5bc0e0f7fa058ef656e017ffa44b522c28db",
+      "scenario": "asymmetric_partition",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "ca658c0aa4dc96febf98d8049791cbb0030d714cb76c1b54abc45b23a8831169",
+      "scenario": "asymmetric_partition",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "8a068c44e14a868cd3e03e1b38b46d0e14fbe908cfe4970aee01e5becf5ba303",
+      "scenario": "failure_partition",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "95191b6d1224c456fcea6236bcac12f7a584e89ea496223da08dc39e6a0812b0",
+      "scenario": "failure_partition",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "ddd66ed93dcdd52f401bda003210862f90a042353c17f0b7ed5d07cd652fa38d",
+      "scenario": "staggered_rejoin",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "49b33365950169209e66d28c9eae195fb4752021a9106533f4b18459c68960ff",
+      "scenario": "staggered_rejoin",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "fedd5dff084b46c17ca7aa14fd91f875c6b4ca3dbb118415395dc1664af2dbf6",
+      "scenario": "flapping_reconnect",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "f3ef027a4f785d840ea4d8f097f58d73ff24fe0cac45e675831b18032a03cec0",
+      "scenario": "flapping_reconnect",
+      "seed": 11991
+    },
+    {
+      "fingerprint": "324041cf0258e7e85fc3a2fd33edbc963a447728f8d195b5cdbce7a9e2fae58f",
+      "scenario": "false_split_dropout",
+      "seed": 11990
+    },
+    {
+      "fingerprint": "1aac19aaa77e9027ad313c8b7e76eacfac8ca323c649ae150012da375d009f71",
+      "scenario": "false_split_dropout",
+      "seed": 11991
+    }
+  ],
+  "replay_verified": true
+}

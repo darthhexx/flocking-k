@@ -1,0 +1,65 @@
+{
+  "attack_decision_losses": {
+    "raw_attack_mild": 0.28625312116573165,
+    "raw_attack_moderate": 0.29102660036608907,
+    "raw_attack_severe": 0.3120204520869055,
+    "raw_channel_colluding_ramp": 0.39112856602816604
+  },
+  "canonical_attack_ci95": [
+    3.0323471726442848,
+    3.1140332007182856
+  ],
+  "canonical_attack_improvement": 3.073190186681285,
+  "compatibility_maximum_difference": 0.0,
+  "decentralized_research_authorized": false,
+  "gates": {
+    "attack_absolute_availability": true,
+    "attack_calibration_and_safety": true,
+    "attack_detection": true,
+    "attack_movement_bounded": true,
+    "baseline_compatibility": true,
+    "canonical_attack_improvement": true,
+    "control_calibration_and_safety": true,
+    "control_false_alerts": true,
+    "control_noninferiority": true,
+    "feedback_exercised": true,
+    "honest_recovery": true,
+    "legitimate_evidence_noninferiority": true,
+    "quarantine_noninterference": true,
+    "replay": true,
+    "tail_event_power": true,
+    "upstream_frozen": true
+  },
+  "historical_verdicts_unchanged": true,
+  "maximum_attack_movement_increase": 0.031198418943750417,
+  "phase": "training",
+  "power_calculation": {
+    "actual_seed_count": 2,
+    "minimum_seed_count": 149
+  },
+  "production_authorized": false,
+  "recovery_max_cycles": 6.0,
+  "recovery_post_stop_false_alert_rate": 0.03636363636363636,
+  "thresholds": {
+    "attack_detection_rate_mild_min": 0.25,
+    "attack_detection_rate_other_min": 0.5,
+    "attack_movement_increase_max": 0.05,
+    "availability_loss_max": 1.5,
+    "canonical_improvement_lcb_min": 0.0,
+    "compatibility_tolerance": 1e-12,
+    "control_false_alert_rate_max": 0.05,
+    "control_integrated_noninferiority_lcb_min": -0.03,
+    "coverage95_min": 0.88,
+    "mean_nees_max": 6.0,
+    "p95_nees_max": 20.0,
+    "post_recovery_false_alert_rate_max": 0.1,
+    "post_recovery_loss_max": 1.5,
+    "quarantine_difference_max": 0.02,
+    "tail_detection_probability": 0.95,
+    "tail_event_frequency": 0.02,
+    "trust_recovery_cycles_max": 30,
+    "trust_recovery_threshold": 0.8,
+    "wrong_mode_action_rate_max": 0.01
+  },
+  "verdict": "M10A5-TRAINING-PASS"
+}

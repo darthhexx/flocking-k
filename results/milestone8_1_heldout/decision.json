@@ -1,0 +1,23 @@
+{
+  "dose_correlation_with_discriminability": 0.9994221543845095,
+  "gates": {
+    "current_allocator_has_a_positive_dose": true,
+    "dose_materially_changes_discriminability": true,
+    "information_oracle_resolves_safely": true,
+    "passive_control_remains_ambiguous": true,
+    "trace_replay_verified": true,
+    "value_of_information_reduces_decision_loss": true
+  },
+  "oracle_decision_loss_ci95": [
+    5.865248880000005,
+    5.906693680000005
+  ],
+  "oracle_decision_loss_improvement": 5.885971280000004,
+  "research_direction": "ALLOW_BOUNDED_M9B_VALUE_OF_INFORMATION_RESEARCH",
+  "value_of_information_decision_loss_ci95": [
+    5.865248880000005,
+    5.906693680000005
+  ],
+  "value_of_information_decision_loss_improvement": 5.885971280000004,
+  "verdict": "POSITIVE-CONTROL-PASS"
+}

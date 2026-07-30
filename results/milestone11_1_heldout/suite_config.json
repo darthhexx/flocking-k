@@ -1,0 +1,29 @@
+{
+  "archive_path": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM6.zip",
+  "archive_sha256": "45295fec82cd1f60cd08ed661f7eacf4a08ae0d950a38f72feaf7fe0ab86368d",
+  "bootstrap_samples": 5000,
+  "candidate_source_sha256": "aaa62fb44241ffb32a684869a428743a905b35294e5999aec9af0f7a32c07664",
+  "canonical_fingerprint": "fb40370e7a4996d5aa7966909ab4c7fd01fbcfc098a37a8be0f82ed06c5323a5",
+  "canonical_root": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM_Dataset6_canonical",
+  "frozen_m11_source_sha256": "38513de429e90be368089d238dd0e86ffdce6749d7273483e9aea7f069874ae4",
+  "numpy": "2.4.6",
+  "phase": "heldout",
+  "platform_version": "0.18.0",
+  "protocol_sha256": "09d6cf1634057da8ca53b7fcf0a41add753b9ed03d7ecba92c426e331bad50e2",
+  "python": "3.11.11",
+  "replay_config": {
+    "bearing_std": 0.1,
+    "bounded_measurements": 2,
+    "dt": 0.5,
+    "initialization_heading_std": 0.03,
+    "initialization_position_std": 0.05,
+    "nis_gate": 25.0,
+    "process_heading_std": 0.15,
+    "process_position_std": 0.3,
+    "range_std": 0.18,
+    "topology_message_ttl": 5.0,
+    "window_seconds": 60.0
+  },
+  "replay_fingerprint": "629ae546f5ffeeae1a86aaaffcf26b3b651cb7761c8d99831e7664f3aa90cf5e",
+  "source_root": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM_Dataset6"
+}

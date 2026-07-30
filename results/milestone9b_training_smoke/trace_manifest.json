@@ -1,0 +1,255 @@
+{
+  "entries": [
+    {
+      "fingerprint": "b4790588bf10805308689b81fc0e076cd86929ae2d49f55652c91e5e6c76dd88",
+      "scenario": "triad_uniform",
+      "seed": 9000
+    },
+    {
+      "fingerprint": "0ea14cb6b0e6ec86545f480151f2ce50107378118f86c7d4e70ce96219738424",
+      "scenario": "triad_uniform",
+      "seed": 9001
+    },
+    {
+      "fingerprint": "29014b4614fb5abaa1a505992db93a58777701da1993011bb1e5d76a9ac5ec9e",
+      "scenario": "triad_uniform",
+      "seed": 9002
+    },
+    {
+      "fingerprint": "c774ceb6953105f1d364f7d680d5cdab0e18d4349b3c906e7ad9f919318bf541",
+      "scenario": "triad_uniform",
+      "seed": 9003
+    },
+    {
+      "fingerprint": "a36f644c0d650082d15b83e8c94e1f5161de89317f1eca1f32a1dc323c7d919b",
+      "scenario": "triad_uniform",
+      "seed": 9004
+    },
+    {
+      "fingerprint": "d42187bf3166e90dbee96f7f934170567b0cf3a2afe4da2070d3c43bf4322ec3",
+      "scenario": "triad_uniform",
+      "seed": 9005
+    },
+    {
+      "fingerprint": "98251d46efc4db45386e98abe55bd5b0f1e079e65fcebe936906fd7446688003",
+      "scenario": "triad_uniform",
+      "seed": 9006
+    },
+    {
+      "fingerprint": "b64a4b5343df323bb76299065651c6347bda7e70833ad93a00fbc0909625c55f",
+      "scenario": "triad_uniform",
+      "seed": 9007
+    },
+    {
+      "fingerprint": "2da5449d77396b883980b293d8865000c497223c207babeb38eae1d9394143f5",
+      "scenario": "triad_uniform",
+      "seed": 9008
+    },
+    {
+      "fingerprint": "3343c1eb6a8231dc1f5685c8185cb82d45b9236165911622af4c760f60b05ea9",
+      "scenario": "triad_uniform",
+      "seed": 9009
+    },
+    {
+      "fingerprint": "ef740832e75ba574c672f685632e2a7ff9b68a0b835d228a479307ba0e2b4987",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9000
+    },
+    {
+      "fingerprint": "08084dd6a557df3b1a90d6ec1c76609ca3d1609cfc65ea6e99c0b67883fe0847",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9001
+    },
+    {
+      "fingerprint": "8e640680c47c4d6ec14d278b2f96066278df4f4da25413e81bf8384006bac519",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9002
+    },
+    {
+      "fingerprint": "eb9daf01e99b0cc0b2c3b147db8ba9b3a4c7a690b2ccb6f174b406e60d285947",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9003
+    },
+    {
+      "fingerprint": "6e1ba6010bc0e1172302e7371b410a4c1702a73c5768a2308c20a4b4c707b6bb",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9004
+    },
+    {
+      "fingerprint": "39f6b8fc78fb1f6b17f0ff7782ceda8f0d44f93f088913fd2f2f7d47ab46c582",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9005
+    },
+    {
+      "fingerprint": "fadf4100cbbc08d5fe121a1acae3e0bacee2d55b406b39f187c59020733566b7",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9006
+    },
+    {
+      "fingerprint": "3a5122cff207cbf5d6485816bb60f042432ef5ad985052dcf7e27d583bd1ff4a",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9007
+    },
+    {
+      "fingerprint": "9e5f55005f2e3e8add09a75b19196c6c11711e24092ff2d45c49ccb6acb1bed9",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9008
+    },
+    {
+      "fingerprint": "ff54a97671fb1c4e687976baea0432c8588df8e3e7d814dfddb8676aa4047ff3",
+      "scenario": "near_pair_rare_distractor",
+      "seed": 9009
+    },
+    {
+      "fingerprint": "3bd999e4ad018352d4dd5e026cfd7d4849e5a83c9d669a97a56a13f5624ebc8b",
+      "scenario": "asymmetric_transit",
+      "seed": 9000
+    },
+    {
+      "fingerprint": "d3a33c032cfac64ca16cca514ba45d5b6dfb5e01d60b328c5be539cb035d329a",
+      "scenario": "asymmetric_transit",
+      "seed": 9001
+    },
+    {
+      "fingerprint": "95b1fc6fa610b5c15d51096e727288bb9f6dff26c4f2e216731fa28cb1f908db",
+      "scenario": "asymmetric_transit",
+      "seed": 9002
+    },
+    {
+      "fingerprint": "855fd9d51b22d7f21015bc3b38980630c5d108feb0c0e9184c4183ebd58a03fa",
+      "scenario": "asymmetric_transit",
+      "seed": 9003
+    },
+    {
+      "fingerprint": "8aeb8b9caec6aa4e2ff33d26e4734c832278b86f47e2252f7bd8e4ca52323f16",
+      "scenario": "asymmetric_transit",
+      "seed": 9004
+    },
+    {
+      "fingerprint": "877914219b86dae52be433f45a624fee7b2f88d32234441c7e8a6ad77322d16d",
+      "scenario": "asymmetric_transit",
+      "seed": 9005
+    },
+    {
+      "fingerprint": "5e76c4ebbbc4f80cb622e99ddc63cd11cebf9574b2646395da24c83c04fe1047",
+      "scenario": "asymmetric_transit",
+      "seed": 9006
+    },
+    {
+      "fingerprint": "97e12a34fd7ba846f8ba42457b5ac27b7861f7c6b64c60e153f634fe6a41286e",
+      "scenario": "asymmetric_transit",
+      "seed": 9007
+    },
+    {
+      "fingerprint": "44a9667e6c437c2383c287d67d59e91be1cc052f58e4d8aed2c1029f4ad5ba77",
+      "scenario": "asymmetric_transit",
+      "seed": 9008
+    },
+    {
+      "fingerprint": "eca7b82e77214b151a646e8ceef52f94621dffc529a479630e6af63f6b838305",
+      "scenario": "asymmetric_transit",
+      "seed": 9009
+    },
+    {
+      "fingerprint": "2db979e9d6b2d55a072fe86b98674c2e4152d701d8175f7c4ec024bf98446ee6",
+      "scenario": "four_mode_cross",
+      "seed": 9000
+    },
+    {
+      "fingerprint": "2c12503da0ad0f7cf9f699cffc9b9ceb8e3614b40dbf2b6b25b5b1e5b6ef6f13",
+      "scenario": "four_mode_cross",
+      "seed": 9001
+    },
+    {
+      "fingerprint": "09ab93a8348bc84ed9f0e4ebf315dc8cd6cef40a95270a663d75101bd31abda1",
+      "scenario": "four_mode_cross",
+      "seed": 9002
+    },
+    {
+      "fingerprint": "1faa572e5175011c51a97e4ff0b51435a3a1b303f1af236f13a427e0c061d539",
+      "scenario": "four_mode_cross",
+      "seed": 9003
+    },
+    {
+      "fingerprint": "1120588f4fdf3985432700792e4ece0470c3dd393c375625811918385457cdd3",
+      "scenario": "four_mode_cross",
+      "seed": 9004
+    },
+    {
+      "fingerprint": "5a8c1946310cd22dab62adcad223967fec637aec5d68eb27636297cc5e72ff3c",
+      "scenario": "four_mode_cross",
+      "seed": 9005
+    },
+    {
+      "fingerprint": "5044132be2b3e823fa3c4566731a6f4de5ad338b9eb434dac1186ec69ccc835e",
+      "scenario": "four_mode_cross",
+      "seed": 9006
+    },
+    {
+      "fingerprint": "726e86b4a7927869e2c5adc1b5a618e056edfff014e11a2b04e8b380095c4162",
+      "scenario": "four_mode_cross",
+      "seed": 9007
+    },
+    {
+      "fingerprint": "714ce49daecc8166836d64afe5cd5ca45ee1de35ddd950f99ce5c0d3b410cdbf",
+      "scenario": "four_mode_cross",
+      "seed": 9008
+    },
+    {
+      "fingerprint": "a6768aab982d8f213efba5f35c4bdb6dd72b469c19b3a039d8938074c5dc9832",
+      "scenario": "four_mode_cross",
+      "seed": 9009
+    },
+    {
+      "fingerprint": "0e0eb575e225b4017ee4085e3784b6524f7bfb677ba9e3527fc110872ead268a",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9000
+    },
+    {
+      "fingerprint": "7f3abd66d0f5609a7600a686912e8df077a6a8ac2c5a56adba1675b3f7e31905",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9001
+    },
+    {
+      "fingerprint": "e4a701e7c40702e402d5054877b0e89ee57330d928f92bf0c7b814a022160f96",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9002
+    },
+    {
+      "fingerprint": "517e4e37bae4cde925fd3293fcd86789ff7e20d32c48a2229a874ece895b6324",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9003
+    },
+    {
+      "fingerprint": "67c2430d4519dc29713b4189b503373ef983ce51b6614f1ef578e281f8074ad8",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9004
+    },
+    {
+      "fingerprint": "b642e7c010f4d9d2fcd272a3f4ad72aeece481838699ced1371f883d99d37f25",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9005
+    },
+    {
+      "fingerprint": "d784a84f9019d2cda45ef09af409e434866be82f92e3defc3406a2087f145978",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9006
+    },
+    {
+      "fingerprint": "4d05b759af4c7b93f0513587b06278c2a13350fd353711d138c28fa3d1fbb7a5",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9007
+    },
+    {
+      "fingerprint": "563845c08fc9b4a9fca96cd9832ba0a8bc5103cd5048c40ecd2f09ad3705579c",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9008
+    },
+    {
+      "fingerprint": "50b05f414f79ec6d0660db296c1337e5a17be8d9ea030290151c7ca78cbf5aa4",
+      "scenario": "four_mode_skewed_cost",
+      "seed": 9009
+    }
+  ],
+  "replay_verified": true
+}

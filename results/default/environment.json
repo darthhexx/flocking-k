@@ -1,0 +1,7 @@
+{
+  "command_python": "/opt/homebrew/opt/python@3.14/bin/python3.14",
+  "numpy": "2.5.1",
+  "operating_system": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "platform_version": "0.2.0",
+  "python": "3.14.6"
+}

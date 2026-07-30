@@ -1,0 +1,280 @@
+{
+  "entries": [
+    {
+      "fingerprint": "8d97422dbe1c0733fa13a5f3115598f6ad132ebb13e37ef7b5fa121c0f3619eb",
+      "scenario": "stable_control",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "668826b137e405bfba64d096717804ddee870e286f7b6be3b9f65fba19560d5c",
+      "scenario": "stable_control",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "3e5a081531bd672644d2bb37c35a14166535b3c09ab8233f79ef2b265c920dab",
+      "scenario": "stable_control",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "b18b02bdbda0965f8158b74991784729ddc06407103bf0fe40f57de85ce5e8cb",
+      "scenario": "stable_control",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "a1e97696a67326b0593f3a8df3df4eedc5ac34d1c692da7da399789f0edd7749",
+      "scenario": "stable_control",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "a2930968b749738584fd388bd855ccd8cbd6ad3f14d45f01aab2b69f7a5a595f",
+      "scenario": "failure_partition",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "8e52532108ce5fa46976eb06ca8e48185c590bc2b9f473247cbb6fdef844e51d",
+      "scenario": "failure_partition",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "2afd66b0c5a531d475cb8cd42d2078e4a682440339503332ce1bde455c51c2b6",
+      "scenario": "failure_partition",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "b4d61d3e36f070c6469a9d624f3b8dae42b63d6a4d5002aa60d75656fca16b71",
+      "scenario": "failure_partition",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "e167dff645e61cb2eff6740380f7f1feccc8b1f992be48f47e5c796d5ea67865",
+      "scenario": "failure_partition",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "4b7cae27b413cfdc7d6f906b458312254c967168c96320710f7d485dcb379541",
+      "scenario": "flapping_reconnect",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "9166fc45c29ba1117e037c3065d5b8afe6671e38b481516e911cf16f67a827a0",
+      "scenario": "flapping_reconnect",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "e618a88ffa78abe335dc504a06005d8e9279c55c050bd65e4cc7e1c47aff6e00",
+      "scenario": "flapping_reconnect",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "92e97b8073de92c1e4106165e68406ef37cb421586fbec5c4e39739752c64a49",
+      "scenario": "flapping_reconnect",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "639912c6c2b0317f83c2906258c790723fca1528ead8fe03739e8f503aa9291e",
+      "scenario": "flapping_reconnect",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "df13e1612bd5a3bae5400d7a75cf5a6bd2f67c2ff06cc0787b354e537be4f9f7",
+      "scenario": "admission_censoring_control",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "4552384b74f182e2ff8512bd83a5ca5cbab0bfa8c3183d17cf05dc6a21d9d556",
+      "scenario": "admission_censoring_control",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "ff7b032b3f8c3634f12605dcf97443d2f9815bbad66f00d8332985d041f863df",
+      "scenario": "admission_censoring_control",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "297b7a15f53e4b5a1576a5f215fe15511c09067dbeb22d3e41e54d734c403f48",
+      "scenario": "admission_censoring_control",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "446374dc74953b054daab2e77ab977fcd6fe3044281db1c8039bfd719d8cab2d",
+      "scenario": "admission_censoring_control",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "d7e1b50ae2afcf753a5ee4b8b466c403a95ab9380613949d75020d84af9cbc10",
+      "scenario": "source_assignment_competition",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "18c9b9253b4698a3a047c729c57961feb3928abf44cdcf9bbea8ae6d1648ab29",
+      "scenario": "source_assignment_competition",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "dafa1e1ecf2545a55050a3016297413bdb14884ffdf5e1458153299b1eda4d77",
+      "scenario": "source_assignment_competition",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "a39620a30b74e868a4452e9f3b65cb396844f12f716bf75064bb805a6a5267c8",
+      "scenario": "source_assignment_competition",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "9c2c17d7a51ed4a7227acfaa6cc7962bc8302386968e4fe8f3fb2ba7f56c4eed",
+      "scenario": "source_assignment_competition",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "7b47975ea7e8affa284df5065dfcc6bf60e38f482d3529f863888c0e46bd170d",
+      "scenario": "genuine_target_maneuver",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "669671147b4d3a84a846d231a0e856114787d4bd20ec8a8fc363810eb5348d13",
+      "scenario": "genuine_target_maneuver",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "86e083981160ff38baaab5a49044977458f89e4c89a5b79b2321e75192c90dbd",
+      "scenario": "genuine_target_maneuver",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "afaf308b41f8cdf1f9d0f41a9a59f979e6c1d5db5fc33e7b5acd9c81b8078a97",
+      "scenario": "genuine_target_maneuver",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "a806a3be90ec37b785f3ee8bd1a6cb6c656c6d9074347d25d6a2284c128bb220",
+      "scenario": "genuine_target_maneuver",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "94578f748cd6492a7d72dc05c11a17e84464436aed7c342ed372eec9026596f4",
+      "scenario": "legitimate_heterogeneous_precision",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "e616424d6ead8e8cfbf16874354d3f573a19cd78a683af4a6a25f8f1b3e5a648",
+      "scenario": "legitimate_heterogeneous_precision",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "68588bcc0ac5c10bb1853e5e90147405aece43f7f477bf64ad02868c9fdfac16",
+      "scenario": "legitimate_heterogeneous_precision",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "5a784a73db0a43880d4755aa1e9b696a483fbcc4e0640d0f664c6417002ebc08",
+      "scenario": "legitimate_heterogeneous_precision",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "c53ff8bb6bf2303fd8f3001581d03858e8c9d09e867157c080282bb527f63992",
+      "scenario": "legitimate_heterogeneous_precision",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "8ebef47d820b97a27482a65cd22698b97daa01b66e7cfded76e62fc0744ddcb0",
+      "scenario": "raw_attack_mild",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "0eee45efd7614e2817fa540ca8c28271735275acb407549758ad36c060788644",
+      "scenario": "raw_attack_mild",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "1aaf9b763d8b5f326e8df2f4135aff5a183dae2c5caf94b961d696765984993f",
+      "scenario": "raw_attack_mild",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "8d872b2898173dce115f956e3971b0ba199ecec61bdf64534526ff2337b77dc9",
+      "scenario": "raw_attack_mild",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "bbc6839a62f2c5a6484d06067c96156a2dc366348ccb7f2e4b015b2c16f99eab",
+      "scenario": "raw_attack_mild",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "df4848bf875b5a9e4409eee9f483d1c72b0c2bd66ef1701c87b36cd6c3cfa86a",
+      "scenario": "raw_attack_moderate",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "86a34968201918125e048a3401c1c80062121133e78c42c0d0390b3e6537e2ce",
+      "scenario": "raw_attack_moderate",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "d52d77b616f505bb80724e37f3b68bec84295f9f2dd2e357c4f0f615b79451e5",
+      "scenario": "raw_attack_moderate",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "ee80eb90a5457cb6e6ac7d628d1023679dd531b5984ab7e0b6431e1c38cdfbbd",
+      "scenario": "raw_attack_moderate",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "070e597c676603a048e93c365adbba1ca518cb20cb76c6b8b2a6e8b0f3733d9e",
+      "scenario": "raw_attack_moderate",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "4fcfd0b76377bd0e39ce2c4fff2c7d3fdfda81f7f9cc37f35da2d93abadcf642",
+      "scenario": "raw_attack_severe",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "822d4c80108efb48a90de116c31b70ceb5beaffaa0c1ca22d121af5c5a91fc3b",
+      "scenario": "raw_attack_severe",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "4c38ef9788903c06c52f6ce6626567c7313f19016712dc1243019370e45f034c",
+      "scenario": "raw_attack_severe",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "b1d981a7e7b31727de9fd88fd713be2084c5d5477e5a8ca6303b212c844e06e9",
+      "scenario": "raw_attack_severe",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "95ef8811e6455d0e041386b902004a4829c6b426692fe73fb37dfdf9a8ec3167",
+      "scenario": "raw_attack_severe",
+      "seed": 19904
+    },
+    {
+      "fingerprint": "6b27732b3d66f6278bd9e5443538920eca541a28e77d45ac29f1a5131572362a",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 19900
+    },
+    {
+      "fingerprint": "e59a4d102c05c9163fb91fb76122ccb64ab61ccdf83b7e987afa3265e0e2bd4b",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 19901
+    },
+    {
+      "fingerprint": "2a510096352b16004c4b9cb4bb17ae3142e619746ec639a37e523554504fc204",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 19902
+    },
+    {
+      "fingerprint": "005b71d858ebeb9ee4777d81b35a92c72c83101717d03c73ceac63568b2093b8",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 19903
+    },
+    {
+      "fingerprint": "ba9dc5d8dbc250d8d8520caff2801339ff5ab29488c2e4e47cde5099337ec7ca",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 19904
+    }
+  ],
+  "replay_verified": true
+}

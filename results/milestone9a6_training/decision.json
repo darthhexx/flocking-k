@@ -1,0 +1,31 @@
+{
+  "gates": {
+    "asymmetric_information_boundary": true,
+    "calibration": true,
+    "exact_model_loss_improvement_every_scenario": true,
+    "frozen_motion": true,
+    "nominal_residual_specificity": true,
+    "observer_regret": true,
+    "off_model_residual_response": true,
+    "replay": true,
+    "wrong_action_safety": true
+  },
+  "m9b_integration_authorized": false,
+  "original_m9a_verdict_unchanged": true,
+  "phase": "training",
+  "thresholds": {
+    "coverage95_min": 0.88,
+    "exact_mean_residual_mass_max": 0.03,
+    "mean_nees_max": 6.0,
+    "motion_difference_tolerance": 1e-12,
+    "observer_regret_ucb_max": 0.1,
+    "off_model_any_abstention_rate_min": 0.25,
+    "off_model_mean_residual_mass_min": 0.08,
+    "off_model_residual_lift_min": 0.05,
+    "p95_nees_max": 20.0,
+    "per_scenario_loss_improvement_lcb_min": 0.0,
+    "wrong_mode_action_rate_max": 0.01
+  },
+  "trace_replay_verified": true,
+  "verdict": "M9A6-TRAINING-PASS"
+}

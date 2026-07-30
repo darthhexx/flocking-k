@@ -1,0 +1,41 @@
+{
+  "equal_mode_abstention_rate": 0.9770833333333332,
+  "equal_mode_wrong_selection_rate": 0.008958333333333334,
+  "gates": {
+    "bias_noninferior_within_0_03": true,
+    "byzantine_noninferior_within_0_03": true,
+    "communication_overhead_under_2_percent": true,
+    "decision_survives_defer_cost_range_0_25_to_1_00": true,
+    "delay_noninferior_within_0_03": true,
+    "dropout_noninferior_within_0_03": true,
+    "equal_mode_abstains_without_wrong_selection": true,
+    "equal_mode_beats_mixture": true,
+    "equal_mode_noninferior_to_defer_within_0_10": true,
+    "false_quarantine_is_bounded": true,
+    "m6_bias_calibration_preserved": true,
+    "m6_mode_survival_preserved": true,
+    "movement_overhead_under_15_percent": true,
+    "nominal_noninferior_within_0_02": true,
+    "overall_decision_loss_beats_all_baselines": true,
+    "runtime_overhead_under_50_percent": true,
+    "transient_mode_resolves": true,
+    "unequal_mode_selects_without_wrong_mode": true
+  },
+  "overall_decision_loss_improvements": {
+    "flocking_robust_defer": 0.5890961913668998,
+    "flocking_robust_mixture": 0.549482255357427,
+    "flocking_robust_multiflock": 0.4465067423208729,
+    "flocking_robust_temporal": 0.20003462615317116
+  },
+  "research_direction": "ADVANCE_OUTPUT_POLICY_TO_REALISM_LADDER",
+  "sensitivity_gates": {
+    "defer_cost_0.25": true,
+    "defer_cost_0.50": true,
+    "defer_cost_1.00": true,
+    "defer_cost_1.50": false
+  },
+  "transient_mode_resolution_steps": 76.6,
+  "unequal_mode_selection_rate": 0.9762500000000002,
+  "verdict": "GO",
+  "verdict_scope": "M7 truth-blind hypothesis-output policy"
+}

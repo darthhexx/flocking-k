@@ -1,0 +1,12 @@
+string schema_version
+string run_id
+string robot_id
+uint64 monotonic_ns
+bool intervened
+bool emergency_stop
+bool collision
+string[] reasons
+float64 commanded_velocity_x
+float64 commanded_velocity_y
+float64 applied_velocity_x
+float64 applied_velocity_y

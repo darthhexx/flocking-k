@@ -1,0 +1,52 @@
+{
+  "acceleration_research_authorized": false,
+  "all_landmarks_position_rmse": 0.3204749602820496,
+  "bounded_coverage95": 0.8877777777777779,
+  "bounded_mean_nees": 2.6287597745035223,
+  "bounded_position_rmse": 0.3131156400571028,
+  "gates": {
+    "all_landmarks_noninferiority": true,
+    "archive_and_replay": true,
+    "bounded_update_budget": true,
+    "calibration": true,
+    "odometry_improvement": true,
+    "outage_robustness": true,
+    "parser_and_malformed_rejection": true,
+    "recorded_topology_exercised": true,
+    "runtime": true,
+    "truth_isolation": true,
+    "window_power": true
+  },
+  "materialized_sha256": "f4c6e9284b0ea8d29f1042189e818cf6bb2b03cb30c9781f45a549921d9a2666",
+  "odometry_position_rmse": 3.5866948070165563,
+  "outage_relative_rmse": 0.09748305246384685,
+  "phase": "development",
+  "production_authorized": false,
+  "robot_windows": {
+    "1": 24,
+    "2": 24,
+    "3": 24,
+    "4": 24,
+    "5": 24
+  },
+  "thresholds": {
+    "all_landmarks_noninferiority_lcb_min": -0.1,
+    "bounded_measurements_max": 2,
+    "coverage95_min": 0.8,
+    "mean_nees_max": 8.0,
+    "mean_window_p95_nees_max": 30.0,
+    "minimum_robots": 5,
+    "minimum_windows_per_robot": 10,
+    "odometry_improvement_lcb_min": 0.0,
+    "outage_relative_rmse_max": 1.2,
+    "outage_seconds_min": 5.0,
+    "runtime_additive_seconds": 0.1,
+    "runtime_multiplier_max": 1.5
+  },
+  "topology_component_range": [
+    1,
+    5
+  ],
+  "unknown_barcode_rows_rejected": 3,
+  "verdict": "M11-DEVELOPMENT-PASS"
+}

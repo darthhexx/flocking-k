@@ -1,0 +1,206 @@
+{
+  "algorithm_independent_common_random_numbers": true,
+  "entries": [
+    {
+      "fingerprint": "37b0aebf5a1f66d9076a948c39d908be1f7c736f0f5d4087a58ce20b3ad30ae2",
+      "scenario": "stable_control",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "15a050058103bf1be6c72ca027bc3aa4680bafea2d394d47a1c93644364171d5",
+      "scenario": "stable_control",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "936c8edee2f40e56e19b7ba9e3b0c59e580a65b99c7126ef2c23ea001b4c43ab",
+      "scenario": "stable_control",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "137134d30465ce2a4cdcecf904eebcb8b9ac202f68341a28a08ecba3aef2920d",
+      "scenario": "stable_control",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "7373fafd09a5511d4a56fcc4952e4f2f97ebe2b045b2653433458f7c281efb12",
+      "scenario": "stable_control",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "9847ad7f36308600a35bfca3a3f5f76129acd36f9cdfb967f916d8a01d13f48d",
+      "scenario": "failure_only",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "38459f961b170b10bc2566c18a1aaa6eb7a5ea6801bd02b13798eef27a7bfc03",
+      "scenario": "failure_only",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "de69f907c17d7625ef4f175e9bcea172f6466bdc23164b8d04d493127a75c773",
+      "scenario": "failure_only",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "c249fbc2bef6235a3d9a8e4eb689cf363146838e1b4b6258b0ce79ce71963695",
+      "scenario": "failure_only",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "3a056f34aa1413ba3b4659b008e4062f3012cb5cabc2eace4c6cbd8383dc3979",
+      "scenario": "failure_only",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "7ec5fb10db5ade2511d42c55437124e84864a470c64b08f8ea6c8e7b2479d41a",
+      "scenario": "partition_only",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "8ad578235df3ef807b42949fa5855461d635b80ebac73aff0d4ff088c8ec5ada",
+      "scenario": "partition_only",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "855fcc685f1922f89c64b17b82ddb4b1e015456f6cf1559508eb39a3578b5ca8",
+      "scenario": "partition_only",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "e9229591a1d69f12fd9527a8aa8d53ef3fe3c9df0e53c89aeebedd8daf3fbc6a",
+      "scenario": "partition_only",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "4cac4814cc9659bfacab9ffabecc243fdec1639ae891ca1f4909501f684b64de",
+      "scenario": "partition_only",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "029525d61661403a4a67983ad352a43602d416cd83335c1d73ff06a48df877a3",
+      "scenario": "asymmetric_partition",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "6d1f86d0f0649a1f545dd424e7db5a523c407010ed6a906dd8400f561c6d1260",
+      "scenario": "asymmetric_partition",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "9e36fb421ee5505b11a36732778520846aa859ab3747556fb11e85295bba82b7",
+      "scenario": "asymmetric_partition",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "ca8f3382ea044d68351a04bf309228b4f5af8a9f7b7bcbdc6cfbbfa0a83f2015",
+      "scenario": "asymmetric_partition",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "24aa24d67ec84ec9fa4d0ec24bfdb5a6ad06245222af49e19c2e070722d8a52f",
+      "scenario": "asymmetric_partition",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "b9369be939339234a593841293047757e40e9fc8f30e384fe4b14f5961f4fafe",
+      "scenario": "failure_partition",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "0c56c8601e3d54ecd8f9eacad0c86f4ed61a68dd6e44864c84c017387809bf24",
+      "scenario": "failure_partition",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "94a28dde6051296cf34274c95e14afea91ff6dd7b58a3c770c7ac89dcb3a64bf",
+      "scenario": "failure_partition",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "9f77ae332250163ef7b786170ef152a504a4d5b6bde0977da900f729727cfde3",
+      "scenario": "failure_partition",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "78b8a0b00f9b1b2a305519edea160d0aa963faba2decb6af2993fcd9115192e4",
+      "scenario": "failure_partition",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "fdc54b400a23cd9592524b3b1700a210eb72221c254d6f41f35a1113c035763b",
+      "scenario": "staggered_rejoin",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "013d08892480c7174689cf3752ad35c064bbf850bf63e442e5efe7fae0eb6d6b",
+      "scenario": "staggered_rejoin",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "5fbac4eb466c5e66c7b2e3be76bc8bf790b7fcc3525b9486a1c01129e9a7ac9c",
+      "scenario": "staggered_rejoin",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "c9b9fb64c49098cbae6edd82926c73297f6f0d86475b153c998a9d1a6292f458",
+      "scenario": "staggered_rejoin",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "48817226cf7f807acb7c2714ac29e21f89bba59fef30298438fd49ffe3394d36",
+      "scenario": "staggered_rejoin",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "6272a56ab91d99af93f720f393eccb1f355f03d96162fdf7d2d87e5533727f9e",
+      "scenario": "flapping_reconnect",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "9e7fd06160a7efae25c9eca386247c0b528e936ff8452f420059ce8112e4d49b",
+      "scenario": "flapping_reconnect",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "6e7c88924e0ed50477402c90b5bfa7bd42a95315c505b4f05077dd761b207c1f",
+      "scenario": "flapping_reconnect",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "92dc20b10131bd119723c921f7231a6928c2e4dc4f1b51ff1ef3c877f4817a47",
+      "scenario": "flapping_reconnect",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "920382505c4d90214db61ed4c8a72754767088ba24aa936275e76561da265571",
+      "scenario": "flapping_reconnect",
+      "seed": 11004
+    },
+    {
+      "fingerprint": "a5de8bf27543c5abf2f3b25874c12e868811ef8a871f93a7c26eebe03f822940",
+      "scenario": "false_split_dropout",
+      "seed": 11000
+    },
+    {
+      "fingerprint": "61629d9c161f9b484f9a4405aab70459c7eb0c33aa6361a1b60c4681a42e71be",
+      "scenario": "false_split_dropout",
+      "seed": 11001
+    },
+    {
+      "fingerprint": "366cd8dada926306522b971a8ab4c76b382bc02d01aaf7c15afc6313e41ae75c",
+      "scenario": "false_split_dropout",
+      "seed": 11002
+    },
+    {
+      "fingerprint": "5e16fcdb92500748031aa686cd34fba90fa217aee7a2f8101f59f1ae2b34771c",
+      "scenario": "false_split_dropout",
+      "seed": 11003
+    },
+    {
+      "fingerprint": "e69763f3e54ba6f43dc0a305b0e6949ebae77655b87451e23a23ac48083078ae",
+      "scenario": "false_split_dropout",
+      "seed": 11004
+    }
+  ],
+  "replay_verified": true
+}

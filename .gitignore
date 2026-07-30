@@ -1,0 +1,19 @@
+# --- environment / build ---
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# --- OS cruft ---
+.DS_Store
+
+# --- third-party data (301 MB; not ours to redistribute) ---
+# Provenance is preserved via recorded source + canonical SHA-256 hashes in
+# results/*/ and external_replay artifacts, not by vendoring the dataset.
+external_data/
+
+# NOTE: results/ is deliberately TRACKED. The held-out artifacts are the
+# evidence base for every claim in the paper; a provenance repository that
+# ignores them defeats its own purpose. (Was `results/*` before M14.)

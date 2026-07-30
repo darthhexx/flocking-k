@@ -1,0 +1,42 @@
+{
+  "archive_path": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM1.zip",
+  "archive_sha256": "57c0166b0e2761680e83ffa67b4f58bad7187c41fd723345a4a45ebd50a6557e",
+  "bootstrap_samples": 5000,
+  "candidate_source_sha256": "38513de429e90be368089d238dd0e86ffdce6749d7273483e9aea7f069874ae4",
+  "dataset_root": "/Users/darthhexx/Documents/Codex/2026-07-21/do-w/outputs/flocking_kalman_research_platform/external_data/MRCLAM_Dataset1",
+  "fingerprint": "c35956f5b483fc5515bf65bcf888a2faf958657f1235c3e6dd385bc3e08db9c5",
+  "materialized_sha256": "f4c6e9284b0ea8d29f1042189e818cf6bb2b03cb30c9781f45a549921d9a2666",
+  "numpy": "2.4.6",
+  "phase": "development",
+  "platform_version": "0.17.0",
+  "protocol_sha256": "8c456fc53da90947b3e1bd93ab6f50cf21df79a6b193016715a1cde47582944c",
+  "python": "3.11.11",
+  "replay_config": {
+    "bearing_std": 0.1,
+    "bounded_measurements": 2,
+    "dt": 0.5,
+    "initialization_heading_std": 0.03,
+    "initialization_position_std": 0.05,
+    "nis_gate": 25.0,
+    "process_heading_std": 0.06,
+    "process_position_std": 0.1,
+    "range_std": 0.18,
+    "topology_message_ttl": 5.0,
+    "window_seconds": 60.0
+  },
+  "source_url": "https://asrl.utias.utoronto.ca/datasets/mrclam/",
+  "thresholds": {
+    "all_landmarks_noninferiority_lcb_min": -0.1,
+    "bounded_measurements_max": 2,
+    "coverage95_min": 0.8,
+    "mean_nees_max": 8.0,
+    "mean_window_p95_nees_max": 30.0,
+    "minimum_robots": 5,
+    "minimum_windows_per_robot": 10,
+    "odometry_improvement_lcb_min": 0.0,
+    "outage_relative_rmse_max": 1.2,
+    "outage_seconds_min": 5.0,
+    "runtime_additive_seconds": 0.1,
+    "runtime_multiplier_max": 1.5
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "acceleration_research_authorized": true,
+  "all_landmarks_position_rmse": 0.5411368767815273,
+  "bounded_coverage95": 0.8994444444444446,
+  "bounded_mean_nees": 1.933305298810566,
+  "bounded_position_rmse": 0.5140172989247093,
+  "canonicalization": {
+    "fingerprint": "fb40370e7a4996d5aa7966909ab4c7fd01fbcfc098a37a8be0f82ed06c5323a5",
+    "input_rows": 605947,
+    "output_rows": 605947,
+    "reordered_rows": 0,
+    "timestamp_inversions": 0
+  },
+  "gates": {
+    "all_rows_preserved": true,
+    "canonical_hashes_and_order": true,
+    "canonicalization_deterministic": true,
+    "m11_all_landmarks_noninferiority": true,
+    "m11_archive_and_replay": true,
+    "m11_bounded_update_budget": true,
+    "m11_calibration": true,
+    "m11_odometry_improvement": true,
+    "m11_outage_robustness": true,
+    "m11_parser_and_malformed_rejection": true,
+    "m11_recorded_topology_exercised": true,
+    "m11_runtime": true,
+    "m11_truth_isolation": true,
+    "m11_window_power": true,
+    "repair_archive": true
+  },
+  "materialized_sha256": "78e1ce102ed705a54d5dac2cea9ca7db21a1f4907c0e8dcd787dcb4831b01aed",
+  "odometry_position_rmse": 2.162960552802806,
+  "outage_relative_rmse": 0.18244767531934225,
+  "phase": "heldout",
+  "production_authorized": false,
+  "robot_windows": {
+    "1": 12,
+    "2": 12,
+    "3": 12,
+    "4": 12,
+    "5": 12
+  },
+  "thresholds": {
+    "all_landmarks_noninferiority_lcb_min": -0.1,
+    "bounded_measurements_max": 2,
+    "coverage95_min": 0.8,
+    "mean_nees_max": 8.0,
+    "mean_window_p95_nees_max": 30.0,
+    "minimum_robots": 5,
+    "minimum_windows_per_robot": 10,
+    "odometry_improvement_lcb_min": 0.0,
+    "outage_relative_rmse_max": 1.2,
+    "outage_seconds_min": 5.0,
+    "runtime_additive_seconds": 0.1,
+    "runtime_multiplier_max": 1.5
+  },
+  "topology_component_range": [
+    1,
+    5
+  ],
+  "unknown_barcode_rows_rejected": 6,
+  "verdict": "M11.1-GO"
+}

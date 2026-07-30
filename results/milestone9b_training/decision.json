@@ -1,0 +1,39 @@
+{
+  "current_allocator_scenario_wins": 5,
+  "current_decision_loss": 2.062296454826667,
+  "gates": {
+    "allocator_gain_generalizes_across_tasks": true,
+    "competing_view_policy_is_identified": true,
+    "finite_horizon_oracle_has_attainable_gain": true,
+    "nonmyopic_planning_beats_myopic": true,
+    "passive_control_remains_ambiguous": true,
+    "receding_voi_beats_current_allocator": true,
+    "receding_voi_beats_passive": true,
+    "receding_voi_is_calibrated_noninferior": true,
+    "receding_voi_reduces_movement_cost": true,
+    "receding_voi_resolves_safely": true,
+    "runtime_is_bounded": true,
+    "trace_replay_verified": true
+  },
+  "oracle_decision_loss": 1.327797550379308,
+  "passive_decision_loss": 2.5,
+  "receding_decision_loss": 1.4500847981553597,
+  "receding_vs_current_decision_loss_ci95": [
+    0.5446782551031226,
+    0.6827464616886441
+  ],
+  "receding_vs_current_decision_loss_improvement": 0.6122116566713071,
+  "receding_vs_current_movement_cost_ci95": [
+    0.6542822248452833,
+    0.7890181311194416
+  ],
+  "receding_vs_current_movement_cost_improvement": 0.7205449900046405,
+  "receding_vs_myopic_decision_loss_ci95": [
+    0.9805164196175272,
+    1.1164921002742036
+  ],
+  "receding_vs_myopic_decision_loss_improvement": 1.0499152018446403,
+  "research_direction": "ADVANCE_VOI_TO_PRODUCTION_STACK_INTEGRATION_AFTER_M9A",
+  "scenario_count": 5,
+  "verdict": "M9B-GO"
+}

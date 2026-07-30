@@ -1,0 +1,72 @@
+{
+  "active_vs_temporal_ci95": [
+    0.13817222048579436,
+    0.28292893762515436
+  ],
+  "active_vs_temporal_decision_improvement": 0.20820304785985255,
+  "causal_gates": {
+    "investigation_increases_information_gain": true,
+    "investigation_reduces_decision_loss": false
+  },
+  "core_gates": {
+    "all_realism_layers_noninferior_and_safe": false,
+    "asynchronous_messages_are_materially_stale": true,
+    "bursty_delivery_is_material_but_connected": true,
+    "communication_overhead_under_2_percent": true,
+    "composite_stress_retains_bounded_wrong_actions": true,
+    "deterministic_trace_replay_verified": true,
+    "dynamic_outage_is_exercised": true,
+    "m7_equal_reference_safety_preserved": true,
+    "m7_transient_reference_resolves": true,
+    "movement_overhead_under_30_percent": true,
+    "nonlinear_measurement_calibration_is_credible": true,
+    "overall_decision_loss_beats_temporal": true,
+    "runtime_overhead_under_50_percent": true,
+    "strategic_alternative_is_represented": true
+  },
+  "first_failed_layer": "dynamic_topology",
+  "gates": {
+    "all_realism_layers_noninferior_and_safe": false,
+    "asynchronous_messages_are_materially_stale": true,
+    "bursty_delivery_is_material_but_connected": true,
+    "communication_overhead_under_2_percent": true,
+    "composite_stress_retains_bounded_wrong_actions": true,
+    "deterministic_trace_replay_verified": true,
+    "dynamic_outage_is_exercised": true,
+    "investigation_increases_information_gain": true,
+    "investigation_reduces_decision_loss": false,
+    "m7_equal_reference_safety_preserved": true,
+    "m7_transient_reference_resolves": true,
+    "movement_overhead_under_30_percent": true,
+    "nonlinear_measurement_calibration_is_credible": true,
+    "overall_decision_loss_beats_temporal": true,
+    "runtime_overhead_under_50_percent": true,
+    "strategic_alternative_is_represented": true
+  },
+  "investigation_decision_ci95": [
+    -0.005154838100981171,
+    0.0010657790620131886
+  ],
+  "investigation_decision_improvement": -0.0019859695422865765,
+  "investigation_information_ci95": [
+    0.00152211232555463,
+    0.004509108079611581
+  ],
+  "investigation_information_improvement": 0.0029975615211102103,
+  "layer_results": {
+    "asynchronous_delay": true,
+    "bursty_links": true,
+    "colluding_ramp_attack": true,
+    "composite_stress": true,
+    "drifting_bias_recovery": true,
+    "dynamic_topology": false,
+    "heterogeneous_sensors": true,
+    "nonlinear_range_bearing": true,
+    "persistent_equal_reference": true,
+    "transient_reference": true
+  },
+  "research_direction": "STOP_AT_FIRST_FAILED_REALISM_LAYER_AND_REDESIGN",
+  "trace_replay_verified": true,
+  "verdict": "NO-GO",
+  "verdict_scope": "M8 frozen-policy realism ladder and causal investigation ablation"
+}

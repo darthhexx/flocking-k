@@ -1,0 +1,26 @@
+{
+  "gates": {
+    "calibration_and_tail": false,
+    "dynamic_transfer_lcb": false,
+    "partition_uncertainty": true,
+    "rejoin_shock": true,
+    "replay": true,
+    "stable_noninferiority": true,
+    "support_continuity": false,
+    "wrong_selection": true
+  },
+  "minimum_transfer_lcb": -1.3986712298787243,
+  "stable_noninferiority_lcb": -0.03208620973896903,
+  "thresholds": {
+    "coverage95_min": 0.88,
+    "dynamic_transfer_lcb": -0.1,
+    "max_primary_support_jump": 0.5,
+    "mean_nees_max": 6.0,
+    "p95_nees_max": 20.0,
+    "rejoin_window_nees_max": 10.0,
+    "stable_decision_loss_improvement_lcb": -0.05,
+    "wrong_mode_action_rate_max": 0.05
+  },
+  "trace_replay_verified": true,
+  "verdict": "M9A-NO-GO"
+}

@@ -1,0 +1,3 @@
+candidate,baseline,metric,pairs,candidate_mean,baseline_mean,improvement_mean,ci95_lower,ci95_upper
+bounded_measured_acceleration,bounded_constant_velocity,position_rmse,120,0.5210755112676203,0.3131156400571028,-0.2079598712105176,-0.3855771875277229,-0.06158009798311131
+bounded_measured_acceleration,bounded_constant_velocity,outage_rmse,120,0.3765052546599674,0.18800628601447675,-0.18849896864549073,-0.3759761336768645,-0.03626410385758178

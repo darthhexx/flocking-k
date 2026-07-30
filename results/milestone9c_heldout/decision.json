@@ -1,0 +1,58 @@
+{
+  "aggregate_voi_ci95": [
+    0.002280090799776723,
+    0.0035897786614167144
+  ],
+  "aggregate_voi_improvement": 0.002932355267572207,
+  "attack_candidate_loss": 3.5067064800409633,
+  "gates": {
+    "aggregate_voi_utility": true,
+    "attack_absolute_utility": false,
+    "attack_nonworsening": true,
+    "calibration": true,
+    "movement_efficiency": true,
+    "natural_m9a7_noninferiority": true,
+    "positive_control_exercised": true,
+    "positive_control_voi_utility": true,
+    "replay": true,
+    "tail_event_power": true,
+    "topology_noninterference": true,
+    "upstream_m9a7_frozen_go": true,
+    "wrong_action_safety": true
+  },
+  "maximum_component_increase": 0.010625000000000107,
+  "movement_efficiency_improvement": 0.004124588924138008,
+  "original_m9a7_and_m9b_verdicts_unchanged": true,
+  "phase": "heldout",
+  "positive_control_action_difference_rate": 0.084375,
+  "positive_control_voi_improvement": 0.007490976018117725,
+  "power_calculation": {
+    "actual_seed_count": 150,
+    "detection_probability": 0.95,
+    "event_frequency": 0.02,
+    "minimum_seed_count": 149
+  },
+  "production_authorized": false,
+  "thresholds": {
+    "aggregate_voi_improvement_lcb_min": 0.0,
+    "attack_absolute_loss_max": 1.5,
+    "attack_active_motion_rate_max": 0.05,
+    "attack_noninferiority_lcb_min": -0.1,
+    "coverage95_min": 0.88,
+    "delivery_ratio_degradation_lcb_min": -0.05,
+    "mean_nees_max": 6.0,
+    "movement_efficiency_lcb_min": 0.0,
+    "natural_noninferiority_lcb_min": -0.03,
+    "p95_nees_max": 20.0,
+    "positive_control_action_difference_rate_min": 0.02,
+    "positive_control_round_robin_active_rate_min": 0.03,
+    "positive_control_voi_improvement_lcb_min": 0.0,
+    "tail_detection_probability": 0.95,
+    "tail_event_frequency": 0.02,
+    "topology_component_increase_max": 0.25,
+    "wrong_mode_action_rate_max": 0.01
+  },
+  "verdict": "M9C-PARTIAL-GO",
+  "worst_delivery_ratio_lcb": -0.001116406250000008,
+  "worst_natural_noninferiority_lcb": 0.006815777108881784
+}

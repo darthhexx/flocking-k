@@ -1,0 +1,101 @@
+{
+  "entries": [
+    {
+      "attack_stop_step": null,
+      "fingerprint": "a56bfe1a9a1fe546ed572134cd6c53b922e8d2f14163fa3a3735283cdb2e81e3",
+      "scenario": "stable_control",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "6f9e692be6f036b66f1cd9811b7ccdd022082403a1ff7e957abfe9574f01bc96",
+      "scenario": "stable_control",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "e4b56027cad8d3eb03600520fb2be13ee6e98c1996d34d52d3cb05e4807c20cb",
+      "scenario": "failure_partition",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "4dbbf441c2dc06c3f6597a8617602f55455a01a40f144de24bd0f3402bcb3536",
+      "scenario": "failure_partition",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "05abe50780e86ae595209314ed51d515a91a559b38bb9c3c0beb6ccf8d82dd2e",
+      "scenario": "flapping_reconnect",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "173aebed3b8edaad63748f08a173e890968aedab0f0b83e6050379680c173387",
+      "scenario": "flapping_reconnect",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "1abd7374e8933acd6480244f22a9870a78178c4e829bff9a99e5c4d9bf205740",
+      "scenario": "admission_censoring_control",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "ac134843670ce92ecd0956f925c0e5ed0079555b41bb9b62739814326d9e4438",
+      "scenario": "admission_censoring_control",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "557c796fad3f166e7479837630db149df370f1dc627149dccd4c6699df345976",
+      "scenario": "source_assignment_competition",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "b40bdfbfd8ca34addee9cee59401a786967b5ca30c2b3b9f6c5a7211c0a7ca80",
+      "scenario": "source_assignment_competition",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "6534080699fdddd45456de82a7f57591cbcf9d01e7fa7090686206c3ebee7549",
+      "scenario": "genuine_target_maneuver",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "f605268294e003b9db21da6c1459b0b48e4f4e02daa4d90fb1709623ebd0bb14",
+      "scenario": "genuine_target_maneuver",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "beb7e82ee907d3b22ae6ebebd44889e11a977926fbcdad7fcab234f070c9dc4e",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": null,
+      "fingerprint": "db8f5e00642a262cff79b05b63be8f73a33b70efb61ddb14c675d316405c1798",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 23991
+    },
+    {
+      "attack_stop_step": 105,
+      "fingerprint": "a8a573b482daf458c4e43d1ebce85431e6bd5fdbb3ac51556b95fa47101d60d3",
+      "scenario": "raw_attack_then_honest_recovery",
+      "seed": 23990
+    },
+    {
+      "attack_stop_step": 105,
+      "fingerprint": "ce5bbfba2f6191a68f7fcc7d03a0295b776e54405f4a3b70c4429474fcfb2357",
+      "scenario": "raw_attack_then_honest_recovery",
+      "seed": 23991
+    }
+  ],
+  "replay_verified": true
+}

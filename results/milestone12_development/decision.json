@@ -1,0 +1,53 @@
+{
+  "acceleration_coverage95": 0.8534027777777777,
+  "acceleration_exercised_rate": 0.4225882352941177,
+  "acceleration_mean_nees": 19.37643344094779,
+  "acceleration_position_rmse": 0.5210755112676203,
+  "baseline_position_rmse": 0.3131156400571028,
+  "behavioural_integration_authorized": false,
+  "gates": {
+    "acceleration_exercised": true,
+    "archive_and_canonicalization": true,
+    "behavioural_jerk": true,
+    "calibration": false,
+    "finite_and_bounded": true,
+    "outage_nonregression": false,
+    "rmse_improvement": false,
+    "runtime": true,
+    "upstream_m11_1_go": true,
+    "window_power": true
+  },
+  "jerk_reduction": 0.8999999999999999,
+  "outage_relative_rmse": 2.0026205646707798,
+  "phase": "development",
+  "production_authorized": false,
+  "rmse_improvement_ci95": [
+    -0.3855771875277229,
+    -0.06158009798311131
+  ],
+  "rmse_improvement_mean": -0.2079598712105176,
+  "robot_windows": {
+    "1": 24,
+    "2": 24,
+    "3": 24,
+    "4": 24,
+    "5": 24
+  },
+  "thresholds": {
+    "acceleration_exercised_rate_min": 0.1,
+    "acceleration_limit": 0.8,
+    "coverage95_min": 0.8,
+    "jerk_reduction_min": 0.5,
+    "jerk_velocity_rmse_additive_max": 0.1,
+    "maximum_landmarks_used": 2,
+    "mean_nees_max": 8.0,
+    "mean_window_p95_nees_max": 30.0,
+    "minimum_robots": 5,
+    "minimum_windows_per_robot": 10,
+    "outage_relative_rmse_max": 1.2,
+    "rmse_improvement_lcb_min": 0.0,
+    "runtime_additive_seconds": 0.1,
+    "runtime_multiplier_max": 1.5
+  },
+  "verdict": "M12-DEVELOPMENT-FAIL"
+}

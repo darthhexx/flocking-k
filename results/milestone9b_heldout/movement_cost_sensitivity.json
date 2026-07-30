@@ -1,0 +1,76 @@
+{
+  "analysis": "fixed-action movement-cost repricing",
+  "highest_grid_scale_with_active_first_action": {
+    "asymmetric_transit:myopic_voi": null,
+    "asymmetric_transit:receding_horizon_voi": 2.0,
+    "four_mode_cross:myopic_voi": null,
+    "four_mode_cross:receding_horizon_voi": 1.5,
+    "four_mode_skewed_cost:myopic_voi": null,
+    "four_mode_skewed_cost:receding_horizon_voi": 1.0,
+    "near_pair_rare_distractor:myopic_voi": 0.05,
+    "near_pair_rare_distractor:receding_horizon_voi": 1.0,
+    "triad_uniform:myopic_voi": null,
+    "triad_uniform:receding_horizon_voi": 2.0
+  },
+  "interpretation": "The original GO is conditional on the declared movement-cost scale; this artifact maps, but does not redefine, that operating envelope.",
+  "original_m9b_verdict_unchanged": true,
+  "receding_break_even_scale": {
+    "myopic_voi": 2.0178574924322374,
+    "passive": 2.0178574924322374,
+    "round_robin": 0.1584227385180934
+  },
+  "saved_actions_modified": false,
+  "scales": [
+    0.0,
+    0.05,
+    0.1,
+    0.15,
+    0.2,
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.5,
+    2.0,
+    3.0,
+    4.0
+  ],
+  "scales_with_significant_receding_advantage": {
+    "myopic_voi": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.5
+    ],
+    "passive": [
+      0.0,
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.5
+    ],
+    "round_robin": [
+      0.2,
+      0.25,
+      0.5,
+      0.75,
+      1.0,
+      1.5,
+      2.0,
+      3.0,
+      4.0
+    ]
+  },
+  "source": "results/milestone9b_heldout/run_summary.csv"
+}

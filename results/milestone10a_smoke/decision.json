@@ -1,0 +1,75 @@
+{
+  "attack_decision_losses": {
+    "raw_attack_mild": 0.32060986068251396,
+    "raw_attack_moderate": 0.3470898123255831,
+    "raw_attack_severe": 0.361948638173999,
+    "raw_channel_colluding_ramp": 0.45310169564985137
+  },
+  "attack_detection_rates": {
+    "raw_attack_mild": 0.9025000000000001,
+    "raw_attack_moderate": 0.96125,
+    "raw_attack_severe": 0.99375,
+    "raw_channel_colluding_ramp": 0.9840534171249018
+  },
+  "availability_loss_derivation": {
+    "absolute_limit": 1.5,
+    "formula": "2 * output_defer_cost",
+    "output_defer_cost": 0.75
+  },
+  "canonical_attack_ci95": [
+    2.8196409839652943,
+    3.085127590364528
+  ],
+  "canonical_attack_improvement": 2.9743738775056365,
+  "closed_loop_integration_authorized": false,
+  "gates": {
+    "attack_absolute_availability": true,
+    "attack_calibration_and_safety": true,
+    "attack_detection": true,
+    "canonical_attack_improvement": true,
+    "control_calibration_and_safety": true,
+    "control_false_alerts": true,
+    "control_noninferiority": true,
+    "diagnostics_exercised": true,
+    "dose_response_graceful": true,
+    "frozen_motion": true,
+    "legitimate_mode_and_precision": true,
+    "quarantine_noninterference": true,
+    "replay": true,
+    "shadow_equivalence": true,
+    "tail_event_power": true,
+    "upstream_m9c_frozen": true
+  },
+  "m9_verdicts_unchanged": true,
+  "maximum_control_false_alert_rate": 0.0,
+  "maximum_motion_difference": 0.0,
+  "phase": "training",
+  "power_calculation": {
+    "actual_seed_count": 5,
+    "detection_probability": 0.95,
+    "event_frequency": 0.02,
+    "minimum_seed_count": 149
+  },
+  "production_authorized": false,
+  "shadow_action_difference_rate": 0.0,
+  "shadow_max_decision_loss_difference": 0.0,
+  "thresholds": {
+    "attack_detection_rate_mild_min": 0.25,
+    "attack_detection_rate_other_min": 0.5,
+    "availability_loss_multiplier": 2.0,
+    "canonical_improvement_lcb_min": 0.0,
+    "control_false_alert_rate_max": 0.05,
+    "control_noninferiority_lcb_min": -0.02,
+    "coverage95_min": 0.88,
+    "dose_adjacent_loss_increase_max": 0.35,
+    "mean_nees_max": 6.0,
+    "motion_tolerance": 1e-12,
+    "p95_nees_max": 20.0,
+    "shadow_tolerance": 1e-12,
+    "tail_detection_probability": 0.95,
+    "tail_event_frequency": 0.02,
+    "wrong_mode_action_rate_max": 0.01
+  },
+  "verdict": "M10A-TRAINING-PASS",
+  "worst_control_noninferiority_lcb": 0.0
+}

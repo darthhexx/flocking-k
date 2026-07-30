@@ -1,0 +1,17 @@
+{
+  "steps": 10,
+  "dt": 1.0,
+  "n_agents": 8,
+  "probe_agent_count": 2,
+  "measurement_std": 0.9,
+  "sensor_max_speed": 1.8,
+  "fixed_momentum": 0.72,
+  "selection_probability": 0.99,
+  "defer_cost": 0.25,
+  "wrong_selection_cost": 2.0,
+  "movement_cost_per_unit": 0.8,
+  "planning_samples": 9,
+  "myopic_horizon": 1,
+  "receding_horizon": 2,
+  "oracle_horizon": 3
+}

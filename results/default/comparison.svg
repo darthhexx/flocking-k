@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="860" viewBox="0 0 1240 860">
+<rect width="100%" height="100%" fill="#FAFBFC"/>
+<text x="50" y="48" font-family="sans-serif" font-size="28" font-weight="700" fill="#17324D">Flocking–Kalman experiment comparison</text>
+<text x="50" y="76" font-family="sans-serif" font-size="14" fill="#526170">Means across configured random seeds</text>
+<rect x="50" y="105" width="560" height="230" rx="8" fill="#FFFFFF" stroke="#D7DEE7"/>
+<text x="68" y="133" font-family="sans-serif" font-size="17" font-weight="700" fill="#17324D">Team position RMSE</text>
+<text x="68" y="154" font-family="sans-serif" font-size="12" fill="#6A7785">lower is better</text>
+<text x="68" y="185" font-family="sans-serif" font-size="11" fill="#334455">Independent KF</text>
+<rect x="255" y="171" width="235.00" height="17" rx="3" fill="#4C78A8"/>
+<text x="585" y="185" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.911</text>
+<text x="68" y="210" font-family="sans-serif" font-size="11" fill="#334455">Consensus KF</text>
+<rect x="255" y="196" width="213.52" height="17" rx="3" fill="#59A14F"/>
+<text x="585" y="210" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.828</text>
+<text x="68" y="235" font-family="sans-serif" font-size="11" fill="#334455">Flocking Only</text>
+<rect x="255" y="221" width="118.17" height="17" rx="3" fill="#F28E2B"/>
+<text x="585" y="235" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.458</text>
+<text x="68" y="260" font-family="sans-serif" font-size="11" fill="#334455">Flocking KF No Momentum</text>
+<rect x="255" y="246" width="188.74" height="17" rx="3" fill="#76B7B2"/>
+<text x="585" y="260" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.732</text>
+<text x="68" y="285" font-family="sans-serif" font-size="11" fill="#334455">Flocking Fixed Momentum</text>
+<rect x="255" y="271" width="171.17" height="17" rx="3" fill="#B279A2"/>
+<text x="585" y="285" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.664</text>
+<text x="68" y="310" font-family="sans-serif" font-size="11" fill="#334455">Flocking Adaptive Momentum</text>
+<rect x="255" y="296" width="173.49" height="17" rx="3" fill="#E15759"/>
+<text x="585" y="310" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.673</text>
+<rect x="650" y="105" width="560" height="230" rx="8" fill="#FFFFFF" stroke="#D7DEE7"/>
+<text x="668" y="133" font-family="sans-serif" font-size="17" font-weight="700" fill="#17324D">95% coverage rate</text>
+<text x="668" y="154" font-family="sans-serif" font-size="12" fill="#6A7785">target: 0.95</text>
+<text x="668" y="185" font-family="sans-serif" font-size="11" fill="#334455">Independent KF</text>
+<rect x="855" y="171" width="232.67" height="17" rx="3" fill="#4C78A8"/>
+<text x="1185" y="185" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.964</text>
+<text x="668" y="210" font-family="sans-serif" font-size="11" fill="#334455">Consensus KF</text>
+<rect x="855" y="196" width="234.81" height="17" rx="3" fill="#59A14F"/>
+<text x="1185" y="210" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.972</text>
+<text x="668" y="235" font-family="sans-serif" font-size="11" fill="#334455">Flocking Only</text>
+<rect x="855" y="221" width="229.97" height="17" rx="3" fill="#F28E2B"/>
+<text x="1185" y="235" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.952</text>
+<text x="668" y="260" font-family="sans-serif" font-size="11" fill="#334455">Flocking KF No Momentum</text>
+<rect x="855" y="246" width="233.11" height="17" rx="3" fill="#76B7B2"/>
+<text x="1185" y="260" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.965</text>
+<text x="668" y="285" font-family="sans-serif" font-size="11" fill="#334455">Flocking Fixed Momentum</text>
+<rect x="855" y="271" width="235.00" height="17" rx="3" fill="#B279A2"/>
+<text x="1185" y="285" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.973</text>
+<text x="668" y="310" font-family="sans-serif" font-size="11" fill="#334455">Flocking Adaptive Momentum</text>
+<rect x="855" y="296" width="234.75" height="17" rx="3" fill="#E15759"/>
+<text x="1185" y="310" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.972</text>
+<rect x="50" y="350" width="560" height="230" rx="8" fill="#FFFFFF" stroke="#D7DEE7"/>
+<text x="68" y="378" font-family="sans-serif" font-size="17" font-weight="700" fill="#17324D">Information gain</text>
+<text x="68" y="399" font-family="sans-serif" font-size="12" fill="#6A7785">higher is better</text>
+<text x="68" y="430" font-family="sans-serif" font-size="11" fill="#334455">Independent KF</text>
+<rect x="255" y="416" width="215.19" height="17" rx="3" fill="#4C78A8"/>
+<text x="585" y="430" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.408</text>
+<text x="68" y="455" font-family="sans-serif" font-size="11" fill="#334455">Consensus KF</text>
+<rect x="255" y="441" width="215.38" height="17" rx="3" fill="#59A14F"/>
+<text x="585" y="455" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.411</text>
+<text x="68" y="480" font-family="sans-serif" font-size="11" fill="#334455">Flocking Only</text>
+<rect x="255" y="466" width="213.61" height="17" rx="3" fill="#F28E2B"/>
+<text x="585" y="480" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.383</text>
+<text x="68" y="505" font-family="sans-serif" font-size="11" fill="#334455">Flocking KF No Momentum</text>
+<rect x="255" y="491" width="213.78" height="17" rx="3" fill="#76B7B2"/>
+<text x="585" y="505" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.386</text>
+<text x="68" y="530" font-family="sans-serif" font-size="11" fill="#334455">Flocking Fixed Momentum</text>
+<rect x="255" y="516" width="233.56" height="17" rx="3" fill="#B279A2"/>
+<text x="585" y="530" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.699</text>
+<text x="68" y="555" font-family="sans-serif" font-size="11" fill="#334455">Flocking Adaptive Momentum</text>
+<rect x="255" y="541" width="235.00" height="17" rx="3" fill="#E15759"/>
+<text x="585" y="555" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.722</text>
+<rect x="650" y="350" width="560" height="230" rx="8" fill="#FFFFFF" stroke="#D7DEE7"/>
+<text x="668" y="378" font-family="sans-serif" font-size="17" font-weight="700" fill="#17324D">Spatial diversity</text>
+<text x="668" y="399" font-family="sans-serif" font-size="12" fill="#6A7785">mean pairwise distance</text>
+<text x="668" y="430" font-family="sans-serif" font-size="11" fill="#334455">Independent KF</text>
+<rect x="855" y="416" width="53.27" height="17" rx="3" fill="#4C78A8"/>
+<text x="1185" y="430" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">1.103</text>
+<text x="668" y="455" font-family="sans-serif" font-size="11" fill="#334455">Consensus KF</text>
+<rect x="855" y="441" width="42.19" height="17" rx="3" fill="#59A14F"/>
+<text x="1185" y="455" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.874</text>
+<text x="668" y="480" font-family="sans-serif" font-size="11" fill="#334455">Flocking Only</text>
+<rect x="855" y="466" width="235.00" height="17" rx="3" fill="#F28E2B"/>
+<text x="1185" y="480" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">4.866</text>
+<text x="668" y="505" font-family="sans-serif" font-size="11" fill="#334455">Flocking KF No Momentum</text>
+<rect x="855" y="491" width="234.83" height="17" rx="3" fill="#76B7B2"/>
+<text x="1185" y="505" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">4.863</text>
+<text x="668" y="530" font-family="sans-serif" font-size="11" fill="#334455">Flocking Fixed Momentum</text>
+<rect x="855" y="516" width="230.02" height="17" rx="3" fill="#B279A2"/>
+<text x="1185" y="530" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">4.763</text>
+<text x="668" y="555" font-family="sans-serif" font-size="11" fill="#334455">Flocking Adaptive Momentum</text>
+<rect x="855" y="541" width="229.25" height="17" rx="3" fill="#E15759"/>
+<text x="1185" y="555" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">4.747</text>
+<rect x="50" y="595" width="560" height="230" rx="8" fill="#FFFFFF" stroke="#D7DEE7"/>
+<text x="68" y="623" font-family="sans-serif" font-size="17" font-weight="700" fill="#17324D">Recovery after change</text>
+<text x="68" y="644" font-family="sans-serif" font-size="12" fill="#6A7785">steps; lower is better</text>
+<text x="68" y="675" font-family="sans-serif" font-size="11" fill="#334455">Independent KF</text>
+<rect x="255" y="661" width="208.89" height="17" rx="3" fill="#4C78A8"/>
+<text x="585" y="675" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">2.667</text>
+<text x="68" y="700" font-family="sans-serif" font-size="11" fill="#334455">Consensus KF</text>
+<rect x="255" y="686" width="235.00" height="17" rx="3" fill="#59A14F"/>
+<text x="585" y="700" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">3.000</text>
+<text x="68" y="725" font-family="sans-serif" font-size="11" fill="#334455">Flocking Only</text>
+<rect x="255" y="711" width="26.11" height="17" rx="3" fill="#F28E2B"/>
+<text x="585" y="725" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.333</text>
+<text x="68" y="750" font-family="sans-serif" font-size="11" fill="#334455">Flocking KF No Momentum</text>
+<rect x="255" y="736" width="78.33" height="17" rx="3" fill="#76B7B2"/>
+<text x="585" y="750" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">1.000</text>
+<text x="68" y="775" font-family="sans-serif" font-size="11" fill="#334455">Flocking Fixed Momentum</text>
+<rect x="255" y="761" width="130.56" height="17" rx="3" fill="#B279A2"/>
+<text x="585" y="775" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">1.667</text>
+<text x="68" y="800" font-family="sans-serif" font-size="11" fill="#334455">Flocking Adaptive Momentum</text>
+<rect x="255" y="786" width="26.11" height="17" rx="3" fill="#E15759"/>
+<text x="585" y="800" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.333</text>
+<rect x="650" y="595" width="560" height="230" rx="8" fill="#FFFFFF" stroke="#D7DEE7"/>
+<text x="668" y="623" font-family="sans-serif" font-size="17" font-weight="700" fill="#17324D">Communication</text>
+<text x="668" y="644" font-family="sans-serif" font-size="12" fill="#6A7785">bytes; lower is better</text>
+<text x="668" y="675" font-family="sans-serif" font-size="11" fill="#334455">Independent KF</text>
+<rect x="855" y="661" width="0.00" height="17" rx="3" fill="#4C78A8"/>
+<text x="1185" y="675" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">0.000</text>
+<text x="668" y="700" font-family="sans-serif" font-size="11" fill="#334455">Consensus KF</text>
+<rect x="855" y="686" width="195.83" height="17" rx="3" fill="#59A14F"/>
+<text x="1185" y="700" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">614,400</text>
+<text x="668" y="725" font-family="sans-serif" font-size="11" fill="#334455">Flocking Only</text>
+<rect x="855" y="711" width="78.33" height="17" rx="3" fill="#F28E2B"/>
+<text x="1185" y="725" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">245,760</text>
+<text x="668" y="750" font-family="sans-serif" font-size="11" fill="#334455">Flocking KF No Momentum</text>
+<rect x="855" y="736" width="235.00" height="17" rx="3" fill="#76B7B2"/>
+<text x="1185" y="750" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">737,280</text>
+<text x="668" y="775" font-family="sans-serif" font-size="11" fill="#334455">Flocking Fixed Momentum</text>
+<rect x="855" y="761" width="235.00" height="17" rx="3" fill="#B279A2"/>
+<text x="1185" y="775" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">737,280</text>
+<text x="668" y="800" font-family="sans-serif" font-size="11" fill="#334455">Flocking Adaptive Momentum</text>
+<rect x="855" y="786" width="235.00" height="17" rx="3" fill="#E15759"/>
+<text x="1185" y="800" text-anchor="end" font-family="monospace" font-size="11" fill="#334455">737,280</text>
+</svg>

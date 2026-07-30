@@ -1,0 +1,13 @@
+{
+  "artifacts": {
+    "audit_operational.json": "43b58099bf92a20be66a7f42170e9729e659ed4ff36fb1618815794651d4e077",
+    "audit_truth.json": "36eed1169f9dff6058eeafaa1475afd0371864ab288947dbbf106959375638c2",
+    "decision.json": "7c3efd10f7b31e4c1a08cc145798f44604535af74f0b794d5cb405430b68ac36",
+    "m13_1_report.md": "6d295c205078a151d290b4e55a7d1fa9f14824d12610e2047853073b6fc35d82",
+    "paired_effects.csv": "eff6328b479227d55eda9a6ecde5e74f3eb1ca0deab850c5abae8205d17af19a",
+    "run_summary.csv": "ce36c5767310e795e06f8eb5588e5bcae195ee592d2be7960634490d3feae33c",
+    "scenario_summary.csv": "11405c855c70df499d5a3be708e20ad21a022ab9e79fe31fcf31dbe45265d31e",
+    "suite_config.json": "035534b68c136b00cecb177b52aa434ccbbc2345c4ab22aa386e1549a813a73a"
+  },
+  "manifest_hash": "583e68ba887f6a9e6f3f979e2fdc04798ae87d90f9e76bc7d1279b0d8fe03558"
+}

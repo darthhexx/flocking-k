@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" width="1200" height="780">
+  <defs>
+    <linearGradient id="targetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#EE5253"/>
+    </linearGradient>
+    <linearGradient id="kfGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#48DBFB"/>
+      <stop offset="100%" stop-color="#0ABDE3"/>
+    </linearGradient>
+    <linearGradient id="flockGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1DD1A1"/>
+      <stop offset="100%" stop-color="#10AC84"/>
+    </linearGradient>
+    <linearGradient id="trustGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF9F43"/>
+      <stop offset="100%" stop-color="#EE5253"/>
+    </linearGradient>
+    <linearGradient id="policyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#5F27CD"/>
+      <stop offset="100%" stop-color="#341F97"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#485460"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  <rect width="100%" height="100%" fill="#F8F9FA"/>
+  
+  <!-- Title Banner -->
+  <text x="600" y="42" font-family="system-ui, sans-serif" font-size="24" font-weight="800" text-anchor="middle" fill="#1E272C">Figure 1: Flocking-Coupled Distributed State Estimation Architecture (v0.19)</text>
+  <text x="600" y="66" font-family="system-ui, sans-serif" font-size="14" text-anchor="middle" fill="#576574">Closed-loop interaction between physical sensing motion, split-admission hypothesis fusion, adversarial trust, and truth-blind output policy</text>
+  <!-- SUB-BLOCK 1: PHYSICAL ENVIRONMENT & TARGET -->
+  <rect x="40" y="100" width="260" height="220" rx="12" fill="#FFFFFF" stroke="#FF6B6B" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="40" y="100" width="260" height="36" rx="12" fill="url(#targetGrad)"/>
+  <text x="170" y="124" font-family="system-ui, sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">Physical Environment</text>
+  <text x="55" y="160" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#2D3436">• Target State: x = [p_x, p_y, v_x, v_y]ᵀ</text>
+  <text x="55" y="185" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#2D3436">• Range-Dependent Noise:</text>
+  <text x="75" y="208" font-family="monospace" font-size="12" fill="#D63031">R_i(d) = σ₀²(1 + α d²)</text>
+  <text x="55" y="235" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#2D3436">• Mobile Sensors: i ∈ {1...N}</text>
+  <text x="55" y="260" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#2D3436">• Dynamic Topology: G_t = (V_t, E_t)</text>
+  <text x="55" y="285" font-family="system-ui, sans-serif" font-size="12" fill="#636E72">(Agent outages, partitions, rejoin)</text>
+  <!-- SUB-BLOCK 2: LOCAL ESTIMATION & SPLIT ADMISSION -->
+  <rect x="340" y="100" width="480" height="220" rx="12" fill="#FFFFFF" stroke="#0ABDE3" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="340" y="100" width="480" height="36" rx="12" fill="url(#kfGrad)"/>
+  <text x="580" y="124" font-family="system-ui, sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">Local Estimation &amp; Split Admission Channels</text>
+  
+  <!-- Channel 1: Raw Measurements -->
+  <rect x="360" y="150" width="210" height="150" rx="8" fill="#E0F7FA" stroke="#00ACC1" stroke-width="1.5"/>
+  <text x="465" y="172" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#006064">Channel A: Raw Measurements</text>
+  <text x="372" y="195" font-family="system-ui, sans-serif" font-size="12" fill="#004D40">• Direct sensor observations</text>
+  <text x="372" y="215" font-family="system-ui, sans-serif" font-size="12" fill="#004D40">• Source-local robust trust</text>
+  <text x="372" y="235" font-family="system-ui, sans-serif" font-size="12" fill="#004D40">• Covariance flooring active</text>
+  <text x="372" y="255" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#00796B">Permissive Admission</text>
+  <!-- Channel 2: Recursive Belief Fusion -->
+  <rect x="595" y="150" width="210" height="150" rx="8" fill="#F3E5F5" stroke="#8E24AA" stroke-width="1.5"/>
+  <text x="700" y="172" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#4A148C">Channel B: Belief Fusion</text>
+  <text x="607" y="195" font-family="system-ui, sans-serif" font-size="12" fill="#4A148C">• Peer posteriors {x̂_j, P_j}</text>
+  <text x="607" y="215" font-family="system-ui, sans-serif" font-size="12" fill="#4A148C">• Timestamp propagation</text>
+  <text x="607" y="235" font-family="system-ui, sans-serif" font-size="12" fill="#4A148C">• Full lifecycle admission</text>
+  <text x="607" y="255" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#7B1FA2">Strict Lifecycle Gated</text>
+  <!-- SUB-BLOCK 3: HYPOTHESIS FLOCKS & ADVERSARIAL TRUST -->
+  <rect x="340" y="360" width="480" height="240" rx="12" fill="#FFFFFF" stroke="#10AC84" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="340" y="360" width="480" height="36" rx="12" fill="url(#flockGrad)"/>
+  <text x="580" y="384" font-family="system-ui, sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">Hypothesis Flocks &amp; Composed Trust Defense</text>
+  
+  <text x="360" y="420" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#10AC84">Covariance Intersection (CI) &amp; Clustering:</text>
+  <text x="375" y="442" font-family="monospace" font-size="12" fill="#2D3436">Mahalanobis gating: d² ≤ 9.21 (Subspace position)</text>
+  <text x="375" y="462" font-family="system-ui, sans-serif" font-size="12" fill="#2D3436">• Compatible nodes form explicit hypothesis flocks F_k</text>
+  <text x="375" y="482" font-family="system-ui, sans-serif" font-size="12" fill="#2D3436">• Preserves alternative modes (displaced minorities quarantined)</text>
+  <rect x="360" y="500" width="440" height="80" rx="8" fill="#FFF0F0" stroke="#EE5253" stroke-width="1.5"/>
+  <text x="580" y="522" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#C0392B">Composed Adversarial Trust Layer (M10A / M10A.5)</text>
+  <text x="375" y="544" font-family="system-ui, sans-serif" font-size="12" fill="#900C3F">1. Assignment-corrected disagreement (median innovation removed)</text>
+  <text x="375" y="564" font-family="system-ui, sans-serif" font-size="12" fill="#900C3F">2. Ramp-rate evidence  |  3. Precision budget (≤0.35x raw cap)</text>
+  <!-- SUB-BLOCK 4: TRUTH-BLIND OUTPUT POLICY -->
+  <rect x="860" y="100" width="300" height="500" rx="12" fill="#FFFFFF" stroke="#341F97" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="860" y="100" width="300" height="36" rx="12" fill="url(#policyGrad)"/>
+  <text x="1010" y="124" font-family="system-ui, sans-serif" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">Truth-Blind Output Policy</text>
+  
+  <text x="880" y="160" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#341F97">Support Accounting &amp; Actions:</text>
+  <text x="880" y="182" font-family="system-ui, sans-serif" font-size="12" fill="#2D3436">• Group nearby Gaussians (&lt; 2.0u)</text>
+  <text x="880" y="202" font-family="system-ui, sans-serif" font-size="12" fill="#2D3436">• Support margin ≥ 0.15 required</text>
+  <rect x="880" y="220" width="260" height="50" rx="6" fill="#E8F5E9" stroke="#4CAF50" stroke-width="1"/>
+  <text x="1010" y="240" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#2E7D32">Action: SELECT</text>
+  <text x="1010" y="258" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#1B5E20">Clear dominant hypothesis mode</text>
+  <rect x="880" y="280" width="260" height="50" rx="6" fill="#E3F2FD" stroke="#2196F3" stroke-width="1"/>
+  <text x="1010" y="300" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#1565C0">Action: MIXTURE</text>
+  <text x="1010" y="318" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#0D47A1">Moment-matched combined posterior</text>
+  <rect x="880" y="340" width="260" height="65" rx="6" fill="#FFF3E0" stroke="#FF9800" stroke-width="1"/>
+  <text x="1010" y="360" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#E65100">Action: INVESTIGATE</text>
+  <text x="1010" y="378" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#E65100">Bounded probing (≤8 cycles)</text>
+  <text x="1010" y="394" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#E65100">Decentralized 2-step VOI motion</text>
+  <rect x="880" y="415" width="260" height="50" rx="6" fill="#FFEBEE" stroke="#F44336" stroke-width="1"/>
+  <text x="1010" y="435" font-family="system-ui, sans-serif" font-size="13" font-weight="700" text-anchor="middle" fill="#C62828">Action: DEFER (Abstain)</text>
+  <text x="1010" y="453" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#B71C1C">Declared cost C_defer = 0.75</text>
+  <text x="880" y="490" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#576574">Evaluation Loss Model:</text>
+  <text x="880" y="510" font-family="monospace" font-size="11" fill="#2D3436">Loss = ||x̂ - x_true|| + C_action</text>
+  <text x="880" y="530" font-family="system-ui, sans-serif" font-size="11" fill="#D63031">(Truth isolated; used only in scoring)</text>
+  <!-- MOTION FEEDBACK LOOPS & ARROWS -->
+  <!-- Arrow: Environment to Estimation -->
+  <path d="M 300 210 L 338 210" stroke="#485460" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="319" y="200" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#485460">z_i</text>
+  <!-- Arrow: Local Estimation to Flock Fusion -->
+  <path d="M 580 320 L 580 358" stroke="#485460" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <!-- Arrow: Hypothesis Flocks to Policy -->
+  <path d="M 820 450 L 858 450" stroke="#485460" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <!-- Feedback Arrow: Motion / Active Probing back to Environment -->
+  <path d="M 1010 470 L 1010 680 L 170 680 L 170 322" fill="none" stroke="#10AC84" stroke-width="3" stroke-dasharray="6,4" marker-end="url(#arrow)"/>
+  <text x="590" y="670" font-family="system-ui, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#10AC84">Recurrent Motion Command: v(t+1) = clip[ ρ v(t) + (1-ρ) u_flock(t) ]</text>
+  <text x="590" y="695" font-family="system-ui, sans-serif" font-size="12" text-anchor="middle" fill="#576574">(Fixed investigative momentum ρ = 0.72 alters future sensor distances d_i and measurement variance R_i)</text>
+</svg>

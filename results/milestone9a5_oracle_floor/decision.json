@@ -1,0 +1,28 @@
+{
+  "all_dynamic_scenarios_pass": {
+    "frozen_m9a_loss": false,
+    "global_loss": true,
+    "m9a_hypothesis_floor_loss": false,
+    "observer_loss": false
+  },
+  "diagnostic_conclusion": "INFORMATION-LIMITED",
+  "non_promotional": true,
+  "original_m9a_verdict_unchanged": true,
+  "original_transfer_margin_lcb": -0.1,
+  "reference_semantics": {
+    "frozen_m9a_loss": "unchanged operational M9A output",
+    "global_loss": "truth-blind model-informed Bayesian reference using all currently operational raw observations through an ideal out-of-band collector",
+    "m9a_hypothesis_floor_loss": "truth-using evaluation-only lower bound over the frozen M9A returned set",
+    "observer_loss": "truth-blind model-informed Bayesian reference using raw observations inside the observer's delivered weak component"
+  },
+  "scenario_diagnoses": {
+    "asymmetric_partition": "OBSERVER_COMPONENT_INFORMATION_LIMIT",
+    "failure_only": "SAME_INFORMATION_POLICY_OR_REPRESENTATION_HEADROOM",
+    "failure_partition": "SAME_INFORMATION_POLICY_OR_REPRESENTATION_HEADROOM",
+    "false_split_dropout": "CURRENT_POLICY_CLEARS_MARGIN",
+    "flapping_reconnect": "CURRENT_POLICY_CLEARS_MARGIN",
+    "partition_only": "SAME_INFORMATION_POLICY_OR_REPRESENTATION_HEADROOM",
+    "staggered_rejoin": "SAME_INFORMATION_POLICY_OR_REPRESENTATION_HEADROOM"
+  },
+  "trace_replay_verified": true
+}

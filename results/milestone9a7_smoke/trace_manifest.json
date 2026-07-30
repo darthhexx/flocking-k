@@ -1,0 +1,127 @@
+{
+  "baseline_is_m9a6_shadow": true,
+  "candidate_is_output_only_shadow": true,
+  "entries": [
+    {
+      "fingerprint": "4855f56e418ed99404eb20f4714067bb75373f60ad0011f779eb590e7e13349e",
+      "scenario": "stable_control",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "777fc03fb1597fc535fcee30350b6e68dbda74573487bfbf8bc59971520e2aca",
+      "scenario": "stable_control",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "44ab0d63eb33216526e0dc417df72fce15eeb409c36d62d2f54d2313d86ed12f",
+      "scenario": "failure_only",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "5fa01cd1692013bd9b8cfe6fccf309a544192c0077100a1723aefaab7f3a36a7",
+      "scenario": "failure_only",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "0367d52227743e3f3418b8b6e0512de5dc17f6ab70497386904a30bfca49cd92",
+      "scenario": "partition_only",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "2a69c9a75eb1a43e9c7078a8662f9523f352243333ff347a7fc1d5488b956ab3",
+      "scenario": "partition_only",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "c959e93802994316eb507e305664ac26126a8e1d32f891ad708fd0b8ebc000a5",
+      "scenario": "asymmetric_partition",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "29d058254d649da71f838f6dd5310bf9cc925d7d888214272ed2b558ed93cac3",
+      "scenario": "asymmetric_partition",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "5a105fd670b1635c7e8f0cd49f5c57a6064fbe6e278f0e5d09b021ac4ff0c4e0",
+      "scenario": "failure_partition",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "034bfc5fec31ab3f492a885da50e377790d969d5a67baee4555458a652e1be91",
+      "scenario": "failure_partition",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "b91ebabaa12fecee12f6f6f8c2c48067d3aaf89c0a9edb44a0b1eaffd7c43268",
+      "scenario": "staggered_rejoin",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "c445d3d3a01d98537a0d89ab5328938be55adefe465ec75dd329a3d9df5d1aa3",
+      "scenario": "staggered_rejoin",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "7ca43dd44989214a7dec7a55e74ad74d9777d590a805c119ff2784f8104b7fe0",
+      "scenario": "flapping_reconnect",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "d014fb8b0a5fb29dea42c10523d065a53afdf02f03059af70346b4c8d3eaec66",
+      "scenario": "flapping_reconnect",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "d978e78f8c8ab7de9b294dee81601c6315fc60ecfafb94ba2b33bc0aaa09de92",
+      "scenario": "false_split_dropout",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "f89ca6c51e727d8f0e8c0333cb365ddfeffa1245e69e309029650b0e4a25040c",
+      "scenario": "false_split_dropout",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "f1abc02951b821d8829ba53537c159f91e4d7750d9a160ef844718aee651b7e0",
+      "scenario": "admission_censoring_control",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "559bb6a7cafbfdc4eca5c61cfc9cd51534adab8762c9a05af869d1fd2536d906",
+      "scenario": "admission_censoring_control",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "3036e075e1fe4b0e89a317cb7fa6477ed863129643d74ca31ceddd2d7f25be41",
+      "scenario": "unmodelled_count",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "40beed0df74fdf1c22ad6faacdb619dfb949a39c719f12b42f9dbb9deb5076f8",
+      "scenario": "unmodelled_count",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "60a27cf928ab3b1006cbe2c060ab81e500bf2386d2dc2d8416f74e4c520b9e3f",
+      "scenario": "unmodelled_offset",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "ba94b80a1b37c2e01c0a57ce5c5e3a2eacaa6473a34dd5badf981c56cb3fe5d4",
+      "scenario": "unmodelled_offset",
+      "seed": 15901
+    },
+    {
+      "fingerprint": "079c345d832dd172189c226ca9656a772236a89d0874e4004f03aeef3ec8781d",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 15900
+    },
+    {
+      "fingerprint": "915f763398289a520dd71ef2082eefe56611805271f3146b999df1690e5cc29e",
+      "scenario": "raw_channel_colluding_ramp",
+      "seed": 15901
+    }
+  ],
+  "replay_verified": true
+}

@@ -1,0 +1,31 @@
+{
+  "bias_rmse_improvement": 0.6132503135479032,
+  "byzantine_rmse_improvement": 10.073640493890856,
+  "gates": {
+    "alternative_mode_survives": true,
+    "bias_rmse_significant_vs_fixed": true,
+    "biased_outputs_are_calibrated": true,
+    "byzantine_rmse_significant_vs_fixed": true,
+    "communication_overhead_under_2_percent": true,
+    "delay_rmse_noninferior_within_0_05": true,
+    "dropout_rmse_noninferior_within_0_03": true,
+    "false_quarantine_is_bounded": true,
+    "multimodal_set_rmse_significant_vs_fixed": true,
+    "nominal_rmse_noninferior_within_0_02": true,
+    "overall_set_rmse_significant_vs_fixed": true,
+    "runtime_overhead_under_50_percent": true
+  },
+  "multimodal_alternative_weight": 0.4912549851190476,
+  "multimodal_flock_survival_rate": 0.9896250000000002,
+  "multimodal_truth_consistent_weight": 0.5068982886904762,
+  "overall_set_rmse_ci95": [
+    2.0707565853171945,
+    2.1413651294837788
+  ],
+  "overall_set_rmse_improvement": 2.1052166043507348,
+  "research_direction": "ADVANCE_ROBUST_MULTIFLOCK_TO_END_TO_END_EVALUATION",
+  "scenario_count": 7,
+  "scenarios_won_vs_fixed": 7,
+  "verdict": "GO",
+  "verdict_scope": "M6 robust fusion and explicit hypothesis flocks"
+}

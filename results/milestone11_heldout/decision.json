@@ -1,0 +1,40 @@
+{
+  "acceleration_research_authorized": false,
+  "archive_sha256": "013714987dc0f797853689a80146da1fee50478ad884491d0eeac5f6357602d4",
+  "failure_stage": "strict_parser_before_estimation",
+  "gates": {
+    "archive_and_replay": false,
+    "parser_and_malformed_rejection": false
+  },
+  "phase": "heldout",
+  "production_authorized": false,
+  "protocol_sha256": "3d6453af7ed04a973c8c0c06cbb33b29f4586e1386b96e9610b62c00934feb15",
+  "reason": "The official Dataset 9 archive contains one negative initial odometry timestamp jump for robots 1, 2, 3, and 4. The frozen M11 parser rejected Robot 1 before producing any estimate.",
+  "source_hashes": {
+    "external_replay.py": "8ff01cecdfc858bb8c11175df49203d851f7627df14b6d925f07bcbef006eb3a",
+    "external_replay_suite.py": "77e04b78b172543ee5735c1dc0f73e7de48b15782e6c35857ff4cc4d95db1ccc"
+  },
+  "timestamp_diagnostics": {
+    "Robot1_Odometry.dat": {
+      "negative_jumps": 1,
+      "worst_seconds": -0.09999990463256836
+    },
+    "Robot2_Odometry.dat": {
+      "negative_jumps": 1,
+      "worst_seconds": -0.10100007057189941
+    },
+    "Robot3_Odometry.dat": {
+      "negative_jumps": 1,
+      "worst_seconds": -0.10099983215332031
+    },
+    "Robot4_Odometry.dat": {
+      "negative_jumps": 1,
+      "worst_seconds": -0.10000014305114746
+    },
+    "Robot5_Odometry.dat": {
+      "negative_jumps": 0,
+      "worst_seconds": 0.0
+    }
+  },
+  "verdict": "M11-INVALID"
+}

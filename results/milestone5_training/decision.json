@@ -1,0 +1,28 @@
+{
+  "gates": {
+    "calibrated_under_delay_and_bias": false,
+    "communication_overhead_under_2_percent": true,
+    "false_change_events_are_bounded": true,
+    "persistent_bias_is_detected": true,
+    "recovery_significant_vs_fixed": false,
+    "rmse_significant_vs_fixed": false,
+    "runtime_overhead_under_25_percent": true,
+    "stale_messages_force_fixed_fallback": true,
+    "wins_at_least_five_of_seven_scenarios": false
+  },
+  "guarded_recovery_ci95": [
+    -0.0666666666666667,
+    0.10000000000000005
+  ],
+  "guarded_recovery_improvement": 4.4408920985006264e-17,
+  "guarded_rmse_ci95": [
+    -0.0007429951995363821,
+    0.008730962017659558
+  ],
+  "guarded_rmse_improvement": 0.0036252052121345966,
+  "research_direction": "RETAIN_FIXED_MOMENTUM_AND_MOVE_TO_M6",
+  "scenario_count": 7,
+  "scenarios_won_vs_fixed": 2,
+  "verdict": "NO-GO",
+  "verdict_scope": "M5 guarded adaptive momentum prototype"
+}

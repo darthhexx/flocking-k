@@ -1,0 +1,198 @@
+{
+  "active_sensing_config": {
+    "defer_cost": 0.25,
+    "dt": 1.0,
+    "fixed_momentum": 0.72,
+    "measurement_std": 0.9,
+    "movement_cost_per_unit": 0.8,
+    "myopic_horizon": 1,
+    "n_agents": 8,
+    "oracle_horizon": 3,
+    "planning_samples": 9,
+    "probe_agent_count": 2,
+    "receding_horizon": 2,
+    "selection_probability": 0.99,
+    "sensor_max_speed": 1.8,
+    "steps": 10,
+    "wrong_selection_cost": 2.0
+  },
+  "bootstrap_samples": 5000,
+  "executor": "serial",
+  "numpy": "2.4.6",
+  "platform_version": "0.8.0",
+  "policies": [
+    "passive",
+    "round_robin",
+    "myopic_voi",
+    "receding_horizon_voi",
+    "computational_oracle"
+  ],
+  "python": "3.11.11",
+  "scenarios": [
+    {
+      "description": "Three equally likely modes on a circle; a probe resolves one-vs-rest before the remaining pair.",
+      "hypothesis_positions": [
+        [
+          6.0,
+          0.0
+        ],
+        [
+          -3.0,
+          5.196152422706632
+        ],
+        [
+          -3.0,
+          -5.196152422706632
+        ]
+      ],
+      "measurement_std_multiplier": 1.0,
+      "name": "triad_uniform",
+      "prior_probabilities": [
+        0.3333333333333333,
+        0.3333333333333333,
+        0.3333333333333333
+      ],
+      "probe_cost_multipliers": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "spread_cost_multiplier": 1.25
+    },
+    {
+      "description": "Two probable nearby angular modes compete with a rare distant-direction distractor.",
+      "hypothesis_positions": [
+        [
+          4.914912265733951,
+          3.4414586181062763
+        ],
+        [
+          4.914912265733951,
+          -3.4414586181062763
+        ],
+        [
+          -6.0,
+          0.0
+        ]
+      ],
+      "measurement_std_multiplier": 0.9,
+      "name": "near_pair_rare_distractor",
+      "prior_probabilities": [
+        0.45,
+        0.45,
+        0.1
+      ],
+      "probe_cost_multipliers": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "spread_cost_multiplier": 1.35
+    },
+    {
+      "description": "The most probable eastward probe has a high transit cost, making information and cost disagree.",
+      "hypothesis_positions": [
+        [
+          6.0,
+          0.0
+        ],
+        [
+          -3.0,
+          5.196152422706632
+        ],
+        [
+          -3.0,
+          -5.196152422706632
+        ]
+      ],
+      "measurement_std_multiplier": 1.0,
+      "name": "asymmetric_transit",
+      "prior_probabilities": [
+        0.5,
+        0.35,
+        0.15
+      ],
+      "probe_cost_multipliers": [
+        2.6,
+        0.85,
+        1.1
+      ],
+      "spread_cost_multiplier": 1.45
+    },
+    {
+      "description": "Four equally likely cardinal modes require allocating limited probes among competing pairs.",
+      "hypothesis_positions": [
+        [
+          6.0,
+          0.0
+        ],
+        [
+          0.0,
+          6.0
+        ],
+        [
+          -6.0,
+          0.0
+        ],
+        [
+          0.0,
+          -6.0
+        ]
+      ],
+      "measurement_std_multiplier": 0.95,
+      "name": "four_mode_cross",
+      "prior_probabilities": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "probe_cost_multipliers": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "spread_cost_multiplier": 1.35
+    },
+    {
+      "description": "Four modes combine skewed prior support with asymmetric probe and broad-spread costs.",
+      "hypothesis_positions": [
+        [
+          6.0,
+          0.0
+        ],
+        [
+          0.0,
+          6.0
+        ],
+        [
+          -6.0,
+          0.0
+        ],
+        [
+          0.0,
+          -6.0
+        ]
+      ],
+      "measurement_std_multiplier": 1.1,
+      "name": "four_mode_skewed_cost",
+      "prior_probabilities": [
+        0.42,
+        0.33,
+        0.15,
+        0.1
+      ],
+      "probe_cost_multipliers": [
+        2.2,
+        0.8,
+        1.35,
+        0.7
+      ],
+      "spread_cost_multiplier": 1.55
+    }
+  ],
+  "seed_count": 30,
+  "seed_start": 9000,
+  "workers": 1
+}

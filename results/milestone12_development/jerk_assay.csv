@@ -1,0 +1,3 @@
+controller,velocity_rmse,peak_acceleration,peak_jerk,distance,finite
+acceleration_clipped,0.24876193438707608,0.8,16.0,18.013,True
+jerk_limited,0.2936742367397065,0.8,1.6000000000000014,18.232650739256535,True

@@ -1,0 +1,24 @@
+{
+  "adaptive_coverage95": 0.8380948660714286,
+  "adaptive_mean_nees": 6.234282471860054,
+  "fixed_momentum_scenarios_won_vs_zero": 7,
+  "fixed_momentum_signal": {
+    "core_scenarios_calibrated": true,
+    "recovery_significant_vs_zero": true,
+    "rmse_significant_vs_zero": true,
+    "scenario_robustness_vs_zero": true
+  },
+  "gates": {
+    "calibration_acceptable": false,
+    "communication_overhead_under_2_percent": true,
+    "recovery_mean_better_vs_both": false,
+    "rmse_significant_vs_both": false,
+    "runtime_overhead_under_25_percent": true,
+    "scenario_robustness": false
+  },
+  "research_direction": "PIVOT_TO_FIXED_MOMENTUM_AND_REDESIGN_ADAPTATION",
+  "scenario_count": 7,
+  "scenarios_won_against_both": 2,
+  "verdict": "NO-GO",
+  "verdict_scope": "current innovation-adaptive momentum scheduler"
+}

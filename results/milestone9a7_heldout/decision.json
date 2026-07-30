@@ -1,0 +1,48 @@
+{
+  "gates": {
+    "calibration": true,
+    "frozen_motion": true,
+    "mean_observer_regret": true,
+    "natural_scenario_noninferiority": true,
+    "off_model_residual_response": true,
+    "p95_observer_regret": true,
+    "per_seed_observer_regret": true,
+    "positive_control_is_exercised": true,
+    "positive_control_repairs_loss": true,
+    "raw_channel_attack_safety": true,
+    "replay": true,
+    "tail_event_power": true,
+    "wrong_action_safety": true
+  },
+  "m9b_integration_authorized": true,
+  "original_m9a_and_m9a6_verdicts_unchanged": true,
+  "phase": "heldout",
+  "power_calculation": {
+    "actual_at_least_one_detection_probability": 0.9976674943320486,
+    "actual_seed_count": 300,
+    "detection_probability": 0.95,
+    "event_frequency": 0.02,
+    "minimum_seed_count": 149
+  },
+  "thresholds": {
+    "attack_covariance_floor_rate_min": 0.1,
+    "coverage95_min": 0.88,
+    "mean_nees_max": 6.0,
+    "motion_difference_tolerance": 1e-12,
+    "natural_loss_noninferiority_lcb_min": -0.02,
+    "observer_regret_mean_ucb_max": 0.1,
+    "observer_regret_p95_bootstrap_ucb_max": 0.2,
+    "observer_regret_per_seed_max": 0.75,
+    "off_model_any_abstention_rate_min": 0.25,
+    "off_model_residual_mass_min": 0.08,
+    "p95_nees_max": 20.0,
+    "positive_control_censoring_rate_min": 0.2,
+    "positive_control_improvement_lcb_min": 0.0,
+    "positive_control_mean_censored_agents_min": 0.5,
+    "tail_detection_probability": 0.95,
+    "tail_event_frequency": 0.02,
+    "wrong_mode_action_rate_max": 0.01
+  },
+  "trace_replay_verified": true,
+  "verdict": "M9A7-GO"
+}

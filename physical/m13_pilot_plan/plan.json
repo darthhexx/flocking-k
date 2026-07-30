@@ -1,0 +1,36 @@
+{
+  "arms": [
+    "m9c_no_trust",
+    "m10a5_centralized",
+    "m10b_decentralized_no_negotiation",
+    "m10b_decentralized"
+  ],
+  "blocks_per_scenario": 8,
+  "external_evidence_required": true,
+  "milestone": "M13.2",
+  "paired_blocking": [
+    "scenario",
+    "block_id"
+  ],
+  "phase": "pilot",
+  "randomization": "SHA-256 deterministic arm order; operator blinded",
+  "scenarios": [
+    "stable",
+    "target_manoeuvre",
+    "physical_occlusion",
+    "burst_loss_latency",
+    "partition_rejoin",
+    "observer_outage_rejoin",
+    "legitimate_precision_minority",
+    "colluding_covariance_ramp",
+    "temporary_attack_recovery",
+    "adaptive_bounded_attacker"
+  ],
+  "schedule_hash": "083a19001f1c305ff521f15113fadb7fc125e80b95f9ba0f730680e41cc418e9",
+  "trial_dates": [
+    "pilot-day-1",
+    "pilot-day-2",
+    "pilot-day-3"
+  ],
+  "truth_isolation": "independent scorer process and ledger"
+}

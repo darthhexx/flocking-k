@@ -1,0 +1,110 @@
+{
+  "adapter": "ros2_mcap",
+  "arm": "m10b_decentralized",
+  "attack": {
+    "attacker_ids": [],
+    "kind": "none",
+    "start_ns": 0,
+    "stop_ns": 0
+  },
+  "block_id": "REPLACE_ME",
+  "clock_offsets": [
+    {
+      "offset_ms": 0.0,
+      "process_id": "agent0"
+    },
+    {
+      "offset_ms": 0.0,
+      "process_id": "agent1"
+    },
+    {
+      "offset_ms": 0.0,
+      "process_id": "agent2"
+    },
+    {
+      "offset_ms": 0.0,
+      "process_id": "agent3"
+    },
+    {
+      "offset_ms": 0.0,
+      "process_id": "independent_truth_recorder"
+    }
+  ],
+  "evidence_class": "external_physical",
+  "fault_manifest_id": "REPLACE_ME",
+  "layout_id": "REPLACE_ME",
+  "lighting_id": "REPLACE_ME",
+  "observer_robot_ids": [
+    "agent0",
+    "agent1",
+    "agent2",
+    "agent3"
+  ],
+  "operational_process_ids": [
+    "agent0",
+    "agent1",
+    "agent2",
+    "agent3",
+    "planner",
+    "safety_supervisor"
+  ],
+  "operator_blinded_to_arm": true,
+  "path_id": "REPLACE_ME",
+  "phase": "pilot",
+  "recorder_host_ids": [
+    "observer-host-0",
+    "observer-host-1",
+    "observer-host-2",
+    "observer-host-3",
+    "planner-host",
+    "safety-host"
+  ],
+  "run_id": "REPLACE_ME",
+  "scenario": "stable",
+  "schema_version": "m13.0.0",
+  "scorer_process_id": "independent_truth_recorder",
+  "site_id": "REPLACE_ME",
+  "source_files": [
+    {
+      "host_id": "observer-host-0",
+      "kind": "operational_mcap",
+      "path": "raw/observer-host-0.mcap"
+    },
+    {
+      "host_id": "observer-host-1",
+      "kind": "operational_mcap",
+      "path": "raw/observer-host-1.mcap"
+    },
+    {
+      "host_id": "observer-host-2",
+      "kind": "operational_mcap",
+      "path": "raw/observer-host-2.mcap"
+    },
+    {
+      "host_id": "observer-host-3",
+      "kind": "operational_mcap",
+      "path": "raw/observer-host-3.mcap"
+    },
+    {
+      "host_id": "planner-host",
+      "kind": "operational_mcap",
+      "path": "raw/planner-host.mcap"
+    },
+    {
+      "host_id": "safety-host",
+      "kind": "operational_mcap",
+      "path": "raw/safety-host.mcap"
+    },
+    {
+      "host_id": "independent-truth-host",
+      "kind": "truth_mcap",
+      "path": "raw/truth.mcap"
+    },
+    {
+      "host_id": "network-tap",
+      "kind": "pcap",
+      "path": "raw/network.pcapng"
+    }
+  ],
+  "trial_date": "YYYY-MM-DD"
+}

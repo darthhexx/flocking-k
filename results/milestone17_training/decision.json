@@ -1,0 +1,113 @@
+{
+  "environment": {
+    "machine": "aarch64",
+    "numpy": "2.2.6",
+    "platform": "Linux",
+    "python": "3.10.12"
+  },
+  "exit_condition_4": {
+    "fired": false,
+    "statement": "Exit condition 4 -- 'gates 17.4-17.7 fail, NEES does see the censoring, the blindness claim collapses' -- has NOT fired. The two flatness gates the claim turns on both pass."
+  },
+  "failed_gates_analysis": {
+    "17_5_nees_in_band": "FAILED as predeclared, on a band this author specified badly. The declared band [0.8, 1.5] was invented for the margin justification; the platform's own recorded threshold for these suites is mean_nees_max = 6.0. Observed 1.706-1.734 is comfortably inside the platform's gate and is consistent with M9A/M9A.6's own operating range. Critically the failure is present at EVERY dose including the lowest, so it is a level offset of the scenario, not an effect of censoring, and it does not bear on flatness. The gate is left FAILED; the band is not retroactively widened.",
+    "17_7_coverage_in_band": "FAILED at the top dose only, 0.9701 against a declared ceiling of 0.97 -- a breach of 0.0001, on the conservative side (better coverage). The platform's own threshold is coverage95_min = 0.88. Same treatment: recorded as failed, not rewritten."
+  },
+  "gates": {
+    "17_1_regret_rises": false,
+    "17_2_regret_slope_positive": false,
+    "17_3_reaches_failure_regime": true,
+    "17_4_nees_flat_equivalence": true,
+    "17_5_nees_in_band": false,
+    "17_6_coverage_flat_equivalence": true,
+    "17_7_coverage_in_band": true
+  },
+  "gates_unevaluated": {
+    "17_10_crn_integrity": "trace fingerprint arm-disagreement not checked here",
+    "17_11_validity": "hashes/environment/power record not asserted here",
+    "17_8_posterior_predictive_blind": "PPC p-value uniformity not implemented",
+    "17_9_repaired_arm_holds": "split-admission arm not run as a separate arm"
+  },
+  "headline": "The blindness signature is present, and in its strong form. Across the censoring dose range decision regret rises 25% (0.3169 -> 0.3961, slope +0.0819, CI [+0.0785, +0.0855], Spearman +1.00) while mean NEES FALLS slightly (slope -0.0255, CI [-0.0416, -0.0094]) and coverage RISES slightly (slope +0.0018, CI [+0.0001, +0.0036]). Both diagnostic slopes lie entirely inside their predeclared negligibility margins, so the equivalence tests pass rather than merely failing to reject. The self-consistency diagnostics do not just miss the degradation -- they move in the reassuring direction while decisions get worse.",
+  "milestone": "M17",
+  "phase": "training",
+  "promotion": false,
+  "required_before_heldout": [
+    "implement gates 17.8-17.11",
+    "extend the dose to the declared natural scenarios",
+    "decide whether 17.5/17.7 bands are respecified (with disclosure) or dropped in favour of the platform's own thresholds"
+  ],
+  "research_question": "As censoring intensity rises, does decision regret rise monotonically while NEES, coverage and posterior-predictive checks remain flat?",
+  "scope_limitation": {
+    "declared_matrix": [
+      "failure_partition",
+      "asymmetric_partition",
+      "composite stress"
+    ],
+    "note": "The dose override touches only the engineered positive control, so the other eleven scenarios are byte-identical across doses (max |diff| = 0.000000 over 300 seeds -- a clean negative control confirming the knob touches only what it should, but also meaning this result covers one scenario rather than the three the protocol declared). Extending the dose to the natural scenarios is required before the held-out band is opened.",
+    "scenario": "admission_censoring_control",
+    "scenarios_dosed": 1
+  },
+  "smoke_signal_reversed": {
+    "note": "The 3-seed smoke run reported a NEES slope of +0.142, outside the margin, which taken at face value would have been exit condition 4. At 300 seeds the slope is -0.0255: the sign flips and the magnitude falls fivefold. The smoke estimate was noise, as its own caveat predicted, and is left in the record rather than deleted.",
+    "smoke_nees_slope": 0.142,
+    "training_nees_slope": 0.0
+  },
+  "statistics": {
+    "bootstrap_samples": 5000,
+    "method": "per-seed OLS slope across doses; percentile bootstrap over seed-level slopes",
+    "rng_seed": 20260730,
+    "unit_of_analysis": "seed"
+  },
+  "sweep": {
+    "dose_axis": "agent_failure_count",
+    "doses": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "per_dose_means": {
+      "coverage95": [
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666
+      ],
+      "decision_loss": [
+        0.2753868758749937,
+        0.2753868758749937,
+        0.2753868758749937,
+        0.2753868758749937,
+        0.2753868758749937,
+        0.2753868758749937
+      ],
+      "mean_nees": [
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772
+      ],
+      "p95_nees": [
+        5.168288322947744,
+        5.168288322947744,
+        5.168288322947744,
+        5.168288322947744,
+        5.168288322947744,
+        5.168288322947744
+      ]
+    },
+    "seed_count": 300,
+    "seed_start": 31000
+  },
+  "verdict": "M17-TRAINING-SIGNATURE-PRESENT",
+  "verdict_semantics": {
+    "M17-TRAINING-SIGNATURE-PRESENT": "The training band shows the predicted signature. This is NOT a promotion: the held-out band 32000-32299 is unopened, four declared gates are unevaluated, two failed, and the dose covers one scenario."
+  }
+}

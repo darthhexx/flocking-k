@@ -1,0 +1,182 @@
+{
+  "blindness_signature_present": false,
+  "doses": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "environment": {
+    "machine": "aarch64",
+    "numpy": "2.2.6",
+    "platform": "Linux",
+    "python": "3.10.12"
+  },
+  "gate_detail": {
+    "17_1_regret_rises": {
+      "passed": false,
+      "slope_lcb": 0.0,
+      "spearman": 1.0
+    },
+    "17_2_regret_slope_positive": {
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "passed": false,
+      "slope": 0.0
+    },
+    "17_3_reaches_failure_regime": {
+      "limit": 0.1,
+      "passed": true,
+      "top_dose_mean": 0.2753868758749937,
+      "top_dose_ucb": 0.27690125177928265
+    },
+    "17_4_nees_flat_equivalence": {
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "margin": 0.1,
+      "passed": true,
+      "slope": 0.0,
+      "test": "two-sided 95% CI must lie entirely inside +/- margin"
+    },
+    "17_5_nees_in_band": {
+      "band": [
+        0.8,
+        1.5
+      ],
+      "passed": false,
+      "per_dose_in_band": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "per_dose_mean": [
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772,
+        1.7564347523708772
+      ]
+    },
+    "17_6_coverage_flat_equivalence": {
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "margin": 0.006,
+      "passed": true,
+      "slope": 0.0
+    },
+    "17_7_coverage_in_band": {
+      "band": [
+        0.93,
+        0.97
+      ],
+      "passed": true,
+      "per_dose_in_band": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "per_dose_mean": [
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666,
+        0.9662291666666666
+      ]
+    }
+  },
+  "gates": {
+    "17_1_regret_rises": false,
+    "17_2_regret_slope_positive": false,
+    "17_3_reaches_failure_regime": true,
+    "17_4_nees_flat_equivalence": true,
+    "17_5_nees_in_band": false,
+    "17_6_coverage_flat_equivalence": true,
+    "17_7_coverage_in_band": true
+  },
+  "milestone": "M17",
+  "per_dose_means": {
+    "coverage95": [
+      0.9662291666666666,
+      0.9662291666666666,
+      0.9662291666666666,
+      0.9662291666666666,
+      0.9662291666666666,
+      0.9662291666666666
+    ],
+    "decision_loss": [
+      0.2753868758749937,
+      0.2753868758749937,
+      0.2753868758749937,
+      0.2753868758749937,
+      0.2753868758749937,
+      0.2753868758749937
+    ],
+    "mean_nees": [
+      1.7564347523708772,
+      1.7564347523708772,
+      1.7564347523708772,
+      1.7564347523708772,
+      1.7564347523708772,
+      1.7564347523708772
+    ],
+    "p95_nees": [
+      5.168288322947744,
+      5.168288322947744,
+      5.168288322947744,
+      5.168288322947744,
+      5.168288322947744,
+      5.168288322947744
+    ]
+  },
+  "scenario": "stable_control",
+  "seeds": 300,
+  "slopes": {
+    "coverage95": {
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "slope": 0.0,
+      "spearman_of_means": 1.0
+    },
+    "decision_loss": {
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "slope": 0.0,
+      "spearman_of_means": 1.0
+    },
+    "mean_nees": {
+      "ci": [
+        0.0,
+        0.0
+      ],
+      "slope": 0.0,
+      "spearman_of_means": 1.0
+    }
+  },
+  "statistics": {
+    "bootstrap_samples": 5000,
+    "method": "per-seed OLS slope across doses; percentile bootstrap over seed-level slopes",
+    "rng_seed": 20260730,
+    "unit_of_analysis": "seed"
+  },
+  "sweep": "/sessions/rcw-01pqbcjenreg3ydbwss1bzal/mnt/Flocking-K - Paper 2/flocking_kalman_research_platform/results/milestone17_training"
+}

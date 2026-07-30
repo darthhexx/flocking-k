@@ -1,0 +1,143 @@
+{"doses": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0], "elapsed_s": 0.0, "event": "sweep_start", "numpy": "2.2.4", "phase": "training", "python": "3.13.5", "seed_count": 300, "seed_start": 31000, "utc": "2026-07-30T07:32:07+00:00", "workers": 16}
+{"censored_agents": 1, "dose": 0.0, "elapsed_s": 0.0, "event": "dose_start", "utc": "2026-07-30T07:32:07+00:00"}
+{"completed": 1, "dose": 0.0, "dose_eta_s": 36012.0, "elapsed_s": 10.0, "event": "dose_progress", "sweep_eta_s": 216122.1, "total": 3600, "trials_per_second": 0.0999, "utc": "2026-07-30T07:32:17+00:00"}
+{"completed": 115, "dose": 0.0, "dose_eta_s": 1274.6, "elapsed_s": 42.1, "event": "dose_progress", "sweep_eta_s": 7857.6, "total": 3600, "trials_per_second": 2.7343, "utc": "2026-07-30T07:32:49+00:00"}
+{"completed": 271, "dose": 0.0, "dose_eta_s": 905.2, "elapsed_s": 73.7, "event": "dose_progress", "sweep_eta_s": 5799.8, "total": 3600, "trials_per_second": 3.6776, "utc": "2026-07-30T07:33:20+00:00"}
+{"completed": 465, "dose": 0.0, "dose_eta_s": 743.1, "elapsed_s": 110.2, "event": "dose_progress", "sweep_eta_s": 5009.8, "total": 3600, "trials_per_second": 4.2188, "utc": "2026-07-30T07:33:57+00:00"}
+{"completed": 641, "dose": 0.0, "dose_eta_s": 653.8, "elapsed_s": 141.6, "event": "dose_progress", "sweep_eta_s": 4630.7, "total": 3600, "trials_per_second": 4.5261, "utc": "2026-07-30T07:34:28+00:00"}
+{"completed": 813, "dose": 0.0, "dose_eta_s": 600.9, "elapsed_s": 175.3, "event": "dose_progress", "sweep_eta_s": 4481.7, "total": 3600, "trials_per_second": 4.6382, "utc": "2026-07-30T07:35:02+00:00"}
+{"completed": 981, "dose": 0.0, "dose_eta_s": 557.0, "elapsed_s": 208.6, "event": "dose_progress", "sweep_eta_s": 4385.1, "total": 3600, "trials_per_second": 4.7021, "utc": "2026-07-30T07:35:35+00:00"}
+{"completed": 1157, "dose": 0.0, "dose_eta_s": 511.0, "elapsed_s": 242.0, "event": "dose_progress", "sweep_eta_s": 4276.3, "total": 3600, "trials_per_second": 4.7806, "utc": "2026-07-30T07:36:09+00:00"}
+{"completed": 1347, "dose": 0.0, "dose_eta_s": 455.5, "elapsed_s": 272.3, "event": "dose_progress", "sweep_eta_s": 4094.5, "total": 3600, "trials_per_second": 4.9464, "utc": "2026-07-30T07:36:39+00:00"}
+{"completed": 1529, "dose": 0.0, "dose_eta_s": 409.8, "elapsed_s": 302.6, "event": "dose_progress", "sweep_eta_s": 3971.8, "total": 3600, "trials_per_second": 5.0534, "utc": "2026-07-30T07:37:09+00:00"}
+{"completed": 1705, "dose": 0.0, "dose_eta_s": 371.6, "elapsed_s": 334.3, "event": "dose_progress", "sweep_eta_s": 3900.8, "total": 3600, "trials_per_second": 5.1002, "utc": "2026-07-30T07:37:41+00:00"}
+{"completed": 1865, "dose": 0.0, "dose_eta_s": 340.4, "elapsed_s": 365.9, "event": "dose_progress", "sweep_eta_s": 3872.3, "total": 3600, "trials_per_second": 5.0965, "utc": "2026-07-30T07:38:12+00:00"}
+{"completed": 2021, "dose": 0.0, "dose_eta_s": 310.9, "elapsed_s": 397.9, "event": "dose_progress", "sweep_eta_s": 3855.2, "total": 3600, "trials_per_second": 5.0787, "utc": "2026-07-30T07:38:44+00:00"}
+{"completed": 2175, "dose": 0.0, "dose_eta_s": 281.7, "elapsed_s": 429.9, "event": "dose_progress", "sweep_eta_s": 3839.5, "total": 3600, "trials_per_second": 5.0593, "utc": "2026-07-30T07:39:16+00:00"}
+{"completed": 2333, "dose": 0.0, "dose_eta_s": 251.1, "elapsed_s": 462.3, "event": "dose_progress", "sweep_eta_s": 3818.1, "total": 3600, "trials_per_second": 5.0463, "utc": "2026-07-30T07:39:49+00:00"}
+{"completed": 2507, "dose": 0.0, "dose_eta_s": 216.2, "elapsed_s": 495.9, "event": "dose_progress", "sweep_eta_s": 3776.5, "total": 3600, "trials_per_second": 5.0558, "utc": "2026-07-30T07:40:22+00:00"}
+{"completed": 2681, "dose": 0.0, "dose_eta_s": 181.1, "elapsed_s": 528.4, "event": "dose_progress", "sweep_eta_s": 3728.5, "total": 3600, "trials_per_second": 5.0742, "utc": "2026-07-30T07:40:55+00:00"}
+{"completed": 2863, "dose": 0.0, "dose_eta_s": 143.8, "elapsed_s": 558.7, "event": "dose_progress", "sweep_eta_s": 3656.7, "total": 3600, "trials_per_second": 5.1241, "utc": "2026-07-30T07:41:25+00:00"}
+{"completed": 3045, "dose": 0.0, "dose_eta_s": 107.4, "elapsed_s": 589.3, "event": "dose_progress", "sweep_eta_s": 3591.2, "total": 3600, "trials_per_second": 5.1667, "utc": "2026-07-30T07:41:56+00:00"}
+{"completed": 3213, "dose": 0.0, "dose_eta_s": 74.7, "elapsed_s": 619.8, "event": "dose_progress", "sweep_eta_s": 3546.8, "total": 3600, "trials_per_second": 5.1841, "utc": "2026-07-30T07:42:26+00:00"}
+{"completed": 3515, "dose": 0.0, "dose_eta_s": 15.7, "elapsed_s": 650.8, "event": "dose_progress", "sweep_eta_s": 3348.7, "total": 3600, "trials_per_second": 5.4007, "utc": "2026-07-30T07:42:57+00:00"}
+{"completed": 3600, "dose": 0.0, "dose_eta_s": 0.0, "elapsed_s": 655.2, "event": "dose_progress", "sweep_eta_s": 3276.1, "total": 3600, "trials_per_second": 5.4944, "utc": "2026-07-30T07:43:02+00:00"}
+{"censored_agents": 1, "dose": 0.0, "duration_s": 661.6, "elapsed_s": 661.6, "event": "dose_done", "utc": "2026-07-30T07:43:08+00:00", "verdict": "M9A7-TRAINING-PASS"}
+{"censored_agents": 2, "dose": 0.2, "elapsed_s": 661.6, "event": "dose_start", "utc": "2026-07-30T07:43:08+00:00"}
+{"completed": 1, "dose": 0.2, "dose_eta_s": 65696.6, "elapsed_s": 679.9, "event": "dose_progress", "sweep_eta_s": 68343.0, "total": 3600, "trials_per_second": 0.0548, "utc": "2026-07-30T07:43:26+00:00"}
+{"completed": 177, "dose": 0.2, "dose_eta_s": 1090.0, "elapsed_s": 718.0, "event": "dose_progress", "sweep_eta_s": 3736.4, "total": 3600, "trials_per_second": 3.1404, "utc": "2026-07-30T07:44:04+00:00"}
+{"completed": 353, "dose": 0.2, "dose_eta_s": 847.3, "elapsed_s": 753.7, "event": "dose_progress", "sweep_eta_s": 3493.8, "total": 3600, "trials_per_second": 3.8321, "utc": "2026-07-30T07:44:40+00:00"}
+{"completed": 527, "dose": 0.2, "dose_eta_s": 712.4, "elapsed_s": 783.8, "event": "dose_progress", "sweep_eta_s": 3358.9, "total": 3600, "trials_per_second": 4.3135, "utc": "2026-07-30T07:45:10+00:00"}
+{"completed": 691, "dose": 0.2, "dose_eta_s": 651.0, "elapsed_s": 816.2, "event": "dose_progress", "sweep_eta_s": 3297.4, "total": 3600, "trials_per_second": 4.4687, "utc": "2026-07-30T07:45:43+00:00"}
+{"completed": 867, "dose": 0.2, "dose_eta_s": 594.1, "elapsed_s": 850.1, "event": "dose_progress", "sweep_eta_s": 3240.5, "total": 3600, "trials_per_second": 4.6004, "utc": "2026-07-30T07:46:17+00:00"}
+{"completed": 1043, "dose": 0.2, "dose_eta_s": 544.7, "elapsed_s": 883.8, "event": "dose_progress", "sweep_eta_s": 3191.1, "total": 3600, "trials_per_second": 4.6946, "utc": "2026-07-30T07:46:50+00:00"}
+{"completed": 1219, "dose": 0.2, "dose_eta_s": 495.7, "elapsed_s": 915.4, "event": "dose_progress", "sweep_eta_s": 3142.2, "total": 3600, "trials_per_second": 4.8031, "utc": "2026-07-30T07:47:22+00:00"}
+{"completed": 1415, "dose": 0.2, "dose_eta_s": 442.1, "elapsed_s": 947.9, "event": "dose_progress", "sweep_eta_s": 3088.6, "total": 3600, "trials_per_second": 4.9421, "utc": "2026-07-30T07:47:54+00:00"}
+{"completed": 1591, "dose": 0.2, "dose_eta_s": 400.0, "elapsed_s": 978.4, "event": "dose_progress", "sweep_eta_s": 3046.4, "total": 3600, "trials_per_second": 5.0229, "utc": "2026-07-30T07:48:25+00:00"}
+{"completed": 1765, "dose": 0.2, "dose_eta_s": 361.9, "elapsed_s": 1009.7, "event": "dose_progress", "sweep_eta_s": 3008.3, "total": 3600, "trials_per_second": 5.0711, "utc": "2026-07-30T07:48:56+00:00"}
+{"completed": 1919, "dose": 0.2, "dose_eta_s": 333.1, "elapsed_s": 1041.9, "event": "dose_progress", "sweep_eta_s": 2979.6, "total": 3600, "trials_per_second": 5.0458, "utc": "2026-07-30T07:49:28+00:00"}
+{"completed": 2059, "dose": 0.2, "dose_eta_s": 307.2, "elapsed_s": 1072.0, "event": "dose_progress", "sweep_eta_s": 2953.6, "total": 3600, "trials_per_second": 5.0168, "utc": "2026-07-30T07:49:59+00:00"}
+{"completed": 2213, "dose": 0.2, "dose_eta_s": 276.8, "elapsed_s": 1103.3, "event": "dose_progress", "sweep_eta_s": 2923.3, "total": 3600, "trials_per_second": 5.0105, "utc": "2026-07-30T07:50:30+00:00"}
+{"completed": 2369, "dose": 0.2, "dose_eta_s": 245.7, "elapsed_s": 1134.5, "event": "dose_progress", "sweep_eta_s": 2892.2, "total": 3600, "trials_per_second": 5.0092, "utc": "2026-07-30T07:51:01+00:00"}
+{"completed": 2567, "dose": 0.2, "dose_eta_s": 203.9, "elapsed_s": 1168.3, "event": "dose_progress", "sweep_eta_s": 2850.4, "total": 3600, "trials_per_second": 5.0664, "utc": "2026-07-30T07:51:35+00:00"}
+{"completed": 2747, "dose": 0.2, "dose_eta_s": 166.8, "elapsed_s": 1198.7, "event": "dose_progress", "sweep_eta_s": 2813.2, "total": 3600, "trials_per_second": 5.1151, "utc": "2026-07-30T07:52:05+00:00"}
+{"completed": 2937, "dose": 0.2, "dose_eta_s": 128.2, "elapsed_s": 1229.5, "event": "dose_progress", "sweep_eta_s": 2774.7, "total": 3600, "trials_per_second": 5.1719, "utc": "2026-07-30T07:52:36+00:00"}
+{"completed": 3109, "dose": 0.2, "dose_eta_s": 94.4, "elapsed_s": 1259.7, "event": "dose_progress", "sweep_eta_s": 2740.9, "total": 3600, "trials_per_second": 5.1986, "utc": "2026-07-30T07:53:06+00:00"}
+{"completed": 3279, "dose": 0.2, "dose_eta_s": 61.6, "elapsed_s": 1290.4, "event": "dose_progress", "sweep_eta_s": 2708.0, "total": 3600, "trials_per_second": 5.2149, "utc": "2026-07-30T07:53:37+00:00"}
+{"completed": 3600, "dose": 0.2, "dose_eta_s": 0.0, "elapsed_s": 1314.9, "event": "dose_progress", "sweep_eta_s": 2646.5, "total": 3600, "trials_per_second": 5.5107, "utc": "2026-07-30T07:54:01+00:00"}
+{"censored_agents": 2, "dose": 0.2, "duration_s": 659.7, "elapsed_s": 1321.3, "event": "dose_done", "utc": "2026-07-30T07:54:08+00:00", "verdict": "M9A7-TRAINING-PASS"}
+{"censored_agents": 3, "dose": 0.4, "elapsed_s": 1321.3, "event": "dose_start", "utc": "2026-07-30T07:54:08+00:00"}
+{"completed": 1, "dose": 0.4, "dose_eta_s": 66230.3, "elapsed_s": 1339.7, "event": "dose_progress", "sweep_eta_s": 68212.3, "total": 3600, "trials_per_second": 0.0543, "utc": "2026-07-30T07:54:26+00:00"}
+{"completed": 177, "dose": 0.4, "dose_eta_s": 1121.4, "elapsed_s": 1379.3, "event": "dose_progress", "sweep_eta_s": 3103.4, "total": 3600, "trials_per_second": 3.0523, "utc": "2026-07-30T07:55:06+00:00"}
+{"completed": 353, "dose": 0.4, "dose_eta_s": 852.7, "elapsed_s": 1414.0, "event": "dose_progress", "sweep_eta_s": 2834.6, "total": 3600, "trials_per_second": 3.808, "utc": "2026-07-30T07:55:41+00:00"}
+{"completed": 529, "dose": 0.4, "dose_eta_s": 712.7, "elapsed_s": 1444.1, "event": "dose_progress", "sweep_eta_s": 2694.7, "total": 3600, "trials_per_second": 4.3088, "utc": "2026-07-30T07:56:11+00:00"}
+{"completed": 689, "dose": 0.4, "dose_eta_s": 649.4, "elapsed_s": 1475.0, "event": "dose_progress", "sweep_eta_s": 2631.4, "total": 3600, "trials_per_second": 4.4827, "utc": "2026-07-30T07:56:42+00:00"}
+{"completed": 867, "dose": 0.4, "dose_eta_s": 592.4, "elapsed_s": 1509.2, "event": "dose_progress", "sweep_eta_s": 2574.4, "total": 3600, "trials_per_second": 4.6135, "utc": "2026-07-30T07:57:16+00:00"}
+{"completed": 1041, "dose": 0.4, "dose_eta_s": 545.3, "elapsed_s": 1543.1, "event": "dose_progress", "sweep_eta_s": 2527.2, "total": 3600, "trials_per_second": 4.693, "utc": "2026-07-30T07:57:50+00:00"}
+{"completed": 1217, "dose": 0.4, "dose_eta_s": 494.8, "elapsed_s": 1574.0, "event": "dose_progress", "sweep_eta_s": 2476.8, "total": 3600, "trials_per_second": 4.8162, "utc": "2026-07-30T07:58:21+00:00"}
+{"completed": 1409, "dose": 0.4, "dose_eta_s": 443.5, "elapsed_s": 1606.6, "event": "dose_progress", "sweep_eta_s": 2425.5, "total": 3600, "trials_per_second": 4.9397, "utc": "2026-07-30T07:58:53+00:00"}
+{"completed": 1581, "dose": 0.4, "dose_eta_s": 403.1, "elapsed_s": 1637.0, "event": "dose_progress", "sweep_eta_s": 2385.1, "total": 3600, "trials_per_second": 5.0088, "utc": "2026-07-30T07:59:23+00:00"}
+{"completed": 1755, "dose": 0.4, "dose_eta_s": 363.6, "elapsed_s": 1667.2, "event": "dose_progress", "sweep_eta_s": 2345.6, "total": 3600, "trials_per_second": 5.0742, "utc": "2026-07-30T07:59:54+00:00"}
+{"completed": 1907, "dose": 0.4, "dose_eta_s": 336.3, "elapsed_s": 1700.1, "event": "dose_progress", "sweep_eta_s": 2318.2, "total": 3600, "trials_per_second": 5.0347, "utc": "2026-07-30T08:00:27+00:00"}
+{"completed": 2063, "dose": 0.4, "dose_eta_s": 306.3, "elapsed_s": 1732.4, "event": "dose_progress", "sweep_eta_s": 2288.2, "total": 3600, "trials_per_second": 5.0184, "utc": "2026-07-30T08:00:59+00:00"}
+{"completed": 2211, "dose": 0.4, "dose_eta_s": 277.3, "elapsed_s": 1762.7, "event": "dose_progress", "sweep_eta_s": 2259.2, "total": 3600, "trials_per_second": 5.0096, "utc": "2026-07-30T08:01:29+00:00"}
+{"completed": 2361, "dose": 0.4, "dose_eta_s": 247.5, "elapsed_s": 1792.8, "event": "dose_progress", "sweep_eta_s": 2229.4, "total": 3600, "trials_per_second": 5.007, "utc": "2026-07-30T08:01:59+00:00"}
+{"completed": 2563, "dose": 0.4, "dose_eta_s": 203.4, "elapsed_s": 1824.0, "event": "dose_progress", "sweep_eta_s": 2185.4, "total": 3600, "trials_per_second": 5.0981, "utc": "2026-07-30T08:02:31+00:00"}
+{"completed": 2755, "dose": 0.4, "dose_eta_s": 163.6, "elapsed_s": 1854.5, "event": "dose_progress", "sweep_eta_s": 2145.5, "total": 3600, "trials_per_second": 5.1666, "utc": "2026-07-30T08:03:01+00:00"}
+{"completed": 2935, "dose": 0.4, "dose_eta_s": 127.8, "elapsed_s": 1885.2, "event": "dose_progress", "sweep_eta_s": 2109.7, "total": 3600, "trials_per_second": 5.2047, "utc": "2026-07-30T08:03:32+00:00"}
+{"completed": 3107, "dose": 0.4, "dose_eta_s": 94.3, "elapsed_s": 1915.3, "event": "dose_progress", "sweep_eta_s": 2076.2, "total": 3600, "trials_per_second": 5.2307, "utc": "2026-07-30T08:04:02+00:00"}
+{"completed": 3281, "dose": 0.4, "dose_eta_s": 60.9, "elapsed_s": 1947.2, "event": "dose_progress", "sweep_eta_s": 2042.8, "total": 3600, "trials_per_second": 5.2424, "utc": "2026-07-30T08:04:34+00:00"}
+{"completed": 3600, "dose": 0.4, "dose_eta_s": 0.0, "elapsed_s": 1970.6, "event": "dose_progress", "sweep_eta_s": 1982.0, "total": 3600, "trials_per_second": 5.5444, "utc": "2026-07-30T08:04:57+00:00"}
+{"censored_agents": 3, "dose": 0.4, "duration_s": 655.8, "elapsed_s": 1977.1, "event": "dose_done", "utc": "2026-07-30T08:05:04+00:00", "verdict": "M9A7-TRAINING-PASS"}
+{"censored_agents": 4, "dose": 0.6, "elapsed_s": 1977.1, "event": "dose_start", "utc": "2026-07-30T08:05:04+00:00"}
+{"completed": 1, "dose": 0.6, "dose_eta_s": 36255.2, "elapsed_s": 1987.1, "event": "dose_progress", "sweep_eta_s": 37573.2, "total": 3600, "trials_per_second": 0.0993, "utc": "2026-07-30T08:05:14+00:00"}
+{"completed": 113, "dose": 0.6, "dose_eta_s": 1291.6, "elapsed_s": 2018.9, "event": "dose_progress", "sweep_eta_s": 2609.6, "total": 3600, "trials_per_second": 2.6998, "utc": "2026-07-30T08:05:45+00:00"}
+{"completed": 253, "dose": 0.6, "dose_eta_s": 950.7, "elapsed_s": 2048.9, "event": "dose_progress", "sweep_eta_s": 2268.7, "total": 3600, "trials_per_second": 3.5207, "utc": "2026-07-30T08:06:15+00:00"}
+{"completed": 411, "dose": 0.6, "dose_eta_s": 793.0, "elapsed_s": 2079.3, "event": "dose_progress", "sweep_eta_s": 2111.0, "total": 3600, "trials_per_second": 4.0215, "utc": "2026-07-30T08:06:46+00:00"}
+{"completed": 581, "dose": 0.6, "dose_eta_s": 688.2, "elapsed_s": 2109.5, "event": "dose_progress", "sweep_eta_s": 2006.3, "total": 3600, "trials_per_second": 4.3867, "utc": "2026-07-30T08:07:16+00:00"}
+{"completed": 739, "dose": 0.6, "dose_eta_s": 630.0, "elapsed_s": 2139.8, "event": "dose_progress", "sweep_eta_s": 1948.0, "total": 3600, "trials_per_second": 4.5415, "utc": "2026-07-30T08:07:46+00:00"}
+{"completed": 895, "dose": 0.6, "dose_eta_s": 583.8, "elapsed_s": 2170.2, "event": "dose_progress", "sweep_eta_s": 1901.8, "total": 3600, "trials_per_second": 4.6336, "utc": "2026-07-30T08:08:17+00:00"}
+{"completed": 1059, "dose": 0.6, "dose_eta_s": 541.6, "elapsed_s": 2202.8, "event": "dose_progress", "sweep_eta_s": 1859.7, "total": 3600, "trials_per_second": 4.6916, "utc": "2026-07-30T08:08:49+00:00"}
+{"completed": 1235, "dose": 0.6, "dose_eta_s": 493.3, "elapsed_s": 2234.7, "event": "dose_progress", "sweep_eta_s": 1811.3, "total": 3600, "trials_per_second": 4.7946, "utc": "2026-07-30T08:09:21+00:00"}
+{"completed": 1437, "dose": 0.6, "dose_eta_s": 433.8, "elapsed_s": 2265.2, "event": "dose_progress", "sweep_eta_s": 1751.8, "total": 3600, "trials_per_second": 4.9864, "utc": "2026-07-30T08:09:52+00:00"}
+{"completed": 1605, "dose": 0.6, "dose_eta_s": 395.8, "elapsed_s": 2295.5, "event": "dose_progress", "sweep_eta_s": 1713.8, "total": 3600, "trials_per_second": 5.0409, "utc": "2026-07-30T08:10:22+00:00"}
+{"completed": 1769, "dose": 0.6, "dose_eta_s": 361.1, "elapsed_s": 2326.0, "event": "dose_progress", "sweep_eta_s": 1679.2, "total": 3600, "trials_per_second": 5.0702, "utc": "2026-07-30T08:10:52+00:00"}
+{"completed": 1913, "dose": 0.6, "dose_eta_s": 334.8, "elapsed_s": 2356.8, "event": "dose_progress", "sweep_eta_s": 1652.9, "total": 3600, "trials_per_second": 5.0381, "utc": "2026-07-30T08:11:23+00:00"}
+{"completed": 2057, "dose": 0.6, "dose_eta_s": 307.9, "elapsed_s": 2387.6, "event": "dose_progress", "sweep_eta_s": 1626.0, "total": 3600, "trials_per_second": 5.0112, "utc": "2026-07-30T08:11:54+00:00"}
+{"completed": 2215, "dose": 0.6, "dose_eta_s": 276.5, "elapsed_s": 2419.3, "event": "dose_progress", "sweep_eta_s": 1594.5, "total": 3600, "trials_per_second": 5.0091, "utc": "2026-07-30T08:12:26+00:00"}
+{"completed": 2373, "dose": 0.6, "dose_eta_s": 244.9, "elapsed_s": 2450.7, "event": "dose_progress", "sweep_eta_s": 1562.9, "total": 3600, "trials_per_second": 5.0107, "utc": "2026-07-30T08:12:57+00:00"}
+{"completed": 2603, "dose": 0.6, "dose_eta_s": 193.5, "elapsed_s": 2482.2, "event": "dose_progress", "sweep_eta_s": 1511.5, "total": 3600, "trials_per_second": 5.1529, "utc": "2026-07-30T08:13:29+00:00"}
+{"completed": 2797, "dose": 0.6, "dose_eta_s": 153.8, "elapsed_s": 2512.8, "event": "dose_progress", "sweep_eta_s": 1471.9, "total": 3600, "trials_per_second": 5.2208, "utc": "2026-07-30T08:13:59+00:00"}
+{"completed": 2977, "dose": 0.6, "dose_eta_s": 118.5, "elapsed_s": 2543.5, "event": "dose_progress", "sweep_eta_s": 1436.6, "total": 3600, "trials_per_second": 5.2557, "utc": "2026-07-30T08:14:30+00:00"}
+{"completed": 3149, "dose": 0.6, "dose_eta_s": 85.6, "elapsed_s": 2574.7, "event": "dose_progress", "sweep_eta_s": 1403.6, "total": 3600, "trials_per_second": 5.2693, "utc": "2026-07-30T08:15:01+00:00"}
+{"completed": 3381, "dose": 0.6, "dose_eta_s": 40.7, "elapsed_s": 2604.9, "event": "dose_progress", "sweep_eta_s": 1358.7, "total": 3600, "trials_per_second": 5.3851, "utc": "2026-07-30T08:15:31+00:00"}
+{"completed": 3600, "dose": 0.6, "dose_eta_s": 0.0, "elapsed_s": 2621.7, "event": "dose_progress", "sweep_eta_s": 1318.0, "total": 3600, "trials_per_second": 5.5845, "utc": "2026-07-30T08:15:48+00:00"}
+{"censored_agents": 4, "dose": 0.6, "duration_s": 651.1, "elapsed_s": 2628.1, "event": "dose_done", "utc": "2026-07-30T08:15:55+00:00", "verdict": "M9A7-TRAINING-PASS"}
+{"censored_agents": 5, "dose": 0.8, "elapsed_s": 2628.1, "event": "dose_start", "utc": "2026-07-30T08:15:55+00:00"}
+{"completed": 1, "dose": 0.8, "dose_eta_s": 36256.9, "elapsed_s": 2638.2, "event": "dose_progress", "sweep_eta_s": 36913.9, "total": 3600, "trials_per_second": 0.0993, "utc": "2026-07-30T08:16:05+00:00"}
+{"completed": 129, "dose": 0.8, "dose_eta_s": 1203.9, "elapsed_s": 2672.9, "event": "dose_progress", "sweep_eta_s": 1860.9, "total": 3600, "trials_per_second": 2.8832, "utc": "2026-07-30T08:16:39+00:00"}
+{"completed": 289, "dose": 0.8, "dose_eta_s": 857.0, "elapsed_s": 2702.9, "event": "dose_progress", "sweep_eta_s": 1514.0, "total": 3600, "trials_per_second": 3.8636, "utc": "2026-07-30T08:17:09+00:00"}
+{"completed": 447, "dose": 0.8, "dose_eta_s": 762.3, "elapsed_s": 2736.2, "event": "dose_progress", "sweep_eta_s": 1419.3, "total": 3600, "trials_per_second": 4.1364, "utc": "2026-07-30T08:17:43+00:00"}
+{"completed": 623, "dose": 0.8, "dose_eta_s": 670.7, "elapsed_s": 2768.5, "event": "dose_progress", "sweep_eta_s": 1327.7, "total": 3600, "trials_per_second": 4.4387, "utc": "2026-07-30T08:18:15+00:00"}
+{"completed": 773, "dose": 0.8, "dose_eta_s": 623.3, "elapsed_s": 2798.6, "event": "dose_progress", "sweep_eta_s": 1280.3, "total": 3600, "trials_per_second": 4.5356, "utc": "2026-07-30T08:18:45+00:00"}
+{"completed": 937, "dose": 0.8, "dose_eta_s": 574.1, "elapsed_s": 2830.1, "event": "dose_progress", "sweep_eta_s": 1231.1, "total": 3600, "trials_per_second": 4.6385, "utc": "2026-07-30T08:19:17+00:00"}
+{"completed": 1103, "dose": 0.8, "dose_eta_s": 528.7, "elapsed_s": 2861.7, "event": "dose_progress", "sweep_eta_s": 1185.7, "total": 3600, "trials_per_second": 4.7231, "utc": "2026-07-30T08:19:48+00:00"}
+{"completed": 1297, "dose": 0.8, "dose_eta_s": 474.8, "elapsed_s": 2895.5, "event": "dose_progress", "sweep_eta_s": 1131.8, "total": 3600, "trials_per_second": 4.8508, "utc": "2026-07-30T08:20:22+00:00"}
+{"completed": 1483, "dose": 0.8, "dose_eta_s": 424.9, "elapsed_s": 2925.8, "event": "dose_progress", "sweep_eta_s": 1082.0, "total": 3600, "trials_per_second": 4.9819, "utc": "2026-07-30T08:20:52+00:00"}
+{"completed": 1653, "dose": 0.8, "dose_eta_s": 387.0, "elapsed_s": 2956.7, "event": "dose_progress", "sweep_eta_s": 1044.0, "total": 3600, "trials_per_second": 5.0312, "utc": "2026-07-30T08:21:23+00:00"}
+{"completed": 1821, "dose": 0.8, "dose_eta_s": 352.4, "elapsed_s": 2988.8, "event": "dose_progress", "sweep_eta_s": 1009.4, "total": 3600, "trials_per_second": 5.0484, "utc": "2026-07-30T08:21:55+00:00"}
+{"completed": 1979, "dose": 0.8, "dose_eta_s": 322.8, "elapsed_s": 3022.2, "event": "dose_progress", "sweep_eta_s": 979.8, "total": 3600, "trials_per_second": 5.0215, "utc": "2026-07-30T08:22:29+00:00"}
+{"completed": 2121, "dose": 0.8, "dose_eta_s": 295.9, "elapsed_s": 3052.4, "event": "dose_progress", "sweep_eta_s": 952.9, "total": 3600, "trials_per_second": 4.9991, "utc": "2026-07-30T08:22:59+00:00"}
+{"completed": 2273, "dose": 0.8, "dose_eta_s": 265.5, "elapsed_s": 3082.8, "event": "dose_progress", "sweep_eta_s": 922.5, "total": 3600, "trials_per_second": 4.999, "utc": "2026-07-30T08:23:29+00:00"}
+{"completed": 2467, "dose": 0.8, "dose_eta_s": 223.0, "elapsed_s": 3113.7, "event": "dose_progress", "sweep_eta_s": 880.0, "total": 3600, "trials_per_second": 5.0811, "utc": "2026-07-30T08:24:00+00:00"}
+{"completed": 2705, "dose": 0.8, "dose_eta_s": 171.6, "elapsed_s": 3146.6, "event": "dose_progress", "sweep_eta_s": 828.6, "total": 3600, "trials_per_second": 5.2171, "utc": "2026-07-30T08:24:33+00:00"}
+{"completed": 2889, "dose": 0.8, "dose_eta_s": 135.1, "elapsed_s": 3177.1, "event": "dose_progress", "sweep_eta_s": 792.1, "total": 3600, "trials_per_second": 5.2628, "utc": "2026-07-30T08:25:04+00:00"}
+{"completed": 3067, "dose": 0.8, "dose_eta_s": 100.8, "elapsed_s": 3207.9, "event": "dose_progress", "sweep_eta_s": 757.8, "total": 3600, "trials_per_second": 5.2897, "utc": "2026-07-30T08:25:34+00:00"}
+{"completed": 3243, "dose": 0.8, "dose_eta_s": 67.4, "elapsed_s": 3240.5, "event": "dose_progress", "sweep_eta_s": 724.4, "total": 3600, "trials_per_second": 5.2955, "utc": "2026-07-30T08:26:07+00:00"}
+{"completed": 3600, "dose": 0.8, "dose_eta_s": 0.0, "elapsed_s": 3270.1, "event": "dose_progress", "sweep_eta_s": 657.0, "total": 3600, "trials_per_second": 5.6075, "utc": "2026-07-30T08:26:37+00:00"}
+{"censored_agents": 5, "dose": 0.8, "duration_s": 648.4, "elapsed_s": 3276.6, "event": "dose_done", "utc": "2026-07-30T08:26:43+00:00", "verdict": "M9A7-TRAINING-PASS"}
+{"censored_agents": 6, "dose": 1.0, "elapsed_s": 3276.6, "event": "dose_start", "utc": "2026-07-30T08:26:43+00:00"}
+{"completed": 1, "dose": 1.0, "dose_eta_s": 36305.6, "elapsed_s": 3286.6, "event": "dose_progress", "sweep_eta_s": 36305.6, "total": 3600, "trials_per_second": 0.0991, "utc": "2026-07-30T08:26:53+00:00"}
+{"completed": 129, "dose": 1.0, "dose_eta_s": 1202.1, "elapsed_s": 3321.2, "event": "dose_progress", "sweep_eta_s": 1202.1, "total": 3600, "trials_per_second": 2.8874, "utc": "2026-07-30T08:27:28+00:00"}
+{"completed": 275, "dose": 1.0, "dose_eta_s": 911.4, "elapsed_s": 3351.9, "event": "dose_progress", "sweep_eta_s": 911.4, "total": 3600, "trials_per_second": 3.6484, "utc": "2026-07-30T08:27:58+00:00"}
+{"completed": 449, "dose": 1.0, "dose_eta_s": 756.9, "elapsed_s": 3384.4, "event": "dose_progress", "sweep_eta_s": 756.9, "total": 3600, "trials_per_second": 4.1632, "utc": "2026-07-30T08:28:31+00:00"}
+{"completed": 617, "dose": 1.0, "dose_eta_s": 672.7, "elapsed_s": 3415.7, "event": "dose_progress", "sweep_eta_s": 672.7, "total": 3600, "trials_per_second": 4.4342, "utc": "2026-07-30T08:29:02+00:00"}
+{"completed": 775, "dose": 1.0, "dose_eta_s": 618.3, "elapsed_s": 3446.2, "event": "dose_progress", "sweep_eta_s": 618.3, "total": 3600, "trials_per_second": 4.5688, "utc": "2026-07-30T08:29:33+00:00"}
+{"completed": 931, "dose": 1.0, "dose_eta_s": 574.3, "elapsed_s": 3476.9, "event": "dose_progress", "sweep_eta_s": 574.3, "total": 3600, "trials_per_second": 4.6472, "utc": "2026-07-30T08:30:03+00:00"}
+{"completed": 1089, "dose": 1.0, "dose_eta_s": 534.1, "elapsed_s": 3508.2, "event": "dose_progress", "sweep_eta_s": 534.1, "total": 3600, "trials_per_second": 4.7015, "utc": "2026-07-30T08:30:35+00:00"}
+{"completed": 1271, "dose": 1.0, "dose_eta_s": 480.6, "elapsed_s": 3538.8, "event": "dose_progress", "sweep_eta_s": 480.6, "total": 3600, "trials_per_second": 4.8463, "utc": "2026-07-30T08:31:05+00:00"}
+{"completed": 1467, "dose": 1.0, "dose_eta_s": 427.3, "elapsed_s": 3570.4, "event": "dose_progress", "sweep_eta_s": 427.3, "total": 3600, "trials_per_second": 4.9924, "utc": "2026-07-30T08:31:37+00:00"}
+{"completed": 1637, "dose": 1.0, "dose_eta_s": 389.1, "elapsed_s": 3601.0, "event": "dose_progress", "sweep_eta_s": 389.1, "total": 3600, "trials_per_second": 5.0448, "utc": "2026-07-30T08:32:08+00:00"}
+{"completed": 1801, "dose": 1.0, "dose_eta_s": 356.1, "elapsed_s": 3633.0, "event": "dose_progress", "sweep_eta_s": 356.1, "total": 3600, "trials_per_second": 5.0524, "utc": "2026-07-30T08:32:40+00:00"}
+{"completed": 1945, "dose": 1.0, "dose_eta_s": 328.9, "elapsed_s": 3663.1, "event": "dose_progress", "sweep_eta_s": 328.9, "total": 3600, "trials_per_second": 5.0316, "utc": "2026-07-30T08:33:10+00:00"}
+{"completed": 2091, "dose": 1.0, "dose_eta_s": 302.2, "elapsed_s": 3695.3, "event": "dose_progress", "sweep_eta_s": 302.2, "total": 3600, "trials_per_second": 4.9939, "utc": "2026-07-30T08:33:42+00:00"}
+{"completed": 2255, "dose": 1.0, "dose_eta_s": 268.7, "elapsed_s": 3727.1, "event": "dose_progress", "sweep_eta_s": 268.7, "total": 3600, "trials_per_second": 5.0047, "utc": "2026-07-30T08:34:14+00:00"}
+{"completed": 2439, "dose": 1.0, "dose_eta_s": 228.9, "elapsed_s": 3757.4, "event": "dose_progress", "sweep_eta_s": 228.9, "total": 3600, "trials_per_second": 5.0718, "utc": "2026-07-30T08:34:44+00:00"}
+{"completed": 2697, "dose": 1.0, "dose_eta_s": 171.1, "elapsed_s": 3787.5, "event": "dose_progress", "sweep_eta_s": 171.1, "total": 3600, "trials_per_second": 5.2787, "utc": "2026-07-30T08:35:14+00:00"}
+{"completed": 2883, "dose": 1.0, "dose_eta_s": 135.6, "elapsed_s": 3821.7, "event": "dose_progress", "sweep_eta_s": 135.6, "total": 3600, "trials_per_second": 5.2884, "utc": "2026-07-30T08:35:48+00:00"}
+{"completed": 3065, "dose": 1.0, "dose_eta_s": 100.7, "elapsed_s": 3853.3, "event": "dose_progress", "sweep_eta_s": 100.7, "total": 3600, "trials_per_second": 5.3142, "utc": "2026-07-30T08:36:20+00:00"}
+{"completed": 3245, "dose": 1.0, "dose_eta_s": 66.6, "elapsed_s": 3885.3, "event": "dose_progress", "sweep_eta_s": 66.6, "total": 3600, "trials_per_second": 5.3307, "utc": "2026-07-30T08:36:52+00:00"}
+{"completed": 3589, "dose": 1.0, "dose_eta_s": 2.0, "elapsed_s": 3915.3, "event": "dose_progress", "sweep_eta_s": 2.0, "total": 3600, "trials_per_second": 5.6187, "utc": "2026-07-30T08:37:22+00:00"}
+{"completed": 3600, "dose": 1.0, "dose_eta_s": 0.0, "elapsed_s": 3915.3, "event": "dose_progress", "sweep_eta_s": 0.0, "total": 3600, "trials_per_second": 5.6359, "utc": "2026-07-30T08:37:22+00:00"}
+{"censored_agents": 6, "dose": 1.0, "duration_s": 645.2, "elapsed_s": 3921.8, "event": "dose_done", "utc": "2026-07-30T08:37:28+00:00", "verdict": "M9A7-TRAINING-PASS"}
+{"doses_completed": 6, "elapsed_s": 3921.8, "event": "sweep_done", "total_s": 3921.8, "utc": "2026-07-30T08:37:28+00:00"}

@@ -862,8 +862,25 @@ def run_admission_evidence_suite(
     workers: int | None = None,
     bootstrap_samples: int = 5000,
     phase: str = "heldout",
+    scenario_field_overrides: dict[str, dict[str, object]] | None = None,
 ) -> dict[str, object]:
-    """Run the frozen, preregistered M9A.7 protocol."""
+    """Run the frozen, preregistered M9A.7 protocol.
+
+    ``scenario_field_overrides`` maps a scenario name to fields that replace entries
+    in that scenario's override dict, applied BEFORE ``_fit_timing`` so the timing
+    fit sees the final values. Added for M17, whose dose axis is
+    ``topology_rejoin_probation_steps`` -- a field the positive-control scenario sets
+    itself, so it cannot be varied from ``base_config``.
+
+    The alternative was for the caller to pre-fit the overrides and pass a finished
+    config, which would mean the dose sweep and this suite's own frozen baseline were
+    no longer built by the same code path; any divergence would then present as a
+    dose effect on the gate that decides the research direction. Threading the
+    override through here keeps one code path, and the applied values are recorded in
+    ``suite_config.json`` so a reader can see which dose produced an artifact.
+
+    Passing ``None`` reproduces the frozen protocol exactly.
+    """
     if phase not in {"training", "heldout"}:
         raise ValueError("phase must be training or heldout")
     if seed_count < 2:
@@ -874,8 +891,20 @@ def run_admission_evidence_suite(
     tasks: list[tuple[str, dict[str, object], int]] = []
     scenario_configs: dict[str, dict[str, object]] = {}
     trace_entries: list[dict[str, object]] = []
+    applied_field_overrides: dict[str, dict[str, object]] = {}
     for scenario in M9A7_SCENARIOS:
-        overrides = _fit_timing(scenario.overrides, base_config.steps)
+        raw_overrides = dict(scenario.overrides)
+        extra = (scenario_field_overrides or {}).get(scenario.name)
+        if extra:
+            unknown = set(extra) - set(ExperimentConfig.__dataclass_fields__)
+            if unknown:
+                raise ValueError(
+                    f"scenario_field_overrides for {scenario.name!r} names fields "
+                    f"that are not on ExperimentConfig: {sorted(unknown)}"
+                )
+            raw_overrides.update(extra)
+            applied_field_overrides[scenario.name] = dict(extra)
+        overrides = _fit_timing(raw_overrides, base_config.steps)
         if bool(overrides.get("m9a6_override_declared_model", False)):
             overrides["m9a6_model_secondary_start_step"] = overrides[
                 "secondary_mode_start_step"
@@ -947,6 +976,7 @@ def run_admission_evidence_suite(
         "candidate_source_sha256": _artifact_hash(candidate_sources),
         "frozen_physical_policy": M9A_FULL,
         "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
+        "scenario_field_overrides": applied_field_overrides,
         "python": platform.python_version(),
         "numpy": np.__version__,
         "platform_version": "0.12.0",

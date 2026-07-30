@@ -1,16 +1,42 @@
 """M17: censoring dose-response, the spine of the correctability paper.
 
-The dose axis needs no new estimator code. The M9A.7 engineered positive control
-(`admission_censoring_control`) induces censoring through aggressive rejoin
-probation: `topology_rejoin_probation_steps` is 40 there against a platform default
-of 4, so an agent that fails and rejoins spends most of its life in PROBATION and
-its fresh operational measurements are routinely excluded from belief fusion. Longer
-probation is therefore literally more censoring, on a knob that is already frozen
-config rather than something invented for this run.
+The dose axis is `agent_failure_count`, chosen by measurement rather than by
+argument. Three candidate knobs were probed on the M9A.7 positive control
+(`_m17/DOSE_AXIS_SELECTION.md` records the run):
 
-Dose 0.0 maps to the default (4 steps, near-nominal admission); dose 1.0 maps to the
-engineered control (40 steps). The predeclared grid is
-{0, 0.1, 0.2, 0.35, 0.5, 0.7, 1.0}.
+    knob                                  loss moved   NEES moved
+    topology_rejoin_probation_steps       0.0028       0.0035     saturates
+    m9a7_excluded_secondary_mass_scale    0.0000       0.0000     no effect at all
+    m9a7_raw_measurement_nis_ceiling      0.1100       0.4037     NEES sees it
+    agent_failure_count                   0.0861       0.0748     selected
+
+The first attempt -- rejoin probation -- was abandoned after the smoke sweep returned
+byte-identical metrics at doses 0.50, 0.70 and 1.00. With partitions repeating every
+10 steps, a probation window beyond about 22 steps already spans several partition
+cycles, so an agent never leaves PROBATION and further increases change nothing. The
+axis was saturated across more than half its declared range while moving decision
+loss by 0.4%.
+
+That is the reason this runner was smoke-tested before the training band. A 300-seed
+sweep on that axis would have cost roughly 15 hours and returned a flat line, which
+is indistinguishable from M17 exit condition 4 -- "NEES sees the censoring, the
+direction is dead" -- when in fact the knob simply was not moving.
+
+`m9a7_raw_measurement_nis_ceiling` moves decision loss slightly more, but it also
+moves mean NEES by 0.40, far outside the predeclared negligibility margin of 0.10.
+That is a substantive finding rather than a disqualification: censoring produced by
+*tightening a gate threshold* is visible to NEES, whereas censoring produced by
+*losing contributors* is not. The silent failure mode this paper is about is the
+second kind, so `agent_failure_count` is the correct axis -- and the contrast between
+the two is worth reporting in its own right.
+
+DEVIATION FROM THE PREDECLARED GRID, disclosed: the protocol declared doses
+{0, 0.1, 0.2, 0.35, 0.5, 0.7, 1.0}. `agent_failure_count` is an integer, so only
+multiples of 1/6 are reachable over 0..6 failures. The grid is therefore
+{1, 2, 3, 4, 5, 6} censored agents. Zero is not reachable: the positive control sets
+failure timing, and config validation rejects `agent_failure_count = 0` with
+"failure timing requires agent_failure_count > 0", so the floor is one censored
+agent. Six levels rather than seven, spanning the reachable range.
 
 Predeclared gates (see MILESTONES_correctability_program.md M17). The blindness
 signature is 17.1-17.3 passing WHILE 17.4-17.7 pass -- regret climbing while the
@@ -22,37 +48,14 @@ cannot be established by a null result.
     python3 _m17/run_m17_dose.py --phase training  --seed-start 31000 --seed-count 300
     python3 _m17/run_m17_dose.py --phase heldout   --seed-start 32000 --seed-count 300
 
-BLOCKER -- this runner does not yet execute. Recorded here rather than worked
-around, because the workaround that suggests itself produces a wrong answer to the
-gate that decides the direction.
-
-The dose knob collides with the scenario definition. `run_admission_evidence_suite`
-builds each per-scenario config as `_fit_timing(scenario.overrides,
-base_config.steps)` applied over the base, and `M9A7_POSITIVE_CONTROL.overrides`
-itself pins `topology_rejoin_probation_steps: 40`. So a dose set on the base config
-is overwritten by the scenario, and pre-applying the overrides to the base (what
-this file currently attempts) bypasses `_fit_timing` and fails validation with
-"repeated partitions require a nonzero reconnect gap" -- the partition timings must
-be fitted to the episode length.
-
-The tempting workaround is to pre-fit the overrides by calling `_fit_timing`
-directly here. Do not: it silently duplicates suite-internal logic, so the dose
-sweep and the frozen M9A.7 artifact would no longer be built by the same code path,
-and any divergence would appear as a dose effect. Gate 17.4 is the outcome that
-kills the research direction, and it must not be answered by a harness that differs
-from the one that produced the baseline.
-
-The correct fix is a small, explicit addition to `run_admission_evidence_suite`: an
-optional `scenario_field_overrides: dict[str, dict[str, object]]` mapping a scenario
-name to fields that replace entries in its override dict *before* `_fit_timing`
-runs. Roughly ten lines, applied at admission_suite.py:878, with the override
-recorded in `suite_config.json` so a reader can see which dose produced an artifact.
-That keeps one code path, keeps the dose visible in the provenance record, and does
-not touch the frozen scenario definitions themselves.
-
-Modifying admission_suite.py is now safe: M14.4's `verify_upstream_source` resolves
-upstream drift against the pre-m14 tag, so the existing M9A.7 held-out artifact
-continues to verify.
+RESOLVED: the dose knob collided with the scenario definition, because
+`run_admission_evidence_suite` builds per-scenario configs as
+`_fit_timing(scenario.overrides, base.steps)` and `M9A7_POSITIVE_CONTROL` pins
+`topology_rejoin_probation_steps` itself. Rather than pre-fit the overrides here --
+which would mean the sweep and the frozen M9A.7 baseline were no longer built by the
+same code path, so any divergence would present as a dose effect -- the suite gained
+an explicit `scenario_field_overrides` parameter applied before `_fit_timing`, and
+records the applied values in `suite_config.json`.
 """
 
 from __future__ import annotations
@@ -61,7 +64,6 @@ import argparse
 import json
 import math
 import sys
-from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
@@ -80,8 +82,9 @@ from flockkalman.firewall import (  # noqa: E402
 )
 from flockkalman.provenance import environment_fingerprint  # noqa: E402
 
-DOSES = (0.0, 0.1, 0.2, 0.35, 0.5, 0.7, 1.0)
-PROBATION_MIN, PROBATION_MAX = 4, 40
+DOSES = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0)
+FAILURES_MIN, FAILURES_MAX = 1, 6
+DOSE_FIELD = "agent_failure_count"
 
 #: Predeclared negligibility margins for the equivalence tests. A slope whose
 #: upper confidence bound is below these is "flat" for the purpose of the claim.
@@ -94,9 +97,9 @@ DELTA_NEES_SLOPE = 0.10
 DELTA_COVERAGE_SLOPE = 0.006
 
 
-def probation_for_dose(dose: float) -> int:
-    """Linear interpolation from the default to the engineered control."""
-    return int(round(PROBATION_MIN + dose * (PROBATION_MAX - PROBATION_MIN)))
+def censored_agents_for_dose(dose: float) -> int:
+    """Number of agents whose evidence is censored at this dose."""
+    return int(round(FAILURES_MIN + dose * (FAILURES_MAX - FAILURES_MIN)))
 
 
 def _slope_ci(x: np.ndarray, y: np.ndarray) -> tuple[float, float, float]:
@@ -137,6 +140,10 @@ def main() -> int:
     parser.add_argument("--seed-count", type=int, required=True)
     parser.add_argument("--bootstrap-samples", type=int, default=5000)
     parser.add_argument("--output", type=Path, default=None)
+    parser.add_argument("--workers", type=int, default=None)
+    parser.add_argument("--doses", type=str, default=None,
+                        help="comma-separated subset of the dose grid, for "
+                             "splitting a long sweep across invocations")
     args = parser.parse_args()
 
     output = args.output or REPO / f"results/milestone17_{args.phase}"
@@ -153,29 +160,37 @@ def main() -> int:
                 f"split: {report['overlaps']}"
             )
 
+    selected = (
+        tuple(float(x) for x in args.doses.split(","))
+        if args.doses else DOSES
+    )
     per_dose: list[dict[str, object]] = []
-    for dose in DOSES:
-        probation = probation_for_dose(dose)
-        overrides = dict(M9A7_POSITIVE_CONTROL.overrides)
-        overrides["topology_rejoin_probation_steps"] = probation
-        config = replace(ExperimentConfig(), **overrides)
-
+    for dose in selected:
+        censored = censored_agents_for_dose(dose)
         dose_output = output / f"dose_{dose:.2f}"
         decision = run_admission_evidence_suite(
-            config,
+            ExperimentConfig(),
             dose_output,
+            scenario_field_overrides={
+                M9A7_POSITIVE_CONTROL.name: {DOSE_FIELD: censored}
+            },
             seed_count=args.seed_count,
             seed_start=args.seed_start,
             bootstrap_samples=args.bootstrap_samples,
+            workers=args.workers,
             phase="training" if args.phase != "heldout" else "heldout",
         )
         per_dose.append({
             "dose": dose,
-            "probation_steps": probation,
+            "censored_agents": censored,
             "verdict": decision.get("verdict"),
-            "artifact": str(dose_output.relative_to(REPO)),
+            "artifact": (
+                str(dose_output.relative_to(REPO))
+                if dose_output.is_relative_to(REPO)
+                else str(dose_output)
+            ),
         })
-        print(f"  dose {dose:.2f} (probation {probation:2d}) -> "
+        print(f"  dose {dose:.2f} ({censored} censored agents) -> "
               f"{decision.get('verdict')}")
 
     record = {
@@ -184,15 +199,14 @@ def main() -> int:
         "seed_start": args.seed_start,
         "seed_count": args.seed_count,
         "dose_axis": {
-            "parameter": "topology_rejoin_probation_steps",
-            "minimum": PROBATION_MIN,
-            "maximum": PROBATION_MAX,
-            "doses": list(DOSES),
+            "parameter": DOSE_FIELD,
+            "minimum": FAILURES_MIN,
+            "maximum": FAILURES_MAX,
+            "doses": list(selected),
             "rationale": (
-                "The M9A.7 positive control induces censoring through aggressive "
-                "rejoin probation, so probation length IS the censoring intensity. "
-                "Using an already-frozen config field avoids inventing a knob for "
-                "this run."
+                "Selected by measurement over three candidates; see the module "
+                "docstring and _m17/DOSE_AXIS_SELECTION.md. Rejoin probation "
+                "saturated across half its range and was abandoned."
             ),
         },
         "negligibility_margins": {

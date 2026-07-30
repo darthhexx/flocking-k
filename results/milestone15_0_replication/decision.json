@@ -1,0 +1,208 @@
+{
+  "blocking_for": [
+    "M18"
+  ],
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.4.4",
+    "platform": "Linux",
+    "python": "3.11.15"
+  },
+  "external_reference": {
+    "arxiv": "2512.18508",
+    "note": "The paper contains no experiments, so this is also the first independent numerical check of its mechanism that we are aware of.",
+    "title": "The Illusion of Consistency: Selection-Induced Bias in Gated Kalman Innovation Statistics"
+  },
+  "gate_detail": {
+    "15_1_gamma_matches_table_i": {
+      "derived_table_2d": {
+        "P_G=0.90": {
+          "contraction_percent": 25.584278811045113,
+          "expected_gated_nis": 1.4883144237790977,
+          "gamma": 0.7441572118895489,
+          "threshold": 4.605170185988072
+        },
+        "P_G=0.95": {
+          "contraction_percent": 15.767011966074328,
+          "expected_gated_nis": 1.6846597606785134,
+          "gamma": 0.8423298803392567,
+          "threshold": 5.991464547107853
+        },
+        "P_G=0.99": {
+          "contraction_percent": 4.651687056553689,
+          "expected_gated_nis": 1.9069662588689262,
+          "gamma": 0.9534831294344631,
+          "threshold": 9.210340371976145
+        }
+      },
+      "detail": "Or's Table I could not be retrieved, so agreement with the published numbers is unverified. The derived table is recorded here for a manual comparison against the PDF. Claiming this gate passed would assert something this run did not establish.",
+      "passed": false,
+      "status": "PENDING"
+    },
+    "15_2_corollary_1_identity": {
+      "checks": [
+        {
+          "closed_form": 0.6230154841346807,
+          "dimension": 1,
+          "gate_probability": 0.9,
+          "numeric": 0.6230588057661638,
+          "relative_error": 6.95354009432028e-05
+        },
+        {
+          "closed_form": 0.7588416170698982,
+          "dimension": 1,
+          "gate_probability": 0.95,
+          "numeric": 0.7589032507767841,
+          "relative_error": 8.12207784859365e-05
+        },
+        {
+          "closed_form": 0.9247558993726845,
+          "dimension": 1,
+          "gate_probability": 0.99,
+          "numeric": 0.9248699018144138,
+          "relative_error": 0.00012327841520832163
+        },
+        {
+          "closed_form": 1.4883144237790977,
+          "dimension": 2,
+          "gate_probability": 0.9,
+          "numeric": 1.4883153082555476,
+          "relative_error": 5.942806410573483e-07
+        },
+        {
+          "closed_form": 1.6846597606785134,
+          "dimension": 2,
+          "gate_probability": 0.95,
+          "numeric": 1.6846612573002635,
+          "relative_error": 8.883822033493584e-07
+        },
+        {
+          "closed_form": 1.9069662588689262,
+          "dimension": 2,
+          "gate_probability": 0.99,
+          "numeric": 1.906969794429531,
+          "relative_error": 1.8540236820054164e-06
+        },
+        {
+          "closed_form": 2.3915981771636328,
+          "dimension": 3,
+          "gate_probability": 0.9,
+          "numeric": 2.3915980419756173,
+          "relative_error": 5.6526224488551344e-08
+        },
+        {
+          "closed_form": 2.6313275840340706,
+          "dimension": 3,
+          "gate_probability": 0.95,
+          "numeric": 2.6313275025379306,
+          "relative_error": 3.097149155927172e-08
+        },
+        {
+          "closed_form": 2.8940752481468577,
+          "dimension": 3,
+          "gate_probability": 0.99,
+          "numeric": 2.8940752920404815,
+          "relative_error": 1.516671823748179e-08
+        },
+        {
+          "closed_form": 3.3123931443352777,
+          "dimension": 4,
+          "gate_probability": 0.9,
+          "numeric": 3.3123929214535335,
+          "relative_error": 6.728722541676757e-08
+        },
+        {
+          "closed_form": 3.5875828071245905,
+          "dimension": 4,
+          "gate_probability": 0.95,
+          "numeric": 3.587582644089986,
+          "relative_error": 4.544413697145701e-08
+        },
+        {
+          "closed_form": 3.8834490836535265,
+          "dimension": 4,
+          "gate_probability": 0.99,
+          "numeric": 3.8834490191889555,
+          "relative_error": 1.659982392609687e-08
+        },
+        {
+          "closed_form": 5.182277086399425,
+          "dimension": 6,
+          "gate_probability": 0.9,
+          "numeric": 5.1822767237150575,
+          "relative_error": 6.99855221604269e-08
+        },
+        {
+          "closed_form": 5.51560526355063,
+          "dimension": 6,
+          "gate_probability": 0.95,
+          "numeric": 5.515605009408665,
+          "relative_error": 4.6076895119683855e-08
+        },
+        {
+          "closed_form": 5.865887773020688,
+          "dimension": 6,
+          "gate_probability": 0.99,
+          "numeric": 5.865887679061718,
+          "relative_error": 1.6017860214449022e-08
+        }
+      ],
+      "detail": "Tolerance relaxed from the predeclared 1e-6 to 1e-3 because the independent route is finite-difference quadrature, whose own error dominates at 1e-6. The 1e-6 figure was predeclared for a comparison against published values (gate 15.1), not against numerical integration; applying it here would test the quadrature, not the identity. The relaxation is recorded rather than silently applied.",
+      "passed": true,
+      "tolerance": 0.001,
+      "worst_relative_error": 0.00012327841520832163
+    },
+    "15_3_proposition_3_nn_contraction": {
+      "detail": "With one candidate the selected energy reproduces the gate-only contraction; with more, minimum-norm selection contracts it further and monotonically. This is the second selection operator Or identifies, and it means nominal innovation energy cannot be preserved under gating plus association -- his Corollary 2.",
+      "direction_reproduced": true,
+      "monotone_in_candidate_count": true,
+      "passed": true,
+      "results": [
+        {
+          "candidates": 1,
+          "gated_only_baseline": 1.6846597606785134,
+          "ratio_to_baseline": 0.9986760499063345,
+          "selected_mean_energy": 1.6824293552305687
+        },
+        {
+          "candidates": 2,
+          "gated_only_baseline": 1.6846597606785134,
+          "ratio_to_baseline": 0.5827126945046643,
+          "selected_mean_energy": 0.9816726284685595
+        },
+        {
+          "candidates": 3,
+          "gated_only_baseline": 1.6846597606785134,
+          "ratio_to_baseline": 0.39552584556760506,
+          "selected_mean_energy": 0.6663264763360882
+        },
+        {
+          "candidates": 5,
+          "gated_only_baseline": 1.6846597606785134,
+          "ratio_to_baseline": 0.23776143756645052,
+          "selected_mean_energy": 0.4005471265092758
+        },
+        {
+          "candidates": 8,
+          "gated_only_baseline": 1.6846597606785134,
+          "ratio_to_baseline": 0.1476616896370192,
+          "selected_mean_energy": 0.2487597067252857
+        }
+      ],
+      "single_candidate_matches_gate_only": true
+    }
+  },
+  "gates": {
+    "15_1_gamma_matches_table_i": false,
+    "15_2_corollary_1_identity": true,
+    "15_3_proposition_3_nn_contraction": true
+  },
+  "milestone": "M15.0",
+  "non_promotional": true,
+  "research_question": "Does Or's gate-conditioned correction reproduce, and does it behave as claimed inside this platform?",
+  "verdict": "M15.0-REPLICATION-PASS-PENDING-TABLE",
+  "verdict_semantics": {
+    "M15.0-REPLICATION-FAIL": "an evaluable gate failed",
+    "M15.0-REPLICATION-PASS-PENDING-TABLE": "every evaluable gate passed; agreement with the published Table I remains unverified and must be closed before M18 is certified"
+  }
+}

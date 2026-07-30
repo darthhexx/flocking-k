@@ -1,0 +1,223 @@
+{
+  "arms": {
+    "all_three_violations": {
+      "admit_rate_mean": 0.285,
+      "bias_excludes_zero": true,
+      "gated_mean_error": 0.40184204315879346,
+      "paired_ci_lower": 0.38161935027689964,
+      "paired_ci_upper": 0.4485686559852142,
+      "paired_selection_bias": 0.41509400313105693,
+      "paired_sem": 0.01707890451742719,
+      "required_correction_max": 6.241395740136579,
+      "required_correction_mean": 1.9935888747731874,
+      "required_correction_min": 0.6452648970057737,
+      "required_correction_std": 0.9099475566394498,
+      "seeds": 100.0,
+      "ungated_mean_error": -0.013251959972263494
+    },
+    "coupling_only": {
+      "admit_rate_mean": 0.7441666666666665,
+      "bias_excludes_zero": true,
+      "gated_mean_error": 0.23560721285177702,
+      "paired_ci_lower": 0.2310156775594021,
+      "paired_ci_upper": 0.266702668088679,
+      "paired_selection_bias": 0.24885917282404055,
+      "paired_sem": 0.009103824114611452,
+      "required_correction_max": 2.5006267125528545,
+      "required_correction_mean": 1.4119015651396187,
+      "required_correction_min": 0.9974955817424819,
+      "required_correction_std": 0.2633775205145665,
+      "seeds": 100.0,
+      "ungated_mean_error": -0.013251959972263494
+    },
+    "vanishing_no_coupling_memoryless": {
+      "admit_rate_mean": 0.2825,
+      "bias_excludes_zero": false,
+      "gated_mean_error": 0.026369081741235544,
+      "paired_ci_lower": -0.0007384608447505991,
+      "paired_ci_upper": 0.07998054427174868,
+      "paired_selection_bias": 0.03962104171349904,
+      "paired_sem": 0.02059158293788247,
+      "required_correction_max": 4.264493456896463,
+      "required_correction_mean": 1.206500887579256,
+      "required_correction_min": 0.6602647341818227,
+      "required_correction_std": 0.5545778429341958,
+      "seeds": 100.0,
+      "ungated_mean_error": -0.013251959972263494
+    },
+    "vanishing_unbiased_peer": {
+      "admit_rate_mean": 0.8491666666666667,
+      "bias_excludes_zero": false,
+      "gated_mean_error": -0.023321682647084566,
+      "paired_ci_lower": -0.026040007557095825,
+      "paired_ci_upper": 0.005900562207453686,
+      "paired_selection_bias": -0.010069722674821069,
+      "paired_sem": 0.008148104531772834,
+      "required_correction_max": 2.130367448461098,
+      "required_correction_mean": 1.3382481237663382,
+      "required_correction_min": 0.9813656309973193,
+      "required_correction_std": 0.22298634078152554,
+      "seeds": 100.0,
+      "ungated_mean_error": -0.013251959972263494
+    },
+    "without_adaptive_threshold": {
+      "admit_rate_mean": 0.7320000000000002,
+      "bias_excludes_zero": true,
+      "gated_mean_error": 0.24303953009269075,
+      "paired_ci_lower": 0.23782677501039257,
+      "paired_ci_upper": 0.274756205119516,
+      "paired_selection_bias": 0.2562914900649543,
+      "paired_sem": 0.009420772987021273,
+      "required_correction_max": 2.974240870043328,
+      "required_correction_mean": 1.4258190400427426,
+      "required_correction_min": 0.9974955817424819,
+      "required_correction_std": 0.2933881527631452,
+      "seeds": 100.0,
+      "ungated_mean_error": -0.013251959972263494
+    },
+    "without_coupling": {
+      "admit_rate_mean": 0.03867521367521367,
+      "bias_excludes_zero": false,
+      "gated_mean_error": -0.00745577050069957,
+      "paired_ci_lower": -0.1396662590367602,
+      "paired_ci_upper": 0.17514427171198957,
+      "paired_selection_bias": 0.01773900633761469,
+      "paired_sem": 0.08030880886447699,
+      "required_correction_max": 9198.204441454694,
+      "required_correction_mean": 202.75520044531928,
+      "required_correction_min": 0.44380886644972345,
+      "required_correction_std": 1235.5060753148089,
+      "seeds": 78.0,
+      "ungated_mean_error": -0.025194776838314243
+    },
+    "without_history_dependence": {
+      "admit_rate_mean": 0.2855,
+      "bias_excludes_zero": true,
+      "gated_mean_error": 0.4028677020104088,
+      "paired_ci_lower": 0.38278608260240643,
+      "paired_ci_upper": 0.44945324136293796,
+      "paired_selection_bias": 0.4161196619826722,
+      "paired_sem": 0.01700692825523762,
+      "required_correction_max": 6.241395740136579,
+      "required_correction_mean": 1.9832274747955116,
+      "required_correction_min": 0.6452648970057737,
+      "required_correction_std": 0.9073880646152822,
+      "seeds": 100.0,
+      "ungated_mean_error": -0.013251959972263494
+    }
+  },
+  "consequence_for_m18": "M18 requires M16 PROOF-SUPPORTED. This run returns PROOF-PARTIAL, so M18 must either be re-scoped against the weakened proposition or M16 re-run with gate 16.3 restated to match what the mechanism actually is.",
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.4.4",
+    "platform": "Linux",
+    "python": "3.11.15"
+  },
+  "gate_detail": {
+    "16_1_bias_nonzero": {
+      "all_three_bias": 0.41509400313105693,
+      "all_three_ci": [
+        0.38161935027689964,
+        0.4485686559852142
+      ],
+      "coupling_only_bias": 0.24885917282404055,
+      "coupling_only_ci": [
+        0.2310156775594021,
+        0.266702668088679
+      ],
+      "detail": "Paired against the ungated estimate on the same seeds, so common finite-sample noise cancels and the residual is attributable to selection.",
+      "passed": true
+    },
+    "16_2_no_scalar_correction": {
+      "exogenous_comparison": {
+        "gamma_at_2d_90pct": 0.7441572118895489,
+        "note": "For an ellipsoidal gate the correction is a single number determined by (tau, m) alone -- zero spread across seeds by construction. The endogenous gate's per-seed requirement varies by the reported range, so no scalar analogue exists."
+      },
+      "passed": true,
+      "required_correction_mean": 1.9935888747731874,
+      "required_correction_range": [
+        0.6452648970057737,
+        6.241395740136579
+      ],
+      "required_correction_std": 0.9099475566394498
+    },
+    "16_3_mechanisms_independent": {
+      "amplification_factor": 1.6679875546502565,
+      "amplifying_mechanisms": [
+        "adaptive_threshold",
+        "history_dependence"
+      ],
+      "detail": "The predeclared form of this gate assumed the three violations were independently sufficient. They are not. Cross-source coupling is NECESSARY -- removing it returns a bias whose interval contains zero -- while the adaptive threshold and history dependence are amplifiers that leave the bias intact when removed individually. The weakened proposition (coupling necessary, the other two amplifying) is supported and is the more informative statement; the gate as written is not met.",
+      "necessary_mechanisms": [
+        "coupling"
+      ],
+      "passed": false,
+      "per_mechanism": {
+        "adaptive_threshold": {
+          "bias": 0.2562914900649543,
+          "disabled_arm": "without_adaptive_threshold",
+          "still_present": true
+        },
+        "coupling": {
+          "bias": 0.01773900633761469,
+          "disabled_arm": "without_coupling",
+          "still_present": false
+        },
+        "history_dependence": {
+          "bias": 0.4161196619826722,
+          "disabled_arm": "without_history_dependence",
+          "still_present": true
+        }
+      }
+    },
+    "16_4_vanishing_conditions": {
+      "conditions": {
+        "vanishing_no_coupling_memoryless": {
+          "bias": 0.03962104171349904,
+          "ci": [
+            -0.0007384608447505991,
+            0.07998054427174868
+          ],
+          "contains_zero": true
+        },
+        "vanishing_unbiased_peer": {
+          "bias": -0.010069722674821069,
+          "ci": [
+            -0.026040007557095825,
+            0.005900562207453686
+          ],
+          "contains_zero": true
+        }
+      },
+      "detail": "Two declared conditions under which the bias vanishes: admission independent of the estimand (peer measures an unrelated target), and an unbiased peer (agreement carries no directional pull).",
+      "passed": true
+    }
+  },
+  "gates": {
+    "16_1_bias_nonzero": true,
+    "16_2_no_scalar_correction": true,
+    "16_3_mechanisms_independent": false,
+    "16_4_vanishing_conditions": true
+  },
+  "milestone": "M16",
+  "non_promotional": true,
+  "research_question": "Is there a condition separating correctable from uncorrectable gate-induced selection, and does the platform's trust gate provably fall on the uncorrectable side?",
+  "seed_count": 100,
+  "seed_firewall": {
+    "acknowledged_overlap": null,
+    "clear": true,
+    "held_out_ranges_checked": 13,
+    "overlaps": [],
+    "requested_range": [
+      30000,
+      30099
+    ],
+    "status": "FIREWALL-CLEAR"
+  },
+  "seed_start": 30000,
+  "verdict": "M16-PROOF-PARTIAL",
+  "verdict_semantics": {
+    "M16-PROOF-PARTIAL": "the proposition holds in a weakened form; per the M16 exit condition a partial result is reportable rather than fatal, but section 4 must state the weakened form",
+    "M16-PROOF-SUPPORTED": "all four gates met; T-RO-scale section 4 viable"
+  }
+}

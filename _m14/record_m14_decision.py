@@ -24,9 +24,18 @@ from flockkalman.provenance import environment_fingerprint  # noqa: E402
 
 
 def _run(script: str) -> tuple[bool, str]:
+    # Explicit PYTHONPATH so the gate checks work in a bare checkout with no
+    # editable install. Without it these gates fail for an environmental reason
+    # that has nothing to do with what they are meant to test.
+    import os
+
+    env = dict(os.environ)
+    env["PYTHONPATH"] = os.pathsep.join(
+        [str(ROOT / "src"), env.get("PYTHONPATH", "")]
+    ).rstrip(os.pathsep)
     proc = subprocess.run(
         [sys.executable, str(ROOT / "_m14" / script)],
-        cwd=ROOT, capture_output=True, text=True,
+        cwd=ROOT, capture_output=True, text=True, env=env,
     )
     return proc.returncode == 0, (proc.stdout + proc.stderr)[-2000:]
 

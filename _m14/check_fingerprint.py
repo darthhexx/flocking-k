@@ -10,7 +10,13 @@
 
 import hashlib
 import json
+import sys
 from pathlib import Path
+
+# Run from a bare checkout without an editable install (a referee will), and
+# resolve the repository from this file rather than an absolute path, so the
+# check is not tied to the machine it was written on.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 import numpy as np
 
@@ -23,7 +29,7 @@ from flockkalman.provenance import (
 )
 from flockkalman.simulation import scenario_fingerprint
 
-ROOT = Path("/work")
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def legacy_fingerprint(config: ExperimentConfig, seed: int) -> str:

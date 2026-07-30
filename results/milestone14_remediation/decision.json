@@ -1,18 +1,18 @@
 {
   "environment": {
-    "machine": "x86_64",
-    "numpy": "2.4.4",
+    "machine": "aarch64",
+    "numpy": "2.2.6",
     "platform": "Linux",
-    "python": "3.11.15"
+    "python": "3.10.12"
   },
   "gate_detail": {
     "14_1_version_control": {
-      "commit_count": 2,
-      "detail": "Repository exists with history, but no remote is configured. The gate requires a third-party host so a third party can observe the dates; a hash in a local repository demonstrates internal consistency and nothing about when. Push, then re-run this script.",
-      "passed": false,
-      "remote_configured": false,
+      "commit_count": 8,
+      "detail": "Repository initialised, committed, and pushed to a remote.",
+      "passed": true,
+      "remote_configured": true,
       "repository_initialised": true,
-      "tracked_files": 57
+      "tracked_files": 453
     },
     "14_2_3_environment_and_replay": {
       "evidence": {
@@ -64,7 +64,7 @@
     }
   },
   "gates": {
-    "14_1_version_control": false,
+    "14_1_version_control": true,
     "14_2_3_environment_and_replay": true,
     "14_4_frozen_sets": true,
     "14_5_mechanical_firewall": true,
@@ -76,7 +76,7 @@
     "Gate 14.1 cannot be satisfied from an environment without repository credentials. This is a real unmet prerequisite, not a technicality: predeclaration requires a third party to be able to observe the dates."
   ],
   "research_question": "Can the platform support confirmatory claims that survive an independent referee re-running the artifact?",
-  "verdict": "M14-BLOCKED",
+  "verdict": "M14-GO",
   "verdict_semantics": {
     "M14-BLOCKED": "a prerequisite is unmet; downstream milestones must not run",
     "M14-GO": "all gates passed; M15 may run"

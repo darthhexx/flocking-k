@@ -15,7 +15,12 @@ import json
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
+
+# Run from a bare checkout without an editable install (a referee will), and
+# resolve the repository from this file rather than an absolute path.
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from flockkalman.provenance import (
     FINGERPRINT_V1,
@@ -27,20 +32,28 @@ from flockkalman.provenance import (
     verify_replay,
 )
 
-SRC = Path("/work/results/milestone10a_heldout")
+REPO = Path(__file__).resolve().parents[1]
+SRC = REPO / "results/milestone10a_heldout"
+SCRATCH = Path(tempfile.gettempdir())
 
 
 def reanalyse(path: Path) -> dict:
+    import os
+
+    env = dict(os.environ)
+    env["PYTHONPATH"] = os.pathsep.join(
+        [str(REPO / "src"), env.get("PYTHONPATH", "")]
+    ).rstrip(os.pathsep)
     subprocess.run(
         [sys.executable, "-m", "flockkalman",
          "reanalyze-adversarial-trust-suite", "--output", str(path)],
-        check=True, capture_output=True,
+        check=True, capture_output=True, env=env,
     )
     return json.loads((path / "decision.json").read_text())
 
 
 def check_a_statistics_identical() -> bool:
-    work = Path("/tmp/chk_a")
+    work = SCRATCH / "chk_a"
     shutil.rmtree(work, ignore_errors=True)
     shutil.copytree(SRC, work)
     before = {
@@ -55,7 +68,7 @@ def check_a_statistics_identical() -> bool:
 
 def check_b_tamper_still_invalid() -> bool:
     """Corrupt one fingerprint. Env differs, but this must NOT be excused."""
-    work = Path("/tmp/chk_b")
+    work = SCRATCH / "chk_b"
     shutil.rmtree(work, ignore_errors=True)
     shutil.copytree(SRC, work)
     rows_path = work / "run_summary.csv"

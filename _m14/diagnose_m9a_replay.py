@@ -7,14 +7,17 @@ wrong status and M14.3 would be masking a real failure.
 """
 
 import json
+import sys
 from dataclasses import fields
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from flockkalman.config import ExperimentConfig
 from flockkalman.provenance import FINGERPRINT_V1
 from flockkalman.simulation import scenario_fingerprint
 
-ROOT = Path("/work")
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def main() -> None:

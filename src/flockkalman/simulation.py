@@ -344,6 +344,7 @@ def scenario_fingerprint(
     *,
     algorithm: str = FINGERPRINT_V1,
     tolerance: float = DEFAULT_FLOAT_TOLERANCE,
+    config_payload: "dict[str, object] | None" = None,
 ) -> str:
     """Hash a fully materialized scenario for deterministic trace replay.
 
@@ -355,10 +356,18 @@ def scenario_fingerprint(
     """
     scenario = make_scenario(config, seed)
     digest = hashlib.sha256()
+    # ``config_payload`` lets a verifier supply the config dict exactly as it was
+    # recorded, rather than as ``ExperimentConfig`` would serialise it today. This
+    # separates two failure modes that otherwise look identical: the exogenous
+    # arrays genuinely differing, versus ExperimentConfig having merely GAINED
+    # fields since the artifact was written (which changes this JSON header, and
+    # therefore every fingerprint, without touching a single array).
     digest.update(
-        json.dumps(config.to_dict(), sort_keys=True, separators=(",", ":")).encode(
-            "utf-8"
-        )
+        json.dumps(
+            config.to_dict() if config_payload is None else config_payload,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
     )
     digest.update(str(seed).encode("ascii"))
     if algorithm == FINGERPRINT_V2:

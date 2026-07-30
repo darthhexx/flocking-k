@@ -14,6 +14,14 @@ from typing import Iterable
 import numpy as np
 
 from .config import ExperimentConfig
+from .provenance import (
+    CURRENT_FINGERPRINT_ALGORITHM,
+    ReplayVerification,
+    environment_fingerprint,
+    frozen_source_record,
+    replay_verdict_suffix,
+    verify_replay,
+)
 from .simulation import scenario_fingerprint
 from .suite import (
     ScenarioDefinition,
@@ -250,7 +258,7 @@ def _lookup_rows(
 def _decision(
     scenario_rows: list[dict[str, object]],
     effects: list[dict[str, object]],
-    trace_verified: bool,
+    replay: ReplayVerification,
 ) -> dict[str, object]:
     scenario = _lookup_rows(scenario_rows)
     effect = {
@@ -321,7 +329,7 @@ def _decision(
         > 0.0
     )
     gates = {
-        "replay": trace_verified,
+        "replay": replay.verified,
         "stable_noninferiority": stable_pass,
         "dynamic_transfer_lcb": transfer_pass,
         "calibration_and_tail": calibration_pass,
@@ -330,10 +338,12 @@ def _decision(
         "partition_uncertainty": partition_pass,
         "support_continuity": support_pass,
     }
-    if not trace_verified:
+    # M14.3: only an unexplained mismatch invalidates.
+    if replay.blocks_promotion:
         verdict = "INVALID-SUITE"
-    elif all(gates.values()):
-        verdict = "M9A-GO"
+    elif all(value for name, value in gates.items() if name != "replay"):
+        suffix = replay_verdict_suffix(replay)
+        verdict = f"M9A-{suffix}" if suffix else "M9A-GO"
     elif all(
         gates[name]
         for name in (
@@ -363,7 +373,9 @@ def _decision(
         },
         "minimum_transfer_lcb": min(float(row["ci95_lower"]) for row in transfer_rows),
         "stable_noninferiority_lcb": float(stable_effect["ci95_lower"]),
-        "trace_replay_verified": trace_verified,
+        "trace_replay_verified": replay.verified,
+        "replay_verification": replay.to_dict(),
+        "environment": environment_fingerprint(),
     }
 
 
@@ -435,12 +447,28 @@ def _write_report(
 def _verify_trace_manifest(
     scenario_configs: dict[str, dict[str, object]],
     entries: list[dict[str, object]],
-) -> bool:
-    for entry in entries:
-        config = ExperimentConfig(**scenario_configs[str(entry["scenario"])])
-        if scenario_fingerprint(config, int(entry["seed"])) != entry["fingerprint"]:
-            return False
-    return True
+    *,
+    recorded_environment: dict[str, object] | None = None,
+    recorded_algorithm: str | None = None,
+) -> ReplayVerification:
+    """Verify the trace manifest, distinguishing env churn from real drift (M14.3)."""
+    return verify_replay(
+        [dict(entry) for entry in entries],
+        expected=lambda entry, algorithm: scenario_fingerprint(
+            ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
+            int(entry["seed"]),
+            algorithm=algorithm,
+        ),
+        schema_expected=lambda entry, algorithm: scenario_fingerprint(
+            ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
+            int(entry["seed"]),
+            algorithm=algorithm,
+            config_payload=dict(scenario_configs[str(entry["scenario"])]),
+        ),
+        recorded_environment=recorded_environment,
+        recorded_algorithm=recorded_algorithm,
+        fingerprint_key="fingerprint",
+    )
 
 
 def run_topology_decision_suite(
@@ -489,7 +517,9 @@ def run_topology_decision_suite(
                 {
                     "scenario": scenario.name,
                     "seed": seed,
-                    "fingerprint": scenario_fingerprint(config, seed),
+                    "fingerprint": scenario_fingerprint(
+                        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+                    ),
                 }
             )
         for algorithm in M9A_ALGORITHMS:
@@ -529,8 +559,13 @@ def run_topology_decision_suite(
         M9A_EFFECT_METRICS,
     )
     effects.extend(_transfer_effects(run_rows, seeds, bootstrap_samples))
-    trace_verified = _verify_trace_manifest(scenario_configs, trace_entries)
-    decision = _decision(scenario_rows, effects, trace_verified)
+    replay = _verify_trace_manifest(
+        scenario_configs,
+        trace_entries,
+        recorded_environment=environment_fingerprint(),
+        recorded_algorithm=CURRENT_FINGERPRINT_ALGORITHM,
+    )
+    decision = _decision(scenario_rows, effects, replay)
 
     output = Path(output_directory)
     output.mkdir(parents=True, exist_ok=True)
@@ -539,7 +574,8 @@ def run_topology_decision_suite(
     _write_csv(output / "paired_effects.csv", effects)
     trace_manifest = {
         "algorithm_independent_common_random_numbers": True,
-        "replay_verified": trace_verified,
+        "replay_verified": replay.verified,
+        "replay_verification": replay.to_dict(),
         "entries": trace_entries,
     }
     (output / "trace_manifest.json").write_text(
@@ -556,6 +592,21 @@ def run_topology_decision_suite(
         "scenarios": [asdict(scenario) for scenario in scenarios],
         "scenario_configs": scenario_configs,
         "m9a_parameters_frozen": True,
+        # M14.4: M9A previously recorded NO source hash at all. The digest and
+        # the file list behind it are both recorded now, so the artifact is
+        # self-describing rather than requiring the producing code to be read.
+        "frozen_source": frozen_source_record(
+            (
+                Path(__file__).resolve(),
+                Path(__file__).with_name("topology.py").resolve(),
+                Path(__file__).with_name("simulation.py").resolve(),
+                Path(__file__).with_name("config.py").resolve(),
+                Path(__file__).with_name("provenance.py").resolve(),
+            ),
+            project_root=Path(__file__).resolve().parents[2],
+        ),
+        "protocol_sha256": None,  # M9A has no protocol file; recorded as absent.
+        "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
         "python": platform.python_version(),
         "numpy": np.__version__,
         "platform_version": "0.12.0",
@@ -606,13 +657,26 @@ def reanalyze_topology_decision_suite(
         M9A_EFFECT_METRICS,
     )
     effects.extend(_transfer_effects(run_rows, seeds, samples))
-    trace_verified = _verify_trace_manifest(
-        suite_config["scenario_configs"], trace_manifest["entries"]
+    replay = _verify_trace_manifest(
+        suite_config["scenario_configs"],
+        trace_manifest["entries"],
+        recorded_environment={
+            key: suite_config[key]
+            for key in ("python", "numpy", "platform", "machine")
+            if key in suite_config
+        }
+        or None,
+        recorded_algorithm=(
+            str(suite_config["fingerprint_algorithm"])
+            if suite_config.get("fingerprint_algorithm")
+            else None
+        ),
     )
-    decision = _decision(scenario_rows, effects, trace_verified)
+    decision = _decision(scenario_rows, effects, replay)
     _write_csv(output / "scenario_summary.csv", scenario_rows)
     _write_csv(output / "paired_effects.csv", effects)
-    trace_manifest["replay_verified"] = trace_verified
+    trace_manifest["replay_verified"] = replay.verified
+    trace_manifest["replay_verification"] = replay.to_dict()
     (output / "trace_manifest.json").write_text(
         json.dumps(trace_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )

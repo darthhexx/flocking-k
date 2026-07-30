@@ -37,6 +37,7 @@ from .provenance import (
     CURRENT_FINGERPRINT_ALGORITHM,
     ReplayVerification,
     environment_fingerprint,
+    replay_verdict_suffix,
     verify_replay,
 )
 from .simulation import make_scenario

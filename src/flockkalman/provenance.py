@@ -48,9 +48,11 @@ __all__ = [
     "CURRENT_FINGERPRINT_ALGORITHM",
     "DEFAULT_FLOAT_TOLERANCE",
     "ReplayVerification",
+    "artifact_hash",
     "compare_environment",
     "digest_arrays",
     "environment_fingerprint",
+    "frozen_source_record",
     "verify_replay",
 ]
 
@@ -242,6 +244,21 @@ excuse branch is unreachable and any mismatch blocks. Every suite re-run from
 M14 onward records v2. The historical artifacts retain the weaker guarantee, and
 any claim resting on them should say so."""
 
+SCHEMA_DRIFT = "REPLAY-CONFIG-SCHEMA-DRIFT"
+"""Fingerprints differ **only** because ExperimentConfig gained fields.
+
+This is a *positive* adjudication and is strictly stronger than
+:data:`ENV_MISMATCH`. The config dict is folded into the digest as a JSON header,
+so a single added dataclass field changes every fingerprint in an artifact while
+leaving the exogenous arrays untouched. That is why M9A shows 0/800 exact matches
+where M10A shows 7740/8250: M9A predates 29 added fields, M10A predates none.
+
+Crucially this is *provable*, not asserted. Re-hashing with the config dict
+exactly as recorded -- rather than as ExperimentConfig would serialise it today --
+reproduces the recorded digest if and only if every array is bit-identical. So
+this status means "the scenario is verified; only its representation grew", and
+the arrays have been checked rather than excused. It does not block promotion."""
+
 MISMATCH = "MISMATCH"
 """Fingerprints differ in a way the environment does not explain. This is the
 genuine integrity failure the gate exists to catch, and it still yields
@@ -260,6 +277,7 @@ class ReplayVerification:
 
     status: str
     exact_matches: int
+    schema_drift_matches: int
     total: int
     algorithm: str
     environment: dict[str, Any] = field(default_factory=dict)
@@ -276,7 +294,11 @@ class ReplayVerification:
 
     @property
     def adjudicable(self) -> bool:
-        """False when a v1 digest mismatch cannot be resolved either way."""
+        """False only when a v1 digest mismatch cannot be resolved either way.
+
+        SCHEMA_DRIFT *is* adjudicable: the arrays were re-checked against the
+        recorded config payload and found identical.
+        """
         return self.status != ENV_MISMATCH
 
     def to_dict(self) -> dict[str, Any]:
@@ -286,6 +308,7 @@ class ReplayVerification:
             "blocks_promotion": self.blocks_promotion,
             "adjudicable": self.adjudicable,
             "exact_matches": self.exact_matches,
+            "schema_drift_matches": self.schema_drift_matches,
             "total": self.total,
             "algorithm": self.algorithm,
             "environment": self.environment,
@@ -299,6 +322,7 @@ def verify_replay(
     expected: Callable[[Mapping[str, Any], str], str],
     recorded_environment: Mapping[str, Any] | None,
     recorded_algorithm: str | None = None,
+    schema_expected: Callable[[Mapping[str, Any], str], str] | None = None,
     fingerprint_key: str = "trace_fingerprint",
     max_examples: int = 3,
 ) -> ReplayVerification:
@@ -310,7 +334,18 @@ def verify_replay(
 
     The decision rule, stated plainly because it is the whole point of M14:
 
+    ``schema_expected(row, algorithm)``, when supplied, recomputes the fingerprint
+    using the config dict **exactly as recorded** instead of as ExperimentConfig
+    would serialise it today. It is the probe that separates schema growth from
+    genuine drift; see :data:`SCHEMA_DRIFT`.
+
+    The decision rule, in priority order, because the whole point of M14 is that
+    these three causes stop being collapsed into one another:
+
     * every row reproduces under the artifact's own algorithm -> ``VERIFIED``;
+    * every remaining row reproduces once the *recorded* config header is used
+      -> ``REPLAY-CONFIG-SCHEMA-DRIFT``. Positively adjudicated: arrays identical,
+      representation grew. Does not block;
     * rows differ under :data:`FINGERPRINT_V1`, **and** the environment differs or
       was never recorded -> ``REPLAY-ENV-MISMATCH``, which does *not* block
       promotion but does *not* claim verification either (see that constant's
@@ -328,6 +363,7 @@ def verify_replay(
     env = compare_environment(recorded_environment)
 
     exact = 0
+    schema_drift = 0
     differing: list[dict[str, Any]] = []
 
     for row in rows:
@@ -335,7 +371,20 @@ def verify_replay(
         recomputed = expected(row, algorithm)
         if recorded_value == recomputed:
             exact += 1
-        elif len(differing) < max_examples:
+            continue
+        # Second chance: re-hash using the config dict exactly as recorded. A
+        # match proves every exogenous array is bit-identical and the only
+        # difference was the serialised config header.
+        drifted = None
+        if schema_expected is not None:
+            try:
+                drifted = schema_expected(row, algorithm)
+            except Exception:  # noqa: BLE001 -- a failed probe must not mask the result
+                drifted = None
+        if drifted is not None and recorded_value == drifted:
+            schema_drift += 1
+            continue
+        if len(differing) < max_examples:
             differing.append(
                 {
                     "scenario": row.get("scenario"),
@@ -348,6 +397,8 @@ def verify_replay(
     total = len(rows)
     if exact == total:
         status = VERIFIED
+    elif schema_drift and exact + schema_drift == total:
+        status = SCHEMA_DRIFT
     elif algorithm == FINGERPRINT_V1 and not env["match"]:
         status = ENV_MISMATCH
     else:
@@ -356,8 +407,79 @@ def verify_replay(
     return ReplayVerification(
         status=status,
         exact_matches=exact,
+        schema_drift_matches=schema_drift,
         total=total,
         algorithm=algorithm,
         environment=env,
         examples=tuple(differing),
     )
+
+
+# --- frozen source records --------------------------------------------------
+
+def artifact_hash(paths: "Sequence[Any]") -> str:
+    """Hash an ordered set of files as ``name || contents`` per file.
+
+    Identical semantics to the ``_artifact_hash`` helper duplicated across the
+    suite modules, so digests recorded by either implementation are comparable.
+    Centralised here because M14 needs it in suites that never had it.
+    """
+    digest = hashlib.sha256()
+    for path in paths:
+        from pathlib import Path as _Path
+
+        p = _Path(path)
+        digest.update(p.name.encode("utf-8"))
+        digest.update(p.read_bytes())
+    return digest.hexdigest()
+
+
+def frozen_source_record(
+    paths: "Sequence[Any]",
+    *,
+    project_root: Any = None,
+) -> dict[str, Any]:
+    """Describe a frozen source set: the digest **and** the file list.
+
+    The second half is the point. Before M14 the digest was recorded but the list
+    of files behind it lived only in the suite module that computed it, so
+    verifying a historical artifact required reading the code that produced it --
+    and if that code was later edited, working out what the digest had covered
+    became guesswork. Recording the list makes an artifact self-describing.
+
+    ``verify_legacy_certification.py`` exists precisely because the pre-M14
+    artifacts lack this field and their file lists had to be reconstructed by
+    hand from the source.
+    """
+    from pathlib import Path as _Path
+
+    resolved = [_Path(p) for p in paths]
+    root = _Path(project_root) if project_root is not None else None
+
+    def label(p: "_Path") -> str:
+        if root is not None:
+            try:
+                return str(p.relative_to(root))
+            except ValueError:
+                pass
+        return p.name
+
+    return {
+        "sha256": artifact_hash(resolved),
+        "files": [label(p) for p in resolved],
+        "algorithm": "sha256(name||bytes) per file, in listed order",
+    }
+
+
+def replay_verdict_suffix(replay: ReplayVerification) -> str | None:
+    """The verdict suffix a non-bit-exact but non-blocking replay should carry.
+
+    Returns ``None`` when the replay verified exactly, otherwise the status
+    itself, so a verdict reads ``M9A6-REPLAY-CONFIG-SCHEMA-DRIFT`` rather than a
+    generic label that hides which of the three causes actually applied.
+
+    A caller must apply this *after* checking substantive gates: a provenance
+    caveat is strictly weaker news than a substantive NO-GO and must never
+    displace it in the verdict string.
+    """
+    return None if replay.verified else replay.status

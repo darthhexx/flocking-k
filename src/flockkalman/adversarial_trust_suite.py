@@ -30,6 +30,7 @@ from .provenance import (
     CURRENT_FINGERPRINT_ALGORITHM,
     ReplayVerification,
     environment_fingerprint,
+    replay_verdict_suffix,
     verify_replay,
 )
 from .simulation import (
@@ -820,7 +821,7 @@ def _decision(
     elif not all(substantive.values()):
         verdict = "M10A-TRAINING-FAIL" if phase == "training" else "M10A-NO-GO"
     elif not replay.verified:
-        verdict = "M10A-REPLAY-ENV-MISMATCH"
+        verdict = f"M10A-{replay_verdict_suffix(replay)}"
     else:
         verdict = "M10A-TRAINING-PASS" if phase == "training" else "M10A-GO"
     return {

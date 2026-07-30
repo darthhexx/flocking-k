@@ -19,6 +19,14 @@ from .experiment import run_trial
 from .metrics import StepRecord, summarize_run
 from .missing_evidence import MissingEvidenceController
 from .oracle_floor import OracleFloorCollector
+from .provenance import (
+    CURRENT_FINGERPRINT_ALGORITHM,
+    ReplayVerification,
+    environment_fingerprint,
+    frozen_source_record,
+    replay_verdict_suffix,
+    verify_replay,
+)
 from .simulation import scenario_fingerprint
 from .suite import ScenarioDefinition, _bootstrap_interval, _write_csv
 from .topology import connected_components
@@ -407,7 +415,7 @@ def _paired_effects(
 def _decision(
     scenario_rows: list[dict[str, object]],
     effects: list[dict[str, object]],
-    trace_verified: bool,
+    replay: ReplayVerification,
     phase: str,
 ) -> dict[str, object]:
     scenario = {str(row["scenario"]): row for row in scenario_rows}
@@ -477,7 +485,7 @@ def _decision(
         <= 0.10
     )
     gates = {
-        "replay": trace_verified,
+        "replay": replay.verified,
         "exact_model_loss_improvement_every_scenario": improvement_pass,
         "observer_regret": observer_regret_pass,
         "wrong_action_safety": safety_pass,
@@ -487,13 +495,18 @@ def _decision(
         "frozen_motion": motion_pass,
         "asymmetric_information_boundary": observer_boundary_respected,
     }
-    passed = all(gates.values())
-    if not trace_verified:
+    # M14.3: adjudicate replay separately -- only an unexplained mismatch blocks.
+    passed = all(value for name, value in gates.items() if name != "replay")
+    if replay.blocks_promotion:
         verdict = "INVALID-SUITE"
     elif phase == "training":
         verdict = "M9A6-TRAINING-PASS" if passed else "M9A6-TRAINING-FAIL"
+    elif not passed:
+        verdict = "M9A6-NO-GO"
     else:
-        verdict = "M9A6-GO" if passed else "M9A6-NO-GO"
+        # Substantive gates all passed; a provenance caveat may still qualify it.
+        suffix = replay_verdict_suffix(replay)
+        verdict = f"M9A6-{suffix}" if suffix else "M9A6-GO"
     return {
         "verdict": verdict,
         "phase": phase,
@@ -513,21 +526,36 @@ def _decision(
         },
         "original_m9a_verdict_unchanged": True,
         "m9b_integration_authorized": phase == "heldout" and passed,
-        "trace_replay_verified": trace_verified,
+        "trace_replay_verified": replay.verified,
+        "replay_verification": replay.to_dict(),
+        "environment": environment_fingerprint(),
     }
 
 
 def _verify_trace_manifest(
     scenario_configs: dict[str, dict[str, object]],
     entries: list[dict[str, object]],
-) -> bool:
-    return all(
-        scenario_fingerprint(
+    *,
+    recorded_environment: dict[str, object] | None = None,
+    recorded_algorithm: str | None = None,
+) -> ReplayVerification:
+    """Verify the trace manifest, distinguishing env churn from real drift (M14.3)."""
+    return verify_replay(
+        [dict(entry) for entry in entries],
+        expected=lambda entry, algorithm: scenario_fingerprint(
             ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
             int(entry["seed"]),
-        )
-        == entry["fingerprint"]
-        for entry in entries
+            algorithm=algorithm,
+        ),
+        schema_expected=lambda entry, algorithm: scenario_fingerprint(
+            ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
+            int(entry["seed"]),
+            algorithm=algorithm,
+            config_payload=dict(scenario_configs[str(entry["scenario"])]),
+        ),
+        recorded_environment=recorded_environment,
+        recorded_algorithm=recorded_algorithm,
+        fingerprint_key="fingerprint",
     )
 
 
@@ -628,21 +656,33 @@ def _materialize(
     seeds = list(range(seed_start, seed_start + seed_count))
     scenario_rows = _scenario_summary(run_rows)
     effects = _paired_effects(run_rows, seeds, bootstrap_samples)
-    trace_verified = _verify_trace_manifest(
+    replay = _verify_trace_manifest(
         dict(suite_config["scenario_configs"]),  # type: ignore[arg-type]
         list(trace_manifest["entries"]),  # type: ignore[arg-type]
+        recorded_environment={
+            key: suite_config[key]
+            for key in ("python", "numpy", "platform", "machine")
+            if key in suite_config
+        }
+        or None,
+        recorded_algorithm=(
+            str(suite_config["fingerprint_algorithm"])
+            if suite_config.get("fingerprint_algorithm")
+            else None
+        ),
     )
     decision = _decision(
         scenario_rows,
         effects,
-        trace_verified,
+        replay,
         str(suite_config["phase"]),
     )
     output.mkdir(parents=True, exist_ok=True)
     _write_csv(output / "run_summary.csv", run_rows)
     _write_csv(output / "scenario_summary.csv", scenario_rows)
     _write_csv(output / "paired_effects.csv", effects)
-    trace_manifest["replay_verified"] = trace_verified
+    trace_manifest["replay_verified"] = replay.verified
+    trace_manifest["replay_verification"] = replay.to_dict()
     (output / "trace_manifest.json").write_text(
         json.dumps(trace_manifest, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
@@ -707,7 +747,9 @@ def run_missing_evidence_suite(
                 {
                     "scenario": scenario.name,
                     "seed": seed,
-                    "fingerprint": scenario_fingerprint(config, seed),
+                    "fingerprint": scenario_fingerprint(
+                        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+                    ),
                 }
             )
 
@@ -748,6 +790,21 @@ def run_missing_evidence_suite(
         },
         "frozen_physical_policy": M9A_FULL,
         "original_m9a_verdict_unchanged": True,
+        # M14.4: M9A.6 previously recorded NO source hash at all -- notable
+        # because it is the motivating finding of the admission-censoring paper.
+        "frozen_source": frozen_source_record(
+            (
+                Path(__file__).resolve(),
+                Path(__file__).with_name("missing_evidence.py").resolve(),
+                Path(__file__).with_name("admission_evidence.py").resolve(),
+                Path(__file__).with_name("simulation.py").resolve(),
+                Path(__file__).with_name("config.py").resolve(),
+                Path(__file__).with_name("provenance.py").resolve(),
+            ),
+            project_root=Path(__file__).resolve().parents[2],
+        ),
+        "protocol_sha256": None,  # M9A.6 has no protocol file; recorded as absent.
+        "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
         "python": platform.python_version(),
         "numpy": np.__version__,
         "platform_version": "0.12.0",

@@ -1,0 +1,84 @@
+{
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.4.4",
+    "platform": "Linux",
+    "python": "3.11.15"
+  },
+  "gate_detail": {
+    "14_1_version_control": {
+      "commit_count": 2,
+      "detail": "Repository exists with history, but no remote is configured. The gate requires a third-party host so a third party can observe the dates; a hash in a local repository demonstrates internal consistency and nothing about when. Push, then re-run this script.",
+      "passed": false,
+      "remote_configured": false,
+      "repository_initialised": true,
+      "tracked_files": 57
+    },
+    "14_2_3_environment_and_replay": {
+      "evidence": {
+        "check_fingerprint": "[1] v1 == pre-M14 implementation: PASS (22 config/seed pairs)\n[2] v2 absorbs single-ULP change: PASS\n[2] v2 absorbs all-element ULP change: PASS\n[2] v2 rejects 1e-6 change: PASS\n[2] v1 is fragile to single ULP (control): PASS\n[2] v2 sensitive to integer change: PASS\n[3] NaN vs inf distinguished: PASS\n[3] overflow guard raises: PASS\n\nOVERALL: PASS\n",
+        "check_replay_gate": "[A] statistics byte-identical after reanalysis: PASS\n[B] tampered row under v1 + differing env -> verdict=M10A-REPLAY-ENV-MISMATCH status=REPLAY-ENV-MISMATCH\n    (documented limitation: v1 digests are not invertible, so a tamper is indistinguishable from churn once the env differs)\n[C] mismatch with MATCHING env -> MISMATCH, blocks=True: PASS\n[D] v2 mismatch with DIFFERING env -> MISMATCH, blocks=True: PASS\n[D] v1 mismatch with DIFFERING env -> REPLAY-ENV-MISMATCH, blocks=False: PASS\n[D] all rows match, no env recorded -> VERIFIED: PASS\n\nOVERALL: PASS\n"
+      },
+      "fingerprint_invariants": true,
+      "passed": true,
+      "replay_gate_regressions": true
+    },
+    "14_4_frozen_sets": {
+      "evidence": "ng_v2\n\nFINDING (for the paper's methods section, not a defect of this script):\n  Only the artifacts listed as verified/failed record a candidate source\n  hash at all. The freeze-and-hash discipline covers a minority of the\n  program. Notably M9A (topology_suite) and M9A.6 (missing_evidence_suite)\n  record none -- and M9A.6 is the motivating finding of P1. Any claim that\n  'implementations and protocols are frozen and hashed' must be scoped to\n  the suites that actually do it.\n\n  Second gap: the file *list* behind each hash lives in the suite module,\n  not in the artifact, so verification requires reading the code that\n  produced it. Future suites should record the list alongside the digest.\n",
+      "legacy_certification_verifies": true,
+      "passed": true,
+      "replay_gated_suites_wired": [
+        "topology_suite.py",
+        "missing_evidence_suite.py",
+        "admission_suite.py",
+        "integration_suite.py",
+        "adversarial_trust_suite.py",
+        "closed_loop_trust_suite.py"
+      ],
+      "suites_expected": 6
+    },
+    "14_5_mechanical_firewall": {
+      "bare_acknowledgement_flag_rejected": true,
+      "held_out_ranges_discovered": 13,
+      "historical_m9a5_overlap_detected": true,
+      "historical_overlap": [
+        {
+          "artifact": "milestone9a_heldout",
+          "held_out_range": [
+            12000,
+            12099
+          ],
+          "intersection": [
+            12000,
+            12099
+          ]
+        }
+      ],
+      "m16_planned_band_clear": true,
+      "oracle_floor_run_blocked_by_default": true,
+      "passed": true
+    },
+    "14_6_figures_from_results": {
+      "evidence": "iguity (M8.1) vs competing-view viewpoints under asymmetric movemen\n  (A) M8.1 Binary Range-Only Assay\n  Initial Bisector (x = 0)\n  Mode 1 (-5, 0)\n  Mode 2 (+5, 0)\n  Sensors at t=0\n  (B) M9B Competing-View Circle Assay\n  Mode A (Prior 0.6)\n  Mode B (Prior 0.3)\n  Mode C (Prior 0.1)\n  Optimal 2-Step VOI Probe\n  Key Empirical Finding (Sec 5.4 / 6.1):\n  Figure 4: Real-Data External Replay Results (UTIAS MR.CLaM Dataset 6)\n  Nominal Calibration Band (NEES \u2248 1.0\u20132.0)\n  Simulator-derived conservatism transfers to real logs (M11.1):\n\nNOTE: figure 1 is a system-model diagram; its constants (rho=0.72,\n  Mahalanobis 9.21, C_defer=0.75, support margin 0.15, probe cap 8)\n  document the frozen model rather than any run's outcome. They would be\n  better read from config.py, and that is recorded here as a known gap\n  rather than counted as sourced.\n\nOVERALL: PASS (30 authored numeric strings remaining)\n",
+      "passed": true
+    }
+  },
+  "gates": {
+    "14_1_version_control": false,
+    "14_2_3_environment_and_replay": true,
+    "14_4_frozen_sets": true,
+    "14_5_mechanical_firewall": true,
+    "14_6_figures_from_results": true
+  },
+  "milestone": "M14",
+  "notes": [
+    "M14 gates every downstream milestone. A BLOCKED verdict means M15 onward must not run, regardless of how the other gates read.",
+    "Gate 14.1 cannot be satisfied from an environment without repository credentials. This is a real unmet prerequisite, not a technicality: predeclaration requires a third party to be able to observe the dates."
+  ],
+  "research_question": "Can the platform support confirmatory claims that survive an independent referee re-running the artifact?",
+  "verdict": "M14-BLOCKED",
+  "verdict_semantics": {
+    "M14-BLOCKED": "a prerequisite is unmet; downstream milestones must not run",
+    "M14-GO": "all gates passed; M15 may run"
+  }
+}

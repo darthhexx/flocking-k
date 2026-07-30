@@ -452,7 +452,7 @@ def _verify_upstream(
     source_verification = verify_upstream_source(
         suite.get("candidate_source_sha256"),
         _files,
-        reference_commit=PRE_M14_COMMIT,
+        reference_commit=resolve_pre_m14_commit(project_root),
         repo_root=project_root,
     )
     source_hash = source_verification["current_sha256"]

@@ -14,6 +14,7 @@ from time import perf_counter
 import numpy as np
 
 from .config import ExperimentConfig
+from .firewall import assert_diagnostic_seeds_clear
 from .oracle_floor import run_oracle_floor_trial
 from .simulation import scenario_fingerprint
 from .suite import _bootstrap_interval, _write_csv
@@ -225,6 +226,9 @@ def _diagnosis(
         conclusion = "FROZEN-REPRESENTATION-LIMITED"
     return {
         "diagnostic_conclusion": conclusion,
+        # M14.5: previously this was the entire firewall -- an unenforced literal.
+        # It is retained for artifact compatibility, but the binding statement is
+        # now the seed_firewall record written into suite_config.json.
         "non_promotional": True,
         "original_m9a_verdict_unchanged": True,
         "trace_replay_verified": trace_verified,
@@ -417,12 +421,27 @@ def run_oracle_floor_suite(
     seed_start: int = 12000,
     workers: int | None = None,
     bootstrap_samples: int = 5000,
+    acknowledge_heldout_overlap: str | None = None,
 ) -> dict[str, object]:
-    """Run the complete non-promotional M9A.5 diagnostic."""
+    """Run the complete non-promotional M9A.5 diagnostic.
+
+    M14.5: the seed range is checked against every held-out split recorded in the
+    results tree before any trial runs. The historical M9A.5 run used seeds
+    12000-12099, which is M9A's held-out split, so reproducing it now requires an
+    explicit written ``acknowledge_heldout_overlap`` that is recorded in the
+    artifact. New diagnostics should use a dedicated band instead.
+    """
     if seed_count < 2:
         raise ValueError("seed_count must be at least 2")
     if bootstrap_samples < 100:
         raise ValueError("bootstrap_samples must be at least 100")
+    project_root = Path(__file__).resolve().parents[2]
+    firewall = assert_diagnostic_seeds_clear(
+        seed_start,
+        seed_count,
+        project_root,
+        acknowledge_overlap=acknowledge_heldout_overlap,
+    )
     seeds = list(range(seed_start, seed_start + seed_count))
     tasks: list[tuple[str, dict[str, object], int]] = []
     scenario_configs: dict[str, dict[str, object]] = {}
@@ -481,6 +500,7 @@ def run_oracle_floor_suite(
         "credible_mass": 0.95,
         "original_m9a_parameters_frozen": True,
         "non_promotional": True,
+        "seed_firewall": firewall,
         "python": platform.python_version(),
         "numpy": np.__version__,
         "platform_version": "0.12.0",

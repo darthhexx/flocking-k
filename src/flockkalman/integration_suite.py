@@ -25,7 +25,7 @@ from .integrated_sensing import (
 )
 from .metrics import summarize_run
 from .provenance import (
-    PRE_M14_COMMIT,
+    resolve_pre_m14_commit,
     CURRENT_FINGERPRINT_ALGORITHM,
     ReplayVerification,
     environment_fingerprint,
@@ -668,7 +668,7 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
     upstream_source = verify_upstream_source(
         suite_config.get("candidate_source_sha256"),
         _m9a7_files,
-        reference_commit=PRE_M14_COMMIT,
+        reference_commit=resolve_pre_m14_commit(project_root),
         repo_root=project_root,
     )
     current_hash = upstream_source["current_sha256"]

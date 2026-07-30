@@ -12,9 +12,31 @@ Figures generated in figures/:
 """
 
 import math
+import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+from flockkalman.figure_data import (  # noqa: E402
+    FigureDataError,
+    load_milestone,
+    load_milestones,
+    metric_from_scenario_summary,
+)
+
 OUTPUT_DIR = Path("figures")
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+# M14.6: verdict colours are keyed by the *derived* verdict class, not chosen per
+# box by hand, so a verdict that changes on re-analysis cannot keep its old colour.
+VERDICT_COLORS = {
+    "promoted": "#2ED573",
+    "rejected": "#FF4757",
+    "partial": "#FFA502",
+    "invalid": "#70A1FF",
+    "qualified": "#B47EE5",
+    "diagnostic": "#A4B0BE",
+    "other": "#A4B0BE",
+}
 OUTPUT_DIR.mkdir(exist_ok=True)
 
 # -----------------------------------------------------------------------------
@@ -197,31 +219,64 @@ def generate_figure2_svg(path: Path) -> None:
         '  <!-- MILESTONE BOXES LAYOUT (4 Columns x 5 Rows) -->',
     ]
 
-    milestones = [
+    # M14.6: (x, y, title, artifact, qualitative prose). The verdict, the colour
+    # and the "N/N gates passed" prefix are all read from the artifact. Only the
+    # prose remains authored, and it carries no numbers -- see
+    # _m14/check_figure_data.py, which enforces that.
+    layout = [
         # Col 0: Motion & Fusion
-        (50, 150, "M4: Direct Adaptive Motion", "NO-GO", "#FF4757", "NIS adaptive recurrence 2.4% worse than fixed. Fixed ρ=0.72 retained."),
-        (50, 280, "M5: Guarded Adaptive Motion", "NO-GO", "#FF4757", "Corroborated guards safe, but statistically tied with fixed recurrence."),
-        (50, 410, "M6: Robust Multi-Flock Fusion", "GO", "#2ED573", "12/12 gates passed. CI inside hypothesis flocks handles bias/Byzantine."),
-        (50, 540, "M7: Truth-Blind Output Policy", "GO", "#2ED573", "18/18 gates passed. Active select/investigate/defer beats baselines."),
+        (50, 150, "M4: Direct Adaptive Motion", "decision_suite",
+         "NIS adaptive recurrence worse than fixed; fixed recurrence retained."),
+        (50, 280, "M5: Guarded Adaptive Motion", "milestone5_heldout",
+         "Corroborated guards safe, but statistically tied with fixed recurrence."),
+        (50, 410, "M6: Robust Multi-Flock Fusion", "milestone6_heldout",
+         "CI inside hypothesis flocks handles bias and Byzantine sources."),
+        (50, 540, "M7: Truth-Blind Output Policy", "milestone7_heldout",
+         "Active select/investigate/defer beats every declared baseline."),
 
         # Col 1: Realism & Active Sensing
-        (340, 150, "M8: Realism Ladder Transfer", "NO-GO", "#FF4757", "Dynamic topology breached margin; investigation motion produced 0 decision gain."),
-        (340, 280, "M8.1: Endogenous Ambiguity", "POSITIVE-CONTROL", "#2ED573", "Engineered positive control: lateral motion resolves binary ambiguity."),
-        (340, 410, "M8.2: Mechanism Sweep", "UNRESOLVED", "#A4B0BE", "Training sweep did not support spatial-diversity mechanism for fixed recurrence."),
-        (340, 540, "M9B: Static VOI Allocation", "GO", "#2ED573", "12/12 gates passed. Receding 2-step VOI beats round-robin when views compete."),
+        (340, 150, "M8: Realism Ladder Transfer", "milestone8_heldout",
+         "Dynamic topology breached margin; investigation gave no decision gain."),
+        (340, 280, "M8.1: Endogenous Ambiguity", "milestone8_1_heldout",
+         "Engineered positive control: lateral motion resolves binary ambiguity."),
+        (340, 410, "M8.2: Mechanism Sweep", "momentum_mechanism_training",
+         "Training sweep did not support the spatial-diversity mechanism."),
+        (340, 540, "M9B: Static VOI Allocation", "milestone9b_heldout",
+         "Receding-horizon VOI beats round-robin where views compete."),
 
         # Col 2: Topology Resilience & Admission
-        (630, 150, "M9A: Topology Evidence Ledger", "PARTIAL-GO", "#FFA502", "Repaired NEES calibration pathology; dynamic transfer gate failed."),
-        (630, 280, "M9A.5: Oracle Floor Diagnosis", "DIAGNOSTIC", "#A4B0BE", "Firewalled reference: gap was policy/representation headroom, not info limit."),
-        (630, 410, "M9A.6: Assignment Posterior", "NO-GO", "#FF4757", "Exposed rare admission-censored missingness tail on 2/100 seeds."),
-        (630, 540, "M9A.7: Split Evidence Admission", "GO", "#2ED573", "13/13 powered gates passed. Split raw/belief channels repair tail risk."),
+        (630, 150, "M9A: Topology Evidence Ledger", "milestone9a_heldout",
+         "Repaired the NEES calibration pathology; transfer gate failed."),
+        (630, 280, "M9A.5: Oracle Floor Diagnosis", "milestone9a5_oracle_floor",
+         "Firewalled nested reference; conclusion read directly from the artifact."),
+        (630, 410, "M9A.6: Assignment Posterior", "milestone9a6_heldout",
+         "Exposed a rare admission-censored missingness tail."),
+        (630, 540, "M9A.7: Split Evidence Admission", "milestone9a7_heldout",
+         "Split raw/belief admission channels repair the tail risk."),
 
         # Col 3: Trust, Decentralization & Validation
-        (920, 150, "M10A / 10A.5: Composed Trust", "GO", "#2ED573", "Causal trust layer drops attack loss from 3.51 to 0.43 with zero false alerts."),
-        (920, 280, "M10B: Decentralized Allocation", "GO", "#2ED573", "Per-agent asynchronous ownership passes noninferiority gates."),
-        (920, 410, "M11 / 11.1: External MR.CLaM Replay", "INVALID -> GO", "#70A1FF", "M11 INVALID on timestamp jump. M11.1 canonicalized replay passes Dataset 6."),
-        (920, 540, "M12: Measured Acceleration", "DEVELOPMENT-FAIL", "#FF4757", "Acceleration state strictly worse on real data (RMSE 0.52 vs 0.31m). Filter frozen."),
+        (920, 150, "M10A: Composed Trust", "milestone10a_heldout",
+         "Causal trust layer collapses attack loss with no false alerts."),
+        (920, 280, "M10B: Decentralized Allocation", "milestone10b_heldout",
+         "Per-agent asynchronous ownership passes noninferiority."),
+        (920, 410, "M11.1: External MR.CLaM Replay", "milestone11_1_heldout",
+         "Canonicalized replay after M11 was recorded INVALID on a timestamp jump."),
+        (920, 540, "M12: Measured Acceleration", "milestone12_development",
+         "Acceleration state strictly worse on real data; filter left frozen."),
     ]
+
+    records = load_milestones([item[3] for item in layout], PROJECT_ROOT)
+
+    milestones = []
+    for x, y, title, artifact, prose in layout:
+        record = records[artifact]
+        gate_prefix = (
+            f"{record.gate_summary}. " if record.gates_total else ""
+        )
+        milestones.append(
+            (x, y, title, record.verdict,
+             VERDICT_COLORS[record.verdict_class], gate_prefix + prose)
+        )
 
     for x, y, title, verdict, color, desc in milestones:
         parts.append(f'  <g filter="url(#shadow)">')
@@ -271,6 +326,24 @@ def generate_figure2_svg(path: Path) -> None:
 # FIGURE 3: COMPETING-VIEW TASK GEOMETRY
 # -----------------------------------------------------------------------------
 def generate_figure3_svg(path: Path) -> None:
+    # M14.6: the two M9B effect sizes are read from the artifact's overall scope.
+    def m9b_effect(metric: str) -> float:
+        return metric_from_scenario_summary(
+            "milestone9b_heldout",
+            PROJECT_ROOT,
+            column="improvement_mean",
+            where={
+                "scope": "overall",
+                "candidate": "receding_horizon_voi",
+                "baseline": "round_robin",
+                "metric": metric,
+            },
+            filename="paired_effects.csv",
+        )
+
+    voi_loss_improvement = m9b_effect("total_decision_loss")
+    voi_movement_improvement = m9b_effect("movement_cost")
+
     width, height = 1100, 600
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">',
@@ -349,8 +422,8 @@ def generate_figure3_svg(path: Path) -> None:
 
         '    <rect x="30" y="275" width="430" height="75" rx="6" fill="#F1F2F6" stroke="#CED6E0"/>',
         '    <text x="245" y="295" font-family="system-ui, sans-serif" font-size="12" font-weight="800" text-anchor="middle" fill="#2F3640">Key Empirical Finding (Sec 5.4 / 6.1):</text>',
-        '    <text x="245" y="315" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#333">• 2-Step VOI reduced movement-inclusive loss by 0.574 vs. Round-Robin.</text>',
-        '    <text x="245" y="333" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#333">• Gain came from 0.682 lower movement cost, NOT higher decision accuracy.</text>',
+        f'    <text x="245" y="315" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#333">• 2-Step VOI reduced movement-inclusive loss by {voi_loss_improvement:.3f} vs. Round-Robin.</text>',
+        f'    <text x="245" y="333" font-family="system-ui, sans-serif" font-size="11" text-anchor="middle" fill="#333">• Gain came from {voi_movement_improvement:.3f} lower movement cost, NOT higher decision accuracy.</text>',
         '  </g>',
 
         '</svg>'
@@ -362,6 +435,26 @@ def generate_figure3_svg(path: Path) -> None:
 # FIGURE 4: EXTERNAL REPLAY (UTIAS MR.CLAM DATASET 6)
 # -----------------------------------------------------------------------------
 def generate_figure4_svg(path: Path) -> None:
+    # M14.6: every number below is read from results/milestone11_1_heldout.
+    # metric_from_scenario_summary raises if a value or arm is missing, so this
+    # figure fails to render rather than silently keeping a stale literal.
+    def arm(column: str, arm_name: str) -> float:
+        return metric_from_scenario_summary(
+            "milestone11_1_heldout",
+            PROJECT_ROOT,
+            column=column,
+            where={"arm": arm_name},
+            filename="arm_summary.csv",
+        )
+
+    rmse_odometry = arm("position_rmse_mean", "odometry_only")
+    rmse_unbounded = arm("position_rmse_mean", "all_landmarks")
+    rmse_bounded = arm("position_rmse_mean", "bounded_two")
+    nees_unbounded = arm("mean_nees_mean", "all_landmarks")
+    nees_bounded = arm("mean_nees_mean", "bounded_two")
+    p95_unbounded = arm("p95_nees_mean", "all_landmarks")
+    p95_bounded = arm("p95_nees_mean", "bounded_two")
+
     width, height = 1100, 620
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}">',
@@ -393,13 +486,13 @@ def generate_figure4_svg(path: Path) -> None:
         '    <line x1="50" y1="240" x2="450" y2="240" stroke="#F1F2F6" stroke-width="1"/>',
 
         '    <path d="M 50 330 Q 150 250 250 150 T 450 40" fill="none" stroke="#FF4757" stroke-width="3"/>',
-        '    <text x="410" y="30" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Odometry (2.163m)</text>',
+        f'    <text x="410" y="30" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FF4757">Odometry ({rmse_odometry:.3f}m)</text>',
 
         '    <path d="M 50 330 Q 150 300 250 290 T 450 280" fill="none" stroke="#FFA502" stroke-width="2.5" stroke-dasharray="5,3"/>',
-        '    <text x="340" y="265" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFA502">Unbounded EKF (0.541m)</text>',
+        f'    <text x="340" y="265" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFA502">Unbounded EKF ({rmse_unbounded:.3f}m)</text>',
 
         '    <path d="M 50 330 Q 150 305 250 298 T 450 292" fill="none" stroke="#2ED573" stroke-width="3.5"/>',
-        '    <text x="310" y="315" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#2ED573">Bounded KF (0.514m)</text>',
+        f'    <text x="310" y="315" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#2ED573">Bounded KF ({rmse_bounded:.3f}m)</text>',
         '  </g>',
 
         '  <!-- PANEL 2: NEES CALIBRATION & OVERCONFIDENCE -->',
@@ -414,10 +507,10 @@ def generate_figure4_svg(path: Path) -> None:
         '    <text x="250" y="305" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#27AE60">Nominal Calibration Band (NEES ≈ 1.0–2.0)</text>',
 
         '    <path d="M 50 310 Q 150 240 250 120 T 450 80" fill="none" stroke="#FFA502" stroke-width="2.5" stroke-dasharray="5,3"/>',
-        '    <text x="320" y="70" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFA502">Unbounded EKF (NEES 2.84, P95=10.3)</text>',
+        f'    <text x="320" y="70" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#FFA502">Unbounded EKF (NEES {nees_unbounded:.2f}, P95={p95_unbounded:.1f})</text>',
 
         '    <path d="M 50 310 Q 150 295 250 290 T 450 288" fill="none" stroke="#2ED573" stroke-width="3.5"/>',
-        '    <text x="260" y="270" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#2ED573">Bounded KF (NEES 1.93, P95=6.56)</text>',
+        f'    <text x="260" y="270" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#2ED573">Bounded KF (NEES {nees_bounded:.2f}, P95={p95_bounded:.2f})</text>',
 
         '    <rect x="30" y="375" width="430" height="45" rx="6" fill="#F1F2F6" stroke="#CED6E0"/>',
         '    <text x="245" y="395" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle" fill="#2F3640">Simulator-derived conservatism transfers to real logs (M11.1):</text>',

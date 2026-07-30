@@ -647,10 +647,46 @@ def verify_upstream_source(
     return out
 
 
-PRE_M14_COMMIT = "568fbfa"
-"""The commit holding the tree that produced every pre-M14 artifact.
+PRE_M14_TAG = "pre-m14"
+PRE_M14_COMMIT_HINT = "568fbfa"
+PRE_M14_COMMIT = PRE_M14_COMMIT_HINT  # backwards-compatible alias
 
-Recorded here so upstream verification has a reference point without each suite
-hardcoding one. See ``_m14/verify_legacy_certification.py``, which independently
-confirms all seven determinable artifacts verify against it.
-"""
+def resolve_pre_m14_commit(repo_root: Any) -> str | None:
+    """Resolve the commit holding the tree that produced every pre-M14 artifact.
+
+    Resolution order, most to least durable:
+
+    1. the ``pre-m14`` tag, which survives rebases and re-clones;
+    2. :data:`PRE_M14_COMMIT_HINT`, the abbreviated hash as first created;
+    3. the repository's root commit, which is what the pre-M14 import *is*.
+
+    A bare hash was the first implementation and it is fragile: squashing on first
+    push, or any history rewrite, silently breaks historical verification while
+    every check still reports success right up to the moment it starts blocking.
+    The tag is the intended handle; the root-commit fallback means the mechanism
+    keeps working even if nobody creates it.
+    """
+    import subprocess
+    from pathlib import Path as _Path
+
+    root = str(_Path(repo_root))
+
+    def rev_parse(ref: str) -> str | None:
+        proc = subprocess.run(
+            ["git", "-C", root, "rev-parse", "--verify", "--quiet", ref],
+            capture_output=True, text=True,
+        )
+        out = proc.stdout.strip()
+        return out or None
+
+    for ref in (f"refs/tags/{PRE_M14_TAG}", PRE_M14_COMMIT_HINT):
+        resolved = rev_parse(ref)
+        if resolved:
+            return resolved
+
+    proc = subprocess.run(
+        ["git", "-C", root, "rev-list", "--max-parents=0", "HEAD"],
+        capture_output=True, text=True,
+    )
+    roots = [line for line in proc.stdout.split() if line]
+    return roots[-1] if roots else None

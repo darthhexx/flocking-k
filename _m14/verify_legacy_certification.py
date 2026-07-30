@@ -136,4 +136,14 @@ def main(commit: str) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main(sys.argv[1] if len(sys.argv) > 1 else "568fbfa"))
+    if len(sys.argv) > 1:
+        commit = sys.argv[1]
+    else:
+        sys.path.insert(0, str(REPO / "src"))
+        from flockkalman.provenance import resolve_pre_m14_commit
+
+        commit = resolve_pre_m14_commit(REPO) or ""
+        if not commit:
+            print("could not resolve the pre-M14 commit; pass one explicitly")
+            raise SystemExit(1)
+    raise SystemExit(main(commit))

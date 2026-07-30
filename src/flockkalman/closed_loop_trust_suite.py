@@ -34,7 +34,7 @@ from .experiment import run_trial
 from .integrated_sensing import M9C_RECEDING_ALGORITHM
 from .metrics import StepRecord, summarize_run
 from .provenance import (
-    PRE_M14_COMMIT,
+    resolve_pre_m14_commit,
     CURRENT_FINGERPRINT_ALGORITHM,
     ReplayVerification,
     environment_fingerprint,
@@ -415,13 +415,13 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
     m9_verification = verify_upstream_source(
         m9_suite.get("candidate_source_sha256"),
         _m9_files,
-        reference_commit=PRE_M14_COMMIT,
+        reference_commit=resolve_pre_m14_commit(project_root),
         repo_root=project_root,
     )
     m10_verification = verify_upstream_source(
         m10_suite.get("candidate_source_sha256"),
         _m10_files,
-        reference_commit=PRE_M14_COMMIT,
+        reference_commit=resolve_pre_m14_commit(project_root),
         repo_root=project_root,
     )
     m9_source = m9_verification["current_sha256"]

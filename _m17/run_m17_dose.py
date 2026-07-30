@@ -63,7 +63,11 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import os
+import platform
 import sys
+import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import numpy as np
@@ -144,6 +148,13 @@ def main() -> int:
     parser.add_argument("--doses", type=str, default=None,
                         help="comma-separated subset of the dose grid, for "
                              "splitting a long sweep across invocations")
+    parser.add_argument("--resume", action="store_true",
+                        help="skip doses whose decision.json already exists; for "
+                             "restarting a long run without repeating work")
+    parser.add_argument("--progress-every", type=float, default=30.0,
+                        help="minimum seconds between within-dose progress lines")
+    parser.add_argument("--progress-log", type=Path, default=None,
+                        help="JSON-lines progress file (default: <output>/progress.jsonl)")
     args = parser.parse_args()
 
     output = args.output or REPO / f"results/milestone17_{args.phase}"
@@ -164,34 +175,145 @@ def main() -> int:
         tuple(float(x) for x in args.doses.split(","))
         if args.doses else DOSES
     )
+    output.mkdir(parents=True, exist_ok=True)
+    progress_path = args.progress_log or (output / "progress.jsonl")
+    started = time.monotonic()
+
+    def emit(event: str, **fields: object) -> None:
+        """Append one JSON line. The file is the durable record; stdout is a view."""
+        payload = {
+            "event": event,
+            "utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "elapsed_s": round(time.monotonic() - started, 1),
+            **fields,
+        }
+        with progress_path.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(payload, sort_keys=True) + "\n")
+
+    def say(line: str) -> None:
+        """Print with an explicit flush.
+
+        Without flush=True Python block-buffers stdout whenever it is not a tty, so
+        a redirected or nohup'd run shows nothing for hours and is indistinguishable
+        from a hang. This is the single most important line in the file for anyone
+        running the sweep unattended.
+        """
+        print(line, flush=True)
+
+    workers = args.workers or min(os.cpu_count() or 2, 8)
+    say("=" * 72)
+    say(f"M17 dose sweep | phase={args.phase} "
+        f"seeds={args.seed_start}..{args.seed_start + args.seed_count - 1} "
+        f"({args.seed_count})")
+    say(f"  doses     : {', '.join(f'{d:.2f}' for d in selected)} "
+        f"({len(selected)} levels of {DOSE_FIELD})")
+    say(f"  workers   : {workers} of {os.cpu_count()} cpus  |  "
+        f"python {platform.python_version()}  numpy {np.__version__}")
+    say(f"  output    : {output}")
+    say(f"  progress  : {progress_path}  (tail -f this, or the stdout log)")
+    say("")
+    say("  NOTE: this workload is pure numpy on CPU. There is no GPU code path, so")
+    say("  a GPU machine helps only through core count -- set --workers to match.")
+    say("=" * 72)
+    emit("sweep_start", phase=args.phase, seed_start=args.seed_start,
+         seed_count=args.seed_count, doses=list(selected), workers=workers,
+         python=platform.python_version(), numpy=np.__version__)
+
     per_dose: list[dict[str, object]] = []
-    for dose in selected:
+    dose_durations: list[float] = []
+
+    for position, dose in enumerate(selected, start=1):
         censored = censored_agents_for_dose(dose)
         dose_output = output / f"dose_{dose:.2f}"
-        decision = run_admission_evidence_suite(
-            ExperimentConfig(),
-            dose_output,
-            scenario_field_overrides={
-                M9A7_POSITIVE_CONTROL.name: {DOSE_FIELD: censored}
-            },
-            seed_count=args.seed_count,
-            seed_start=args.seed_start,
-            bootstrap_samples=args.bootstrap_samples,
-            workers=args.workers,
-            phase="training" if args.phase != "heldout" else "heldout",
-        )
+        label = f"[{position}/{len(selected)}] dose {dose:.2f} ({censored} censored)"
+
+        if args.resume and (dose_output / "decision.json").is_file():
+            existing = json.loads(
+                (dose_output / "decision.json").read_text(encoding="utf-8")
+            )
+            say(f"{label} SKIPPED (--resume, artifact present) -> "
+                f"{existing.get('verdict')}")
+            emit("dose_skipped", dose=dose, censored_agents=censored,
+                 verdict=existing.get("verdict"))
+            per_dose.append({
+                "dose": dose, "censored_agents": censored,
+                "verdict": existing.get("verdict"), "resumed": True,
+                "artifact": str(dose_output),
+            })
+            continue
+
+        say(f"{label} starting")
+        emit("dose_start", dose=dose, censored_agents=censored)
+        dose_started = time.monotonic()
+        state = {"last": 0.0, "done": 0}
+
+        def report(completed: int, total: int) -> None:
+            state["done"] = completed
+            now = time.monotonic()
+            final = completed == total
+            if not final and now - state["last"] < args.progress_every:
+                return
+            state["last"] = now
+            frac = completed / total
+            spent = now - dose_started
+            rate = completed / spent if spent > 0 else 0.0
+            dose_left = (total - completed) / rate if rate > 0 else float("inf")
+            # Remaining doses are estimated from this dose's own rate, which is the
+            # only per-trial rate available on the first dose.
+            per_dose_estimate = (
+                sum(dose_durations) / len(dose_durations) if dose_durations
+                else spent / max(frac, 1e-9)
+            )
+            total_left = dose_left + per_dose_estimate * (len(selected) - position)
+            eta = datetime.now(timezone.utc) + timedelta(seconds=total_left)
+            say(f"  {label} {completed}/{total} trials ({frac:6.1%})  "
+                f"{rate:5.2f} trial/s  dose ETA {timedelta(seconds=int(dose_left))}  "
+                f"sweep ETA {timedelta(seconds=int(total_left))} "
+                f"(~{eta.strftime('%H:%M UTC')})")
+            emit("dose_progress", dose=dose, completed=completed, total=total,
+                 trials_per_second=round(rate, 4),
+                 dose_eta_s=round(dose_left, 1), sweep_eta_s=round(total_left, 1))
+
+        try:
+            decision = run_admission_evidence_suite(
+                ExperimentConfig(),
+                dose_output,
+                scenario_field_overrides={
+                    M9A7_POSITIVE_CONTROL.name: {DOSE_FIELD: censored}
+                },
+                seed_count=args.seed_count,
+                seed_start=args.seed_start,
+                bootstrap_samples=args.bootstrap_samples,
+                workers=args.workers,
+                phase="training" if args.phase != "heldout" else "heldout",
+                progress_callback=report,
+            )
+        except Exception as exc:  # noqa: BLE001 - a long unattended run must say why
+            say(f"{label} FAILED after "
+                f"{timedelta(seconds=int(time.monotonic() - dose_started))}: "
+                f"{type(exc).__name__}: {exc}")
+            emit("dose_failed", dose=dose, censored_agents=censored,
+                 error=f"{type(exc).__name__}: {exc}")
+            raise
+
+        elapsed = time.monotonic() - dose_started
+        dose_durations.append(elapsed)
+        say(f"{label} DONE in {timedelta(seconds=int(elapsed))} -> "
+            f"{decision.get('verdict')}")
+        emit("dose_done", dose=dose, censored_agents=censored,
+             verdict=decision.get("verdict"), duration_s=round(elapsed, 1))
+
         per_dose.append({
             "dose": dose,
             "censored_agents": censored,
             "verdict": decision.get("verdict"),
+            "duration_s": round(elapsed, 1),
             "artifact": (
                 str(dose_output.relative_to(REPO))
                 if dose_output.is_relative_to(REPO)
                 else str(dose_output)
             ),
         })
-        print(f"  dose {dose:.2f} ({censored} censored agents) -> "
-              f"{decision.get('verdict')}")
 
     record = {
         "milestone": "M17",
@@ -227,11 +349,15 @@ def main() -> int:
             "the expensive sweep is not re-run when a threshold is refined."
         ),
     }
-    output.mkdir(parents=True, exist_ok=True)
     (output / "sweep.json").write_text(
         json.dumps(record, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
-    print(f"\nwritten: {output / 'sweep.json'}")
+    total_elapsed = time.monotonic() - started
+    say("")
+    say(f"sweep complete in {timedelta(seconds=int(total_elapsed))}")
+    say(f"written: {output / 'sweep.json'}")
+    emit("sweep_done", total_s=round(total_elapsed, 1),
+         doses_completed=len(per_dose))
     return 0
 
 

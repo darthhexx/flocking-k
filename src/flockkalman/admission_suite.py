@@ -11,6 +11,7 @@ import math
 import os
 from pathlib import Path
 import platform
+from typing import Callable
 from time import perf_counter
 
 import numpy as np
@@ -863,6 +864,7 @@ def run_admission_evidence_suite(
     bootstrap_samples: int = 5000,
     phase: str = "heldout",
     scenario_field_overrides: dict[str, dict[str, object]] | None = None,
+    progress_callback: "Callable[[int, int], None] | None" = None,
 ) -> dict[str, object]:
     """Run the frozen, preregistered M9A.7 protocol.
 
@@ -879,7 +881,15 @@ def run_admission_evidence_suite(
     override through here keeps one code path, and the applied values are recorded in
     ``suite_config.json`` so a reader can see which dose produced an artifact.
 
-    Passing ``None`` reproduces the frozen protocol exactly.
+    ``progress_callback(completed, total)`` is invoked as each (scenario, seed) task
+    finishes, where ``total`` is the number of tasks in the whole suite. It exists
+    because a 300-seed sweep runs for hours with no output otherwise, and an operator
+    watching an unattended job cannot tell a slow run from a hung one. It is called
+    from the consuming loop, not from the workers, so it is safe with the process
+    pool and adds nothing to the hot path.
+
+    Passing ``None`` for either optional argument reproduces the frozen protocol
+    exactly.
     """
     if phase not in {"training", "heldout"}:
         raise ValueError("phase must be training or heldout")
@@ -935,16 +945,27 @@ def run_admission_evidence_suite(
 
     worker_count = workers or min(os.cpu_count() or 2, 8)
     executor_kind = "serial"
+    total_tasks = len(tasks)
+
+    def _drain(iterator) -> list[dict[str, object]]:
+        """Consume the worker results, reporting progress as each task lands."""
+        collected: list[dict[str, object]] = []
+        for index, produced in enumerate(iterator, start=1):
+            collected.extend(produced) if isinstance(produced, list) else collected.append(produced)
+            if progress_callback is not None:
+                progress_callback(index, total_tasks)
+        return collected
+
     if worker_count == 1:
-        run_rows = [_worker(task) for task in tasks]
+        run_rows = _drain(_worker(task) for task in tasks)
     else:
         try:
             with ProcessPoolExecutor(max_workers=worker_count) as executor:
-                run_rows = list(executor.map(_worker, tasks, chunksize=2))
+                run_rows = _drain(executor.map(_worker, tasks, chunksize=2))
             executor_kind = "process"
         except (PermissionError, OSError):
             with ThreadPoolExecutor(max_workers=worker_count) as executor:
-                run_rows = list(executor.map(_worker, tasks))
+                run_rows = _drain(executor.map(_worker, tasks))
             executor_kind = "thread_fallback"
     order = {item.name: index for index, item in enumerate(M9A7_SCENARIOS)}
     run_rows.sort(key=lambda row: (order[str(row["scenario"])], int(row["seed"])))

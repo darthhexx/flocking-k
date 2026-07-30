@@ -34,10 +34,13 @@ from .experiment import run_trial
 from .integrated_sensing import M9C_RECEDING_ALGORITHM
 from .metrics import StepRecord, summarize_run
 from .provenance import (
+    PRE_M14_COMMIT,
     CURRENT_FINGERPRINT_ALGORITHM,
     ReplayVerification,
     environment_fingerprint,
     replay_verdict_suffix,
+    verdict_accepted,
+    verify_upstream_source,
     verify_replay,
 )
 from .simulation import make_scenario
@@ -396,7 +399,7 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
     m9_decision = json.loads((m9_output / "decision.json").read_text())
     m10_suite = json.loads((m10_output / "suite_config.json").read_text())
     m10_decision = json.loads((m10_output / "decision.json").read_text())
-    m9_source = _artifact_hash(
+    _m9_files = (
         (
             source / "integrated_sensing.py",
             source / "integration_suite.py",
@@ -405,19 +408,31 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
             source / "metrics.py",
         )
     )
-    m10_source = _artifact_hash(
-        (
-            source / "adversarial_trust.py",
-            source / "adversarial_trust_suite.py",
-        )
+    _m10_files = (
+        source / "adversarial_trust.py",
+        source / "adversarial_trust_suite.py",
     )
+    m9_verification = verify_upstream_source(
+        m9_suite.get("candidate_source_sha256"),
+        _m9_files,
+        reference_commit=PRE_M14_COMMIT,
+        repo_root=project_root,
+    )
+    m10_verification = verify_upstream_source(
+        m10_suite.get("candidate_source_sha256"),
+        _m10_files,
+        reference_commit=PRE_M14_COMMIT,
+        repo_root=project_root,
+    )
+    m9_source = m9_verification["current_sha256"]
+    m10_source = m10_verification["current_sha256"]
     m9_protocol = _artifact_hash((project_root / "M9C_PROTOCOL.md",))
     m10_protocol = _artifact_hash((project_root / "M10A_PROTOCOL.md",))
     verified = (
-        m9_decision.get("verdict") == "M9C-PARTIAL-GO"
-        and m10_decision.get("verdict") == "M10A-GO"
-        and m9_source == m9_suite.get("candidate_source_sha256")
-        and m10_source == m10_suite.get("candidate_source_sha256")
+        verdict_accepted(str(m9_decision.get("verdict", "")), {"M9C-PARTIAL-GO"})
+        and verdict_accepted(str(m10_decision.get("verdict", "")), {"M10A-GO"})
+        and not m9_verification["blocks_promotion"]
+        and not m10_verification["blocks_promotion"]
         and m9_protocol == m9_suite.get("protocol_sha256")
         and m10_protocol == m10_suite.get("protocol_sha256")
     )
@@ -618,6 +633,10 @@ def _decision(
             if phase == "training"
             else "M10A5-NO-GO"
         )
+    elif not replay.verified:
+        # Substantive gates passed but the replay is not bit-exactly certifiable;
+        # qualify the verdict rather than reporting a clean GO (M14.3).
+        verdict = f"M10A5-{replay_verdict_suffix(replay)}"
     else:
         verdict = (
             "M10A5-TRAINING-PASS"

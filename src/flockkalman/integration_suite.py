@@ -24,6 +24,17 @@ from .integrated_sensing import (
     M9C_ROUND_ROBIN_ALGORITHM,
 )
 from .metrics import summarize_run
+from .provenance import (
+    PRE_M14_COMMIT,
+    CURRENT_FINGERPRINT_ALGORITHM,
+    ReplayVerification,
+    environment_fingerprint,
+    replay_verdict_suffix,
+    upstream_replay_acceptable,
+    verdict_accepted,
+    verify_upstream_source,
+    verify_replay,
+)
 from .simulation import scenario_fingerprint
 from .suite import ScenarioDefinition, _bootstrap_interval, _write_csv
 from .topology_suite import M9A_SCENARIOS, _fit_timing
@@ -153,7 +164,9 @@ def _scenario_config(
 def _worker(task: tuple[str, dict[str, object], int]) -> list[dict[str, object]]:
     scenario_name, config_data, seed = task
     config = ExperimentConfig(**config_data)
-    fingerprint = scenario_fingerprint(config, seed)
+    fingerprint = scenario_fingerprint(
+        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+    )
     rows: list[dict[str, object]] = []
     for algorithm in M9C_ALGORITHMS:
         started = perf_counter()
@@ -313,7 +326,7 @@ def _decision(
     *,
     phase: str,
     seed_count: int,
-    replay_verified: bool,
+    replay: ReplayVerification,
     upstream_verified: bool,
 ) -> dict[str, object]:
     threshold = M9C_THRESHOLDS
@@ -412,7 +425,7 @@ def _decision(
         float(threshold["tail_detection_probability"]),
     )
     gates = {
-        "replay": replay_verified,
+        "replay": replay.verified,
         "upstream_m9a7_frozen_go": upstream_verified,
         "tail_event_power": phase == "training" or seed_count >= minimum_powered_seeds,
         "positive_control_exercised": (
@@ -477,7 +490,9 @@ def _decision(
         "positive_control_voi_utility",
         "movement_efficiency",
     }
-    if not all(gates[name] for name in validity_names):
+    # M14.3: replay is adjudicated separately from the other validity gates.
+    _other_validity = validity_names - {"replay"}
+    if replay.blocks_promotion or not all(gates[name] for name in _other_validity):
         verdict = "M9C-INVALID"
     elif not all(gates[name] for name in safety_names):
         verdict = "M9C-TRAINING-FAIL" if phase == "training" else "M9C-NO-GO"
@@ -644,23 +659,29 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
         (upstream / "suite_config.json").read_text(encoding="utf-8")
     )
     source = project_root / "src/flockkalman"
-    current_hash = _artifact_hash(
-        (
-            source / "admission_suite.py",
-            source / "admission_evidence.py",
-            source / "missing_evidence.py",
-            source / "oracle_floor.py",
-        )
+    _m9a7_files = (
+        source / "admission_suite.py",
+        source / "admission_evidence.py",
+        source / "missing_evidence.py",
+        source / "oracle_floor.py",
     )
+    upstream_source = verify_upstream_source(
+        suite_config.get("candidate_source_sha256"),
+        _m9a7_files,
+        reference_commit=PRE_M14_COMMIT,
+        repo_root=project_root,
+    )
+    current_hash = upstream_source["current_sha256"]
     verified = (
-        decision.get("verdict") == "M9A7-GO"
-        and current_hash == suite_config.get("candidate_source_sha256")
-        and bool(decision.get("trace_replay_verified"))
+        verdict_accepted(str(decision.get("verdict", "")), {"M9A7-GO"})
+        and not upstream_source["blocks_promotion"]
+        and upstream_replay_acceptable(decision)
     )
     return verified, {
         "verdict": decision.get("verdict"),
         "candidate_source_sha256": suite_config.get("candidate_source_sha256"),
         "current_source_sha256": current_hash,
+        "source_verification": upstream_source,
         "trace_replay_verified": decision.get("trace_replay_verified"),
     }
 
@@ -695,7 +716,9 @@ def run_integration_suite(
                 {
                     "scenario": scenario.name,
                     "seed": seed,
-                    "fingerprint": scenario_fingerprint(config, seed),
+                    "fingerprint": scenario_fingerprint(
+                        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+                    ),
                 }
             )
     worker_count = workers or min(os.cpu_count() or 2, 8)
@@ -729,13 +752,16 @@ def run_integration_suite(
         )
     )
     effects = _effects(rows, bootstrap_samples)
-    replay_verified = all(
-        scenario_fingerprint(
+    replay = verify_replay(
+        [dict(entry) for entry in manifest_entries],
+        expected=lambda entry, algorithm: scenario_fingerprint(
             ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
             int(entry["seed"]),
-        )
-        == entry["fingerprint"]
-        for entry in manifest_entries
+            algorithm=algorithm,
+        ),
+        recorded_environment=environment_fingerprint(),
+        recorded_algorithm=CURRENT_FINGERPRINT_ALGORITHM,
+        fingerprint_key="fingerprint",
     )
     project_root = Path(__file__).resolve().parents[2]
     upstream_verified, upstream = _verify_upstream(project_root)
@@ -745,7 +771,7 @@ def run_integration_suite(
         effects,
         phase=phase,
         seed_count=seed_count,
-        replay_verified=replay_verified,
+        replay=replay,
         upstream_verified=upstream_verified,
     )
     output = Path(output_directory)
@@ -755,7 +781,12 @@ def run_integration_suite(
     _write_csv(output / "paired_effects.csv", effects)
     (output / "trace_manifest.json").write_text(
         json.dumps(
-            {"replay_verified": replay_verified, "entries": manifest_entries},
+            {
+                "replay_verified": replay.verified,
+                "replay_verification": replay.to_dict(),
+                "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
+                "entries": manifest_entries,
+            },
             indent=2,
             sort_keys=True,
         )
@@ -782,10 +813,14 @@ def run_integration_suite(
                 source / "experiment.py",
                 source / "config.py",
                 source / "metrics.py",
+                # M14.4: the replay gate depends on these too.
+                source / "simulation.py",
+                source / "provenance.py",
             )
         ),
         "upstream_m9a7": upstream,
         "platform_version": "0.13.0",
+        "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
         "python": platform.python_version(),
         "numpy": np.__version__,
     }
@@ -830,15 +865,31 @@ def reanalyze_integration_suite(
         )
     )
     effects = _effects(rows, samples)
-    replay_verified = all(
-        str(row["trace_fingerprint"])
-        == scenario_fingerprint(
-            ExperimentConfig(
-                **suite_config["scenario_configs"][str(row["scenario"])]
-            ),
+    _cfgs = suite_config["scenario_configs"]
+    replay = verify_replay(
+        rows,
+        expected=lambda row, algorithm: scenario_fingerprint(
+            ExperimentConfig(**_cfgs[str(row["scenario"])]),
             int(row["seed"]),
-        )
-        for row in rows
+            algorithm=algorithm,
+        ),
+        schema_expected=lambda row, algorithm: scenario_fingerprint(
+            ExperimentConfig(**_cfgs[str(row["scenario"])]),
+            int(row["seed"]),
+            algorithm=algorithm,
+            config_payload=dict(_cfgs[str(row["scenario"])]),
+        ),
+        recorded_environment={
+            key: suite_config[key]
+            for key in ("python", "numpy", "platform", "machine")
+            if key in suite_config
+        }
+        or None,
+        recorded_algorithm=(
+            str(suite_config["fingerprint_algorithm"])
+            if suite_config.get("fingerprint_algorithm")
+            else None
+        ),
     )
     project_root = Path(__file__).resolve().parents[2]
     upstream_verified, _ = _verify_upstream(project_root)
@@ -848,7 +899,7 @@ def reanalyze_integration_suite(
         effects,
         phase=str(suite_config["phase"]),
         seed_count=int(suite_config["seed_count"]),
-        replay_verified=replay_verified,
+        replay=replay,
         upstream_verified=upstream_verified,
     )
     _write_csv(output / "scenario_summary.csv", summaries)

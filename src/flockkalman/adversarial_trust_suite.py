@@ -27,10 +27,14 @@ from .integrated_sensing import M9C_RECEDING_ALGORITHM
 from .integration_suite import M9C_SOURCE_COMPETITION
 from .metrics import StepRecord
 from .provenance import (
+    PRE_M14_COMMIT,
     CURRENT_FINGERPRINT_ALGORITHM,
     ReplayVerification,
     environment_fingerprint,
     replay_verdict_suffix,
+    upstream_replay_acceptable,
+    verdict_accepted,
+    verify_upstream_source,
     verify_replay,
 )
 from .simulation import (
@@ -590,20 +594,27 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
     decision = json.loads((output / "decision.json").read_text(encoding="utf-8"))
     suite = json.loads((output / "suite_config.json").read_text(encoding="utf-8"))
     source = project_root / "src/flockkalman"
-    current_source = _artifact_hash(
-        (
-            source / "integrated_sensing.py",
-            source / "integration_suite.py",
-            source / "experiment.py",
-            source / "config.py",
-            source / "metrics.py",
-        )
+    _m9c_files = (
+        source / "integrated_sensing.py",
+        source / "integration_suite.py",
+        source / "experiment.py",
+        source / "config.py",
+        source / "metrics.py",
     )
+    # M14.4: tolerate drift caused by M14's own edits to shared modules, but only
+    # when the recorded digest still verifies against the pre-M14 tree.
+    upstream_source = verify_upstream_source(
+        suite.get("candidate_source_sha256"),
+        _m9c_files,
+        reference_commit=PRE_M14_COMMIT,
+        repo_root=project_root,
+    )
+    current_source = upstream_source["current_sha256"]
     current_protocol = _artifact_hash((project_root / "M9C_PROTOCOL.md",))
     verified = (
-        decision.get("verdict") == "M9C-PARTIAL-GO"
-        and bool(dict(decision.get("gates", {})).get("replay"))
-        and current_source == suite.get("candidate_source_sha256")
+        verdict_accepted(str(decision.get("verdict", "")), {"M9C-PARTIAL-GO"})
+        and upstream_replay_acceptable(decision)
+        and not upstream_source["blocks_promotion"]
         and current_protocol == suite.get("protocol_sha256")
     )
     return verified, {
@@ -611,6 +622,7 @@ def _verify_upstream(project_root: Path) -> tuple[bool, dict[str, object]]:
         "replay": dict(decision.get("gates", {})).get("replay"),
         "recorded_source_sha256": suite.get("candidate_source_sha256"),
         "current_source_sha256": current_source,
+        "source_verification": upstream_source,
         "recorded_protocol_sha256": suite.get("protocol_sha256"),
         "current_protocol_sha256": current_protocol,
     }

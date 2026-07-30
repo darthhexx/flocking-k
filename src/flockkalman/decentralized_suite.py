@@ -445,12 +445,17 @@ def _verify_upstream(
     selected = heldout if (heldout / "decision.json").exists() else training
     decision = json.loads((selected / "decision.json").read_text())
     suite = json.loads((selected / "suite_config.json").read_text())
-    source_hash = _artifact_hash(
-        (
-            source / "closed_loop_trust.py",
-            source / "closed_loop_trust_suite.py",
-        )
+    _files = (
+        source / "closed_loop_trust.py",
+        source / "closed_loop_trust_suite.py",
     )
+    source_verification = verify_upstream_source(
+        suite.get("candidate_source_sha256"),
+        _files,
+        reference_commit=PRE_M14_COMMIT,
+        repo_root=project_root,
+    )
+    source_hash = source_verification["current_sha256"]
     protocol_hash = _artifact_hash((project_root / "M10A5_PROTOCOL.md",))
     allowed = (
         {"M10A5-TRAINING-PASS", "M10A5-GO"}
@@ -458,8 +463,8 @@ def _verify_upstream(
         else {"M10A5-GO"}
     )
     verified = (
-        decision.get("verdict") in allowed
-        and source_hash == suite.get("candidate_source_sha256")
+        verdict_accepted(str(decision.get("verdict", "")), allowed)
+        and not source_verification["blocks_promotion"]
         and protocol_hash == suite.get("protocol_sha256")
         and bool(dict(decision.get("gates", {})).get("upstream_frozen"))
     )
@@ -468,6 +473,7 @@ def _verify_upstream(
         "artifact": str(selected),
         "verdict": decision.get("verdict"),
         "source_sha256": source_hash,
+        "source_verification": source_verification,
         "protocol_sha256": protocol_hash,
     }
 

@@ -483,3 +483,174 @@ def replay_verdict_suffix(replay: ReplayVerification) -> str | None:
     displace it in the verdict string.
     """
     return None if replay.verified else replay.status
+
+
+def upstream_replay_acceptable(decision: Mapping[str, Any]) -> bool:
+    """Whether an upstream milestone's replay state permits building on it.
+
+    Downstream suites verify their frozen upstream by, among other things,
+    requiring that its ``replay`` gate passed. After M14 that boolean is False
+    whenever the replay was merely non-bit-exact -- environment churn or config
+    schema growth -- neither of which is an integrity failure. Requiring the raw
+    boolean would therefore break every downstream chain the moment a referee
+    reanalysed an upstream artifact on their own machine, which is the exact class
+    of spurious failure M14 exists to remove.
+
+    Prefers the structured ``replay_verification.blocks_promotion`` and falls back
+    to the legacy boolean for artifacts written before M14.
+    """
+    verification = decision.get("replay_verification")
+    if isinstance(verification, Mapping) and "blocks_promotion" in verification:
+        return not bool(verification["blocks_promotion"])
+    gates = decision.get("gates")
+    if isinstance(gates, Mapping) and "replay" in gates:
+        return bool(gates["replay"])
+    return bool(decision.get("trace_replay_verified"))
+
+
+REPLAY_VERDICT_SUFFIXES = (ENV_MISMATCH, SCHEMA_DRIFT)
+"""Suffixes a verdict may carry purely as a provenance qualifier."""
+
+
+def base_verdict(verdict: str) -> str:
+    """Strip a trailing replay-provenance qualifier from a verdict string.
+
+    ``"M10A-REPLAY-ENV-MISMATCH"`` -> ``"M10A-GO"``? No: deliberately NOT that.
+    It returns ``"M10A"`` plus nothing, because the qualifier *replaced* the
+    outcome token rather than being appended to it. Callers should therefore use
+    :func:`verdict_accepted`, which compares on the milestone prefix, rather than
+    trying to reconstruct the original outcome -- which is unknowable from the
+    string alone and must not be guessed.
+    """
+    for suffix in REPLAY_VERDICT_SUFFIXES:
+        marker = f"-{suffix}"
+        if verdict.endswith(marker):
+            return verdict[: -len(marker)]
+    return verdict
+
+
+def verdict_accepted(verdict: str, accepted: "Iterable[str]") -> bool:
+    """Whether ``verdict`` satisfies ``accepted``, tolerating a provenance suffix.
+
+    A verdict qualified by a non-blocking replay status (environment churn or
+    config schema growth) is treated as satisfying the accepted set, because those
+    statuses are explicitly not integrity failures. A ``MISMATCH`` never produces
+    such a suffix -- it produces ``INVALID`` -- so this cannot launder a real
+    failure into an accepted one.
+
+    The comparison is on the milestone prefix: ``"M10A-REPLAY-ENV-MISMATCH"``
+    satisfies ``{"M10A-GO"}`` because both share the ``M10A`` prefix and the
+    qualifier is known-benign. Substantive outcomes such as ``M10A-NO-GO`` carry no
+    qualifier and so are compared exactly, as before.
+    """
+    accepted = set(accepted)
+    if verdict in accepted:
+        return True
+    stripped = base_verdict(verdict)
+    if stripped == verdict:
+        return False  # no benign qualifier was present; exact match was required
+    return any(item.startswith(f"{stripped}-") for item in accepted)
+
+
+# --- upstream source verification -------------------------------------------
+
+UPSTREAM_VERIFIED = "UPSTREAM-VERIFIED"
+UPSTREAM_HISTORICAL = "UPSTREAM-SOURCE-DRIFT-HISTORICALLY-VERIFIED"
+UPSTREAM_DRIFT = "UPSTREAM-SOURCE-DRIFT"
+
+
+def verify_upstream_source(
+    recorded_sha256: str | None,
+    files: "Sequence[Any]",
+    *,
+    reference_commit: str | None = None,
+    repo_root: Any = None,
+) -> dict[str, Any]:
+    """Verify a frozen upstream source set, tolerating infrastructure drift.
+
+    The problem this solves is the mirror image of the replay-gate one, and it
+    bites for the same reason. M14 had to edit modules that sit inside *other*
+    milestones' frozen sets (``simulation.py``, ``config.py``, and the suite
+    modules themselves). A plain byte comparison against the working tree
+    therefore reports drift for every downstream milestone, and three held-out
+    artifacts re-analyse to INVALID -- swapping one spurious INVALID for another,
+    which would defeat the point of M14.
+
+    So the check gets a second chance, exactly as the replay gate did: if the
+    current tree disagrees, recompute the digest from ``reference_commit`` in git
+    history. A match there proves the recorded certification was valid against the
+    tree that produced it, and the disagreement is attributable to later edits
+    rather than to an algorithm change. That is reported as
+    ``UPSTREAM-SOURCE-DRIFT-HISTORICALLY-VERIFIED`` and does not block.
+
+    Only an upstream digest that matches *neither* the working tree nor history is
+    ``UPSTREAM-SOURCE-DRIFT``, which blocks. Git being unavailable also blocks --
+    an unverifiable upstream must never pass by default.
+    """
+    from pathlib import Path as _Path
+
+    resolved = [_Path(f) for f in files]
+    current = artifact_hash(resolved)
+    out: dict[str, Any] = {
+        "recorded_sha256": recorded_sha256,
+        "current_sha256": current,
+        "files": [p.name for p in resolved],
+        "reference_commit": reference_commit,
+    }
+    if not recorded_sha256:
+        out["status"] = UPSTREAM_DRIFT
+        out["blocks_promotion"] = True
+        out["detail"] = "upstream artifact records no candidate source hash"
+        return out
+    if current == recorded_sha256:
+        out["status"] = UPSTREAM_VERIFIED
+        out["blocks_promotion"] = False
+        return out
+    if not reference_commit:
+        out["status"] = UPSTREAM_DRIFT
+        out["blocks_promotion"] = True
+        out["detail"] = "current tree differs and no reference commit was supplied"
+        return out
+
+    import subprocess
+
+    root = _Path(repo_root) if repo_root is not None else resolved[0].parents[2]
+    digest = hashlib.sha256()
+    try:
+        for path in resolved:
+            rel = path.relative_to(root)
+            proc = subprocess.run(
+                ["git", "-C", str(root), "show", f"{reference_commit}:{rel.as_posix()}"],
+                capture_output=True,
+                check=True,
+            )
+            digest.update(path.name.encode("utf-8"))
+            digest.update(proc.stdout)
+    except Exception as exc:  # noqa: BLE001 - unverifiable must not silently pass
+        out["status"] = UPSTREAM_DRIFT
+        out["blocks_promotion"] = True
+        out["detail"] = f"could not read reference commit: {exc}"
+        return out
+
+    out["historical_sha256"] = digest.hexdigest()
+    if digest.hexdigest() == recorded_sha256:
+        out["status"] = UPSTREAM_HISTORICAL
+        out["blocks_promotion"] = False
+        out["detail"] = (
+            "recorded certification verified against history; the working tree "
+            "differs due to later edits to shared modules"
+        )
+    else:
+        out["status"] = UPSTREAM_DRIFT
+        out["blocks_promotion"] = True
+        out["detail"] = "digest matches neither the working tree nor history"
+    return out
+
+
+PRE_M14_COMMIT = "568fbfa"
+"""The commit holding the tree that produced every pre-M14 artifact.
+
+Recorded here so upstream verification has a reference point without each suite
+hardcoding one. See ``_m14/verify_legacy_certification.py``, which independently
+confirms all seven determinable artifacts verify against it.
+"""

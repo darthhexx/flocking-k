@@ -24,6 +24,13 @@ from .missing_evidence_suite import (
     MissingEvidenceShadowCollector,
 )
 from .oracle_floor import OracleFloorCollector
+from .provenance import (
+    CURRENT_FINGERPRINT_ALGORITHM,
+    ReplayVerification,
+    environment_fingerprint,
+    replay_verdict_suffix,
+    verify_replay,
+)
 from .simulation import scenario_fingerprint
 from .suite import ScenarioDefinition, _bootstrap_interval, _write_csv
 from .topology import connected_components
@@ -545,7 +552,7 @@ def required_seed_count(event_frequency: float, detection_probability: float) ->
 def _decision(
     scenario_rows: list[dict[str, object]],
     effects: list[dict[str, object]],
-    trace_verified: bool,
+    replay: ReplayVerification,
     phase: str,
     seed_count: int,
 ) -> dict[str, object]:
@@ -561,7 +568,7 @@ def _decision(
         float(threshold["tail_detection_probability"]),
     )
     gates = {
-        "replay": trace_verified,
+        "replay": replay.verified,
         # Training is a development split, not a promotion attempt.  The
         # preregistered minimum becomes binding only on the held-out verdict.
         "tail_event_power": phase == "training" or seed_count >= power_required,
@@ -641,10 +648,12 @@ def _decision(
             for row in scenario_rows
         ),
     }
-    passed = all(gates.values())
+    # M14.3: replay adjudicated separately; only an unexplained mismatch blocks.
+    passed = all(value for name, value in gates.items() if name != "replay")
+    _suffix = replay_verdict_suffix(replay)
     verdict = (
         "INVALID-SUITE"
-        if not trace_verified
+        if replay.blocks_promotion
         else (
             "M9A7-TRAINING-PASS" if phase == "training" and passed else
             "M9A7-TRAINING-FAIL" if phase == "training" else
@@ -666,21 +675,36 @@ def _decision(
         },
         "m9b_integration_authorized": phase == "heldout" and passed,
         "original_m9a_and_m9a6_verdicts_unchanged": True,
-        "trace_replay_verified": trace_verified,
+        "trace_replay_verified": replay.verified,
+        "replay_verification": replay.to_dict(),
+        "environment": environment_fingerprint(),
     }
 
 
 def _verify_trace_manifest(
     scenario_configs: dict[str, dict[str, object]],
     entries: list[dict[str, object]],
-) -> bool:
-    return all(
-        scenario_fingerprint(
+    *,
+    recorded_environment: dict[str, object] | None = None,
+    recorded_algorithm: str | None = None,
+) -> ReplayVerification:
+    """Verify the trace manifest, separating env churn and schema drift (M14.3)."""
+    return verify_replay(
+        [dict(entry) for entry in entries],
+        expected=lambda entry, algorithm: scenario_fingerprint(
             ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
             int(entry["seed"]),
-        )
-        == entry["fingerprint"]
-        for entry in entries
+            algorithm=algorithm,
+        ),
+        schema_expected=lambda entry, algorithm: scenario_fingerprint(
+            ExperimentConfig(**scenario_configs[str(entry["scenario"])]),
+            int(entry["seed"]),
+            algorithm=algorithm,
+            config_payload=dict(scenario_configs[str(entry["scenario"])]),
+        ),
+        recorded_environment=recorded_environment,
+        recorded_algorithm=recorded_algorithm,
+        fingerprint_key="fingerprint",
     )
 
 
@@ -784,14 +808,25 @@ def _materialize(
     seeds = list(range(seed_start, seed_start + seed_count))
     scenario_rows = _scenario_summary(run_rows)
     effects = _paired_effects(run_rows, seeds, bootstrap_samples)
-    trace_verified = _verify_trace_manifest(
+    replay = _verify_trace_manifest(
         dict(suite_config["scenario_configs"]),  # type: ignore[arg-type]
         list(trace_manifest["entries"]),  # type: ignore[arg-type]
+        recorded_environment={
+            key: suite_config[key]
+            for key in ("python", "numpy", "platform", "machine")
+            if key in suite_config
+        }
+        or None,
+        recorded_algorithm=(
+            str(suite_config["fingerprint_algorithm"])
+            if suite_config.get("fingerprint_algorithm")
+            else None
+        ),
     )
     decision = _decision(
         scenario_rows,
         effects,
-        trace_verified,
+        replay,
         str(suite_config["phase"]),
         seed_count,
     )
@@ -799,7 +834,8 @@ def _materialize(
     _write_csv(output / "run_summary.csv", run_rows)
     _write_csv(output / "scenario_summary.csv", scenario_rows)
     _write_csv(output / "paired_effects.csv", effects)
-    trace_manifest["replay_verified"] = trace_verified
+    trace_manifest["replay_verified"] = replay.verified
+    trace_manifest["replay_verification"] = replay.to_dict()
     (output / "trace_manifest.json").write_text(
         json.dumps(trace_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
@@ -862,7 +898,9 @@ def run_admission_evidence_suite(
                 {
                     "scenario": scenario.name,
                     "seed": seed,
-                    "fingerprint": scenario_fingerprint(config, seed),
+                    "fingerprint": scenario_fingerprint(
+                        config, seed, algorithm=CURRENT_FINGERPRINT_ALGORITHM
+                    ),
                 }
             )
 
@@ -908,6 +946,7 @@ def run_admission_evidence_suite(
         "protocol_sha256": _artifact_hash((protocol_path,)),
         "candidate_source_sha256": _artifact_hash(candidate_sources),
         "frozen_physical_policy": M9A_FULL,
+        "fingerprint_algorithm": CURRENT_FINGERPRINT_ALGORITHM,
         "python": platform.python_version(),
         "numpy": np.__version__,
         "platform_version": "0.12.0",

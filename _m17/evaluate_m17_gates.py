@@ -298,16 +298,38 @@ def evaluate(sweep_dir: Path, scenario: str) -> dict:
                                                         "baseline")[0].tolist()}
 
 
-def main() -> int:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--sweep", type=Path,
-                    default=REPO / "results/milestone17_training")
-    ap.add_argument("--scenario", default=SCENARIO)
-    args = ap.parse_args()
+def residual_fractions(arms: dict) -> dict:
+    """candidate slope / baseline slope, per metric.
 
-    ev = evaluate(args.sweep, args.scenario)
+    This is the quantity Amendment 003 turns on. Normalising by the unrepaired
+    slope removes the scenario-level differences in absolute effect size, so the
+    numbers are comparable across scenarios in a way the raw slopes are not.
+    Sign is preserved: both slopes have the same sign in every observed case, so
+    the ratio is positive and reads as "fraction of the degradation the repair
+    left behind". A baseline slope at or near zero makes the ratio meaningless
+    rather than large, so it is reported as None instead of a huge number.
+    """
+    out = {}
+    for key in ("decision_loss", "mean_nees", "coverage95"):
+        base = arms["baseline"][key]["slope"]
+        cand = arms["candidate"][key]["slope"]
+        out[key] = None if abs(base) < 1e-9 else cand / base
+    return out
+
+
+def evaluate_one(sweep: Path, scenario: str, *, quiet: bool = False) -> dict:
+    """Evaluate one scenario, print the report, and return the record.
+
+    The record is written by the caller so that ``--all`` can decide the
+    filenames. Every scenario gets its own file: an earlier version wrote every
+    scenario to a single ``gate_evaluation.json``, so running the evaluator four
+    times left only the last scenario on disk and destroyed the other three
+    records. See Amendment 003 -- the four-scenario result existed only in
+    terminal scrollback.
+    """
+    ev = evaluate(sweep, scenario)
     doses = ev["doses"]
-    print(f"scenario {args.scenario}\n")
+    print(f"scenario {scenario}\n")
     for arm in ("baseline", "candidate"):
         a = ev["arms"][arm]
         tag = "UNREPAIRED (M9A.6)" if arm == "baseline" else "REPAIRED (M9A.7 split)"
@@ -322,29 +344,101 @@ def main() -> int:
     for name, g in ev["gates"].items():
         print(f"{name:46s} {g['arm']:20s} {'PASS' if g['passed'] else 'FAIL'}")
 
-    b = ev["arms"]["baseline"]
     signature = (ev["gates"]["17_1_regret_rises_baseline"]["passed"]
                  and ev["gates"]["17_4_nees_flat_equivalence_baseline"]["passed"]
                  and ev["gates"]["17_6_coverage_flat_equivalence_baseline"]["passed"])
     print(f"\nBLINDNESS SIGNATURE on the UNREPAIRED arm: "
           f"{'PRESENT' if signature else 'ABSENT'}")
 
-    record = {"milestone": "M17", "scenario": args.scenario,
-              "sweep": str(args.sweep), "doses": doses,
-              "arm_semantics": {
-                  "baseline": "unrepaired M9A.6 assignment posterior",
-                  "candidate": "M9A.7 split-admission repair"},
-              "statistics": {"unit_of_analysis": "seed",
-                             "method": "per-seed OLS slope; percentile bootstrap "
-                                       "over seed-level slopes",
-                             "bootstrap_samples": BOOTSTRAP, "rng_seed": RNG_SEED},
-              "arms": ev["arms"],
-              "gates": {k: bool(v["passed"]) for k, v in ev["gates"].items()},
-              "gate_detail": ev["gates"],
-              "blindness_signature_unrepaired": bool(signature),
-              "environment": environment_fingerprint()}
+    residual = residual_fractions(ev["arms"])
+    print("residual fraction (candidate slope / baseline slope; "
+          "lower = repair more complete)")
+    for k in ("decision_loss", "mean_nees", "coverage95"):
+        v = residual[k]
+        print(f"   {k:14s} {'n/a' if v is None else f'{v:.3f}'}")
+
+    return {"milestone": "M17", "scenario": scenario,
+            "sweep": str(sweep), "doses": doses,
+            "arm_semantics": {
+                "baseline": "unrepaired M9A.6 assignment posterior",
+                "candidate": "M9A.7 split-admission repair"},
+            "statistics": {"unit_of_analysis": "seed",
+                           "method": "per-seed OLS slope; percentile bootstrap "
+                                     "over seed-level slopes",
+                           "bootstrap_samples": BOOTSTRAP, "rng_seed": RNG_SEED},
+            "arms": ev["arms"],
+            "gates": {k: bool(v["passed"]) for k, v in ev["gates"].items()},
+            "gate_detail": ev["gates"],
+            "residual_fractions": residual,
+            "blindness_signature_unrepaired": bool(signature),
+            "environment": environment_fingerprint()}
+
+
+def _dosable() -> tuple[str, ...]:
+    """The scenarios the dose axis actually reaches, from the runner itself.
+
+    Imported rather than duplicated so the evaluator cannot drift from the
+    runner's own filter (the M17.11 failure was exactly this kind of drift).
+    """
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from run_m17_dose import DOSABLE_SCENARIOS  # noqa: E402
+    return tuple(DOSABLE_SCENARIOS)
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--sweep", type=Path,
+                    default=REPO / "results/milestone17_training")
+    ap.add_argument("--scenario", default=SCENARIO)
+    ap.add_argument("--all", action="store_true",
+                    help="evaluate every dosable scenario and write an aggregate")
+    args = ap.parse_args()
+
+    scenarios = _dosable() if args.all else (args.scenario,)
+    records = {}
+    for i, scenario in enumerate(scenarios):
+        if i:
+            print("\n" + "=" * 72 + "\n")
+        record = evaluate_one(args.sweep, scenario)
+        out = args.sweep / f"gate_evaluation_{scenario}.json"
+        out.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n",
+                       encoding="utf-8")
+        print(f"written: {out}")
+        records[scenario] = record
+
+    if not args.all:
+        return 0
+
+    print("\n" + "=" * 72)
+    print("residual fraction summary (candidate slope / baseline slope)\n")
+    print(f"{'scenario':32s} {'regret':>8} {'NEES':>8} {'coverage':>9}")
+    for scenario, record in records.items():
+        r = record["residual_fractions"]
+        cells = [("n/a" if r[k] is None else f"{r[k]:.3f}")
+                 for k in ("decision_loss", "mean_nees", "coverage95")]
+        print(f"{scenario:32s} {cells[0]:>8} {cells[1]:>8} {cells[2]:>9}")
+
+    aggregate = {
+        "milestone": "M17",
+        "sweep": str(args.sweep),
+        "scenarios": list(records),
+        "per_scenario": {s: {"gates": r["gates"],
+                             "residual_fractions": r["residual_fractions"],
+                             "blindness_signature_unrepaired":
+                                 r["blindness_signature_unrepaired"]}
+                         for s, r in records.items()},
+        "amendment_003_note": (
+            "Residual fractions are DESCRIPTIVE. Amendment 003 sec 5.2 forbids "
+            "attributing the control/natural difference to gate class, probation "
+            "length, censoring duration or partition structure from these four "
+            "scenarios; five factors are confounded across them. The identifying "
+            "experiment is the 2x2 factorial in Amendment 003 sec 6, on the "
+            "training band only."
+        ),
+        "environment": environment_fingerprint(),
+    }
     out = args.sweep / "gate_evaluation.json"
-    out.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n",
+    out.write_text(json.dumps(aggregate, indent=2, sort_keys=True) + "\n",
                    encoding="utf-8")
     print(f"\nwritten: {out}")
     return 0

@@ -1,0 +1,709 @@
+{
+  "amendments_applied": [
+    "PROTOCOL_AMENDMENT_002_m17.md (arm assignment, thresholds, directional hypothesis)",
+    "PROTOCOL_AMENDMENT_003_m17.md (four-scenario sweep; retraction of the exogenous/endogenous reading; held-out hypothesis set)"
+  ],
+  "environment": {
+    "machine": "aarch64",
+    "numpy": "2.2.6",
+    "platform": "Linux",
+    "python": "3.10.12"
+  },
+  "exit_condition_4": {
+    "fired": true,
+    "statement": "Exit condition 4 -- 'gates 17.4-17.7 fail, NEES does see the censoring' -- has fired on its literal terms, on all four scenarios. It does not collapse the direction, because its rationale was that a diagnostic tracking the failure would let a practitioner catch it. The diagnostics move the WRONG WAY, so a practitioner watching them would gain confidence precisely as the system became wrong. See Amendment 002 sec 4."
+  },
+  "gates": {
+    "17_10_crn_integrity": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_11_validity": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_1_regret_rises_baseline": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_2_regret_slope_positive_baseline": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_3_reaches_failure_regime_baseline": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_4_nees_flat_equivalence_baseline": {
+      "failed_scenarios": [
+        "admission_censoring_control",
+        "failure_only",
+        "failure_partition",
+        "staggered_rejoin"
+      ],
+      "passed_all_scenarios": false
+    },
+    "17_5_nees_within_platform_threshold_baseline": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_6_coverage_flat_equivalence_baseline": {
+      "failed_scenarios": [
+        "admission_censoring_control",
+        "failure_only",
+        "failure_partition",
+        "staggered_rejoin"
+      ],
+      "passed_all_scenarios": false
+    },
+    "17_7_coverage_within_platform_threshold_baseline": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    },
+    "17_8_posterior_predictive_blind_baseline": {
+      "failed_scenarios": [
+        "admission_censoring_control",
+        "failure_only",
+        "failure_partition",
+        "staggered_rejoin"
+      ],
+      "passed_all_scenarios": false
+    },
+    "17_9_repair_reduces_degradation": {
+      "failed_scenarios": [],
+      "passed_all_scenarios": true
+    }
+  },
+  "headline": "The predeclared flatness signature is ABSENT on all four dosed scenarios. What replaces it is anti-correlation: on the unrepaired arm decision regret rises 4x (control) to 8x (natural scenarios) while mean NEES FALLS 20-28% and coverage95 RISES. The diagnostics do not merely miss the degradation -- they move in the direction that signals improving calibration while decisions become catastrophically wrong. The engineered positive control is the WEAKEST of the four instances, so the effect is not an artifact of the dose knob.",
+  "heldout_band": {
+    "count": 300,
+    "opened": false,
+    "start": 32000
+  },
+  "heldout_hypotheses": "PROTOCOL_AMENDMENT_003_m17.md sec 5.1 (H1, H2, H3)",
+  "milestone": "M17",
+  "per_scenario_arms": {
+    "admission_censoring_control": {
+      "baseline": {
+        "_per_dose_cov": [
+          0.9677916666666666,
+          0.9695624999999999,
+          0.9696875,
+          0.9724791666666666,
+          0.9737708333333334,
+          0.9783541666666665
+        ],
+        "_per_dose_loss": [
+          0.3328357434984871,
+          0.3682480215194631,
+          0.4046232093913987,
+          0.5159069684701052,
+          0.613902446659888,
+          1.3353933132358486
+        ],
+        "_per_dose_nees": [
+          1.724561933324018,
+          1.7144339560239792,
+          1.7016020267460283,
+          1.6297634118303315,
+          1.6270735652328168,
+          1.3768305783323487
+        ],
+        "_top_dose_regret": {
+          "mean": 1.3353933132358486,
+          "ucb": 1.4373086566878324
+        },
+        "coverage95": {
+          "ci": [
+            0.007851190476190486,
+            0.011643005952380962
+          ],
+          "level_first": 0.9677916666666666,
+          "level_last": 0.9783541666666665,
+          "slope": 0.009747023809523818,
+          "spearman_of_means": 1.0
+        },
+        "decision_loss": {
+          "ci": [
+            0.761618776427861,
+            0.9158677729424173
+          ],
+          "level_first": 0.3328357434984871,
+          "level_last": 1.3353933132358486,
+          "slope": 0.8372906975981128,
+          "spearman_of_means": 1.0
+        },
+        "mean_nees": {
+          "ci": [
+            -0.32312258394838234,
+            -0.26935206951782525
+          ],
+          "level_first": 1.724561933324018,
+          "level_last": 1.3768305783323487,
+          "slope": -0.2960823660353617,
+          "spearman_of_means": -1.0
+        }
+      },
+      "candidate": {
+        "_per_dose_cov": [
+          0.9678958333333333,
+          0.9686250000000001,
+          0.9686041666666667,
+          0.9691666666666666,
+          0.969125,
+          0.9700625
+        ],
+        "_per_dose_loss": [
+          0.3168572441602487,
+          0.32458681972708603,
+          0.33845817411088086,
+          0.36699594796090346,
+          0.37396201108831995,
+          0.39611875354043785
+        ],
+        "_per_dose_nees": [
+          1.731734299874066,
+          1.7341447147891245,
+          1.72755965429159,
+          1.7229758107035014,
+          1.7188328464936702,
+          1.7060919653005222
+        ],
+        "_top_dose_regret": {
+          "mean": 0.39611875354043785,
+          "ucb": 0.4004711062598163
+        },
+        "coverage95": {
+          "ci": [
+            0.00016071428571429026,
+            0.003598288690476188
+          ],
+          "level_first": 0.9678958333333333,
+          "level_last": 0.9700625,
+          "slope": 0.0018422619047619054,
+          "spearman_of_means": 0.8857142857142858
+        },
+        "decision_loss": {
+          "ci": [
+            0.0783383386446226,
+            0.08540670416546803
+          ],
+          "level_first": 0.3168572441602487,
+          "level_last": 0.39611875354043785,
+          "slope": 0.08185298497638147,
+          "spearman_of_means": 1.0
+        },
+        "mean_nees": {
+          "ci": [
+            -0.04171024622829572,
+            -0.009218896083892994
+          ],
+          "level_first": 1.731734299874066,
+          "level_last": 1.7060919653005222,
+          "slope": -0.025533017334595443,
+          "spearman_of_means": -0.942857142857143
+        }
+      }
+    },
+    "failure_only": {
+      "baseline": {
+        "_per_dose_cov": [
+          0.9654999999999999,
+          0.9662916666666667,
+          0.9665208333333334,
+          0.9703958333333332,
+          0.9685,
+          0.9775208333333334
+        ],
+        "_per_dose_loss": [
+          0.2894643704956178,
+          0.32717243790494366,
+          0.3223416915652759,
+          0.4984126128965132,
+          0.46240352334508467,
+          2.3963627266454526
+        ],
+        "_per_dose_nees": [
+          1.7706101855511198,
+          1.7608926424044027,
+          1.7591040701770253,
+          1.6694013120554714,
+          1.7150722002669712,
+          1.280576642955423
+        ],
+        "_top_dose_regret": {
+          "mean": 2.3963627266454526,
+          "ucb": 2.630319514977337
+        },
+        "coverage95": {
+          "ci": [
+            0.008264806547619049,
+            0.011898883928571434
+          ],
+          "level_first": 0.9654999999999999,
+          "level_last": 0.9775208333333334,
+          "slope": 0.010086309523809527,
+          "spearman_of_means": 0.942857142857143
+        },
+        "decision_loss": {
+          "ci": [
+            1.4272536409291101,
+            1.755613132076613
+          ],
+          "level_first": 0.2894643704956178,
+          "level_last": 2.3963627266454526,
+          "slope": 1.5880365654858333,
+          "spearman_of_means": 0.8857142857142858
+        },
+        "mean_nees": {
+          "ci": [
+            -0.41665799679404614,
+            -0.3475211584685272
+          ],
+          "level_first": 1.7706101855511198,
+          "level_last": 1.280576642955423,
+          "slope": -0.3824759710731903,
+          "spearman_of_means": -0.942857142857143
+        }
+      },
+      "candidate": {
+        "_per_dose_cov": [
+          0.96725,
+          0.9672291666666668,
+          0.9676874999999999,
+          0.9693333333333334,
+          0.9728541666666666,
+          0.9728541666666668
+        ],
+        "_per_dose_loss": [
+          0.28417278649036964,
+          0.29460367031070267,
+          0.31083728817478457,
+          0.3927624057693337,
+          0.36891089295580076,
+          0.4231458871705493
+        ],
+        "_per_dose_nees": [
+          1.7478534823126644,
+          1.74717270754303,
+          1.7387020487135896,
+          1.7206869664276856,
+          1.611183753657629,
+          1.6144831987693775
+        ],
+        "_top_dose_regret": {
+          "mean": 0.4231458871705493,
+          "ucb": 0.42756748949219764
+        },
+        "coverage95": {
+          "ci": [
+            0.004913616071428571,
+            0.008425595238095237
+          ],
+          "level_first": 0.96725,
+          "level_last": 0.9728541666666668,
+          "slope": 0.006648809523809525,
+          "spearman_of_means": 0.8857142857142858
+        },
+        "decision_loss": {
+          "ci": [
+            0.13848749497285467,
+            0.14699826774891633
+          ],
+          "level_first": 0.28417278649036964,
+          "level_last": 0.4231458871705493,
+          "slope": 0.14281604127582032,
+          "spearman_of_means": 0.942857142857143
+        },
+        "mean_nees": {
+          "ci": [
+            -0.1738696268146628,
+            -0.13856518960953818
+          ],
+          "level_first": 1.7478534823126644,
+          "level_last": 1.6144831987693775,
+          "slope": -0.15611905166550546,
+          "spearman_of_means": -0.942857142857143
+        }
+      }
+    },
+    "failure_partition": {
+      "baseline": {
+        "_per_dose_cov": [
+          0.9684166666666666,
+          0.9691874999999999,
+          0.969625,
+          0.9736458333333333,
+          0.9718541666666666,
+          0.978625
+        ],
+        "_per_dose_loss": [
+          0.3775614945246622,
+          0.4441681442507802,
+          0.40550304416791166,
+          0.662309565797408,
+          0.8089009212167588,
+          3.0388492519407766
+        ],
+        "_per_dose_nees": [
+          1.7337300290605133,
+          1.710065847671433,
+          1.7139501243408253,
+          1.6052889783552544,
+          1.600997915384078,
+          1.2541943192043346
+        ],
+        "_top_dose_regret": {
+          "mean": 3.0388492519407766,
+          "ucb": 3.3699233672842204
+        },
+        "coverage95": {
+          "ci": [
+            0.007300520833333341,
+            0.01070535714285715
+          ],
+          "level_first": 0.9684166666666666,
+          "level_last": 0.978625,
+          "slope": 0.009008928571428577,
+          "spearman_of_means": 0.942857142857143
+        },
+        "decision_loss": {
+          "ci": [
+            1.8492089161491392,
+            2.3508414378994344
+          ],
+          "level_first": 0.3775614945246622,
+          "level_last": 3.0388492519407766,
+          "slope": 2.093920519944001,
+          "spearman_of_means": 0.942857142857143
+        },
+        "mean_nees": {
+          "ci": [
+            -0.44290209892814,
+            -0.3664060254659201
+          ],
+          "level_first": 1.7337300290605133,
+          "level_last": 1.2541943192043346,
+          "slope": -0.4047919274469327,
+          "spearman_of_means": -0.942857142857143
+        }
+      },
+      "candidate": {
+        "_per_dose_cov": [
+          0.9687916666666666,
+          0.9694166666666666,
+          0.9689583333333334,
+          0.9700208333333334,
+          0.9744375000000001,
+          0.9738333333333334
+        ],
+        "_per_dose_loss": [
+          0.3729286682735047,
+          0.3718037012663703,
+          0.39325162359078986,
+          0.48724956468355896,
+          0.4652615582082953,
+          0.5041326703962785
+        ],
+        "_per_dose_nees": [
+          1.7262459505330412,
+          1.7215337294533075,
+          1.71604100465614,
+          1.7013740898435175,
+          1.5842723365645413,
+          1.6003928712079085
+        ],
+        "_top_dose_regret": {
+          "mean": 0.5041326703962785,
+          "ucb": 0.5117558623495443
+        },
+        "coverage95": {
+          "ci": [
+            0.004139806547619047,
+            0.00771733630952381
+          ],
+          "level_first": 0.9687916666666666,
+          "level_last": 0.9738333333333334,
+          "slope": 0.005904761904761905,
+          "spearman_of_means": 0.8857142857142858
+        },
+        "decision_loss": {
+          "ci": [
+            0.13895142727763832,
+            0.15533223385879866
+          ],
+          "level_first": 0.3729286682735047,
+          "level_last": 0.5041326703962785,
+          "slope": 0.14719878893320185,
+          "spearman_of_means": 0.8857142857142858
+        },
+        "mean_nees": {
+          "ci": [
+            -0.1692848273189886,
+            -0.13186700764864814
+          ],
+          "level_first": 1.7262459505330412,
+          "level_last": 1.6003928712079085,
+          "slope": -0.1508166414435125,
+          "spearman_of_means": -0.942857142857143
+        }
+      }
+    },
+    "staggered_rejoin": {
+      "baseline": {
+        "_per_dose_cov": [
+          0.9655208333333334,
+          0.9664999999999998,
+          0.9672708333333334,
+          0.9692291666666667,
+          0.9692916666666668,
+          0.9781875
+        ],
+        "_per_dose_loss": [
+          0.28928032128093795,
+          0.3296633390521299,
+          0.32372777957247767,
+          0.42445402958693607,
+          0.4773943451785196,
+          2.5794576568333274
+        ],
+        "_per_dose_nees": [
+          1.770279046781103,
+          1.7600741299770588,
+          1.7560268183323076,
+          1.7122336366002688,
+          1.7117654935589992,
+          1.2655509107879626
+        ],
+        "_top_dose_regret": {
+          "mean": 2.5794576568333274,
+          "ucb": 2.8629295164406967
+        },
+        "coverage95": {
+          "ci": [
+            0.00873214285714286,
+            0.012369122023809527
+          ],
+          "level_first": 0.9655208333333334,
+          "level_last": 0.9781875,
+          "slope": 0.010523809523809529,
+          "spearman_of_means": 1.0
+        },
+        "decision_loss": {
+          "ci": [
+            1.518155456789929,
+            1.9185924445114693
+          ],
+          "level_first": 0.28928032128093795,
+          "level_last": 2.5794576568333274,
+          "slope": 1.7135437065936534,
+          "spearman_of_means": 0.942857142857143
+        },
+        "mean_nees": {
+          "ci": [
+            -0.4226464876758259,
+            -0.3518171134593945
+          ],
+          "level_first": 1.770279046781103,
+          "level_last": 1.2655509107879626,
+          "slope": -0.38747996727884576,
+          "spearman_of_means": -1.0
+        }
+      },
+      "candidate": {
+        "_per_dose_cov": [
+          0.9670833333333333,
+          0.9668333333333332,
+          0.9680833333333332,
+          0.9694375000000001,
+          0.9716041666666666,
+          0.9736458333333333
+        ],
+        "_per_dose_loss": [
+          0.28398030199971874,
+          0.2945803016101926,
+          0.31179305632560284,
+          0.3703058273596568,
+          0.3718992916600836,
+          0.4311676378229703
+        ],
+        "_per_dose_nees": [
+          1.7500995435375717,
+          1.7496822819663764,
+          1.7395613058668542,
+          1.724799428332301,
+          1.6585979483698243,
+          1.6031800727122618
+        ],
+        "_top_dose_regret": {
+          "mean": 0.4311676378229703,
+          "ucb": 0.4355195341218438
+        },
+        "coverage95": {
+          "ci": [
+            0.005110044642857142,
+            0.008717410714285716
+          ],
+          "level_first": 0.9670833333333333,
+          "level_last": 0.9736458333333333,
+          "slope": 0.006925595238095239,
+          "spearman_of_means": 0.942857142857143
+        },
+        "decision_loss": {
+          "ci": [
+            0.1424740795183216,
+            0.15075072457658964
+          ],
+          "level_first": 0.28398030199971874,
+          "level_last": 0.4311676378229703,
+          "slope": 0.14662948861428352,
+          "spearman_of_means": 1.0
+        },
+        "mean_nees": {
+          "ci": [
+            -0.16557284366641195,
+            -0.12607184541990443
+          ],
+          "level_first": 1.7500995435375717,
+          "level_last": 1.6031800727122618,
+          "slope": -0.14608746177867993,
+          "spearman_of_means": -1.0
+        }
+      }
+    }
+  },
+  "per_scenario_gates": {
+    "admission_censoring_control": {
+      "17_10_crn_integrity": true,
+      "17_11_validity": true,
+      "17_1_regret_rises_baseline": true,
+      "17_2_regret_slope_positive_baseline": true,
+      "17_3_reaches_failure_regime_baseline": true,
+      "17_4_nees_flat_equivalence_baseline": false,
+      "17_5_nees_within_platform_threshold_baseline": true,
+      "17_6_coverage_flat_equivalence_baseline": false,
+      "17_7_coverage_within_platform_threshold_baseline": true,
+      "17_8_posterior_predictive_blind_baseline": false,
+      "17_9_repair_reduces_degradation": true
+    },
+    "failure_only": {
+      "17_10_crn_integrity": true,
+      "17_11_validity": true,
+      "17_1_regret_rises_baseline": true,
+      "17_2_regret_slope_positive_baseline": true,
+      "17_3_reaches_failure_regime_baseline": true,
+      "17_4_nees_flat_equivalence_baseline": false,
+      "17_5_nees_within_platform_threshold_baseline": true,
+      "17_6_coverage_flat_equivalence_baseline": false,
+      "17_7_coverage_within_platform_threshold_baseline": true,
+      "17_8_posterior_predictive_blind_baseline": false,
+      "17_9_repair_reduces_degradation": true
+    },
+    "failure_partition": {
+      "17_10_crn_integrity": true,
+      "17_11_validity": true,
+      "17_1_regret_rises_baseline": true,
+      "17_2_regret_slope_positive_baseline": true,
+      "17_3_reaches_failure_regime_baseline": true,
+      "17_4_nees_flat_equivalence_baseline": false,
+      "17_5_nees_within_platform_threshold_baseline": true,
+      "17_6_coverage_flat_equivalence_baseline": false,
+      "17_7_coverage_within_platform_threshold_baseline": true,
+      "17_8_posterior_predictive_blind_baseline": false,
+      "17_9_repair_reduces_degradation": true
+    },
+    "staggered_rejoin": {
+      "17_10_crn_integrity": true,
+      "17_11_validity": true,
+      "17_1_regret_rises_baseline": true,
+      "17_2_regret_slope_positive_baseline": true,
+      "17_3_reaches_failure_regime_baseline": true,
+      "17_4_nees_flat_equivalence_baseline": false,
+      "17_5_nees_within_platform_threshold_baseline": true,
+      "17_6_coverage_flat_equivalence_baseline": false,
+      "17_7_coverage_within_platform_threshold_baseline": true,
+      "17_8_posterior_predictive_blind_baseline": false,
+      "17_9_repair_reduces_degradation": true
+    }
+  },
+  "permanently_failed": {
+    "17_4_nees_flat_equivalence_baseline": "FAILED, permanently; not rewritten (Amendment 002 sec 3, 003 sec 8)",
+    "17_6_coverage_flat_equivalence_baseline": "FAILED, permanently; not rewritten (Amendment 002 sec 3, 003 sec 8)",
+    "17_8_posterior_predictive_blind_baseline": "FAILED, permanently; not rewritten (Amendment 002 sec 3, 003 sec 8)"
+  },
+  "phase": "training",
+  "post_hoc_respecification_count": 3,
+  "post_hoc_respecifications": [
+    "arm assignment corrected after the first evaluation (Amendment 002 sec 1)",
+    "17.5/17.7 thresholds respecified against platform values (002 sec 5.2)",
+    "hypothesis changed from flatness to directional anti-correlation (002 sec 5.3)"
+  ],
+  "predeclared_signature_present": false,
+  "promotion": false,
+  "provenance": {
+    "record_loss_repaired": "The evaluator wrote every scenario to a single gate_evaluation.json, so four sequential runs left only the last scenario on disk. Fixed to write gate_evaluation_<scenario>.json per scenario; the four records this decision reads were regenerated from the surviving dose artifacts, not from memory.",
+    "v1_v2_reproduction": "admission_censoring_control reproduces across the v1 and v2 sweeps to five decimals (+0.83729 / -0.29608 / +0.00975). The re-run is clean."
+  },
+  "required_before_heldout": [],
+  "research_question": "As censoring intensity rises, does decision regret rise monotonically while NEES, coverage and posterior-predictive checks remain flat?",
+  "retraction": {
+    "claim": "that the control/natural split measures an exogenous/endogenous correctability boundary",
+    "reason": "AgentLifecycle.update gates re-admission on nis_values <= topology_rejoin_nis_threshold, a state-dependent quantity, in every scenario. All four are endogenous, and the control has the STRONGER gate (probation 40 vs 4) while showing the SMALLEST residual -- the opposite of what the retracted reading predicts.",
+    "recorded_in": "PROTOCOL_AMENDMENT_003_m17.md sec 1"
+  },
+  "second_finding": {
+    "causal_attribution": "NONE. Amendment 003 sec 5.2 forbids attributing the control/natural difference to gate class, probation length, censoring duration or partition structure: five factors are confounded across these four scenarios. The identifying experiment is the 2x2 factorial of Amendment 003 sec 6, on the training band.",
+    "nees_residual_control": 0.0862361973004025,
+    "nees_residual_natural": [
+      0.4081800256038324,
+      0.3725781845372502,
+      0.3770193922658966
+    ],
+    "regret_residual_all": [
+      0.09775933879498287,
+      0.08993246401233093,
+      0.07029817394269505,
+      0.08557090668306773
+    ],
+    "residual_fractions": {
+      "admission_censoring_control": {
+        "coverage95": 0.18900763358778616,
+        "decision_loss": 0.09775933879498287,
+        "mean_nees": 0.0862361973004025
+      },
+      "failure_only": {
+        "coverage95": 0.6591915019179698,
+        "decision_loss": 0.08993246401233093,
+        "mean_nees": 0.4081800256038324
+      },
+      "failure_partition": {
+        "coverage95": 0.6554344235216382,
+        "decision_loss": 0.07029817394269505,
+        "mean_nees": 0.3725781845372502
+      },
+      "staggered_rejoin": {
+        "coverage95": 0.6580882352941174,
+        "decision_loss": 0.08557090668306773,
+        "mean_nees": 0.3770193922658966
+      }
+    },
+    "statement": "Repairing the decisions does not repair the diagnostics. The M9A.7 split-admission repair removes 90-93% of the regret slope in EVERY scenario, but removes ~91% of the NEES inversion on the control against only ~62% on the three natural scenarios. Per unit of remaining decision damage the repaired system's self-consistency diagnostics are roughly five times more misleading than the unrepaired system's."
+  },
+  "supersedes": "the v1 single-scenario decision record",
+  "sweep": {
+    "directory": "results/milestone17_training_v2",
+    "dose_axis": "agent_failure_count",
+    "scenarios_dosed": [
+      "admission_censoring_control",
+      "failure_only",
+      "failure_partition",
+      "staggered_rejoin"
+    ],
+    "seed_count": 300,
+    "seed_start": 31000
+  },
+  "verdict": "M17-TRAINING-ANTICORRELATION-REPLICATED",
+  "verdict_semantics": {
+    "M17-TRAINING-ANTICORRELATION-REPLICATED": "The anti-correlation replicates on all four dosed scenarios of the training band. This is NOT a promotion. The held-out band 32000-32299 is unopened; the predeclared flatness hypothesis failed and was replaced post hoc; and the cause of the control/natural residual split is unidentified."
+  }
+}

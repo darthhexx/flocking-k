@@ -1,0 +1,103 @@
+{
+  "amendment_003_note": "Residual fractions are DESCRIPTIVE. Amendment 003 sec 5.2 forbids attributing the control/natural difference to gate class, probation length, censoring duration or partition structure from these four scenarios; five factors are confounded across them. The identifying experiment is the 2x2 factorial in Amendment 003 sec 6, on the training band only.",
+  "environment": {
+    "machine": "aarch64",
+    "numpy": "2.2.6",
+    "platform": "Linux",
+    "python": "3.10.12"
+  },
+  "milestone": "M17",
+  "per_scenario": {
+    "admission_censoring_control": {
+      "blindness_signature_unrepaired": false,
+      "gates": {
+        "17_10_crn_integrity": true,
+        "17_11_validity": true,
+        "17_1_regret_rises_baseline": true,
+        "17_2_regret_slope_positive_baseline": true,
+        "17_3_reaches_failure_regime_baseline": true,
+        "17_4_nees_flat_equivalence_baseline": false,
+        "17_5_nees_within_platform_threshold_baseline": true,
+        "17_6_coverage_flat_equivalence_baseline": false,
+        "17_7_coverage_within_platform_threshold_baseline": true,
+        "17_8_posterior_predictive_blind_baseline": false,
+        "17_9_repair_reduces_degradation": true
+      },
+      "residual_fractions": {
+        "coverage95": 0.18900763358778616,
+        "decision_loss": 0.09775933879498287,
+        "mean_nees": 0.0862361973004025
+      }
+    },
+    "failure_only": {
+      "blindness_signature_unrepaired": false,
+      "gates": {
+        "17_10_crn_integrity": true,
+        "17_11_validity": true,
+        "17_1_regret_rises_baseline": true,
+        "17_2_regret_slope_positive_baseline": true,
+        "17_3_reaches_failure_regime_baseline": true,
+        "17_4_nees_flat_equivalence_baseline": false,
+        "17_5_nees_within_platform_threshold_baseline": true,
+        "17_6_coverage_flat_equivalence_baseline": false,
+        "17_7_coverage_within_platform_threshold_baseline": true,
+        "17_8_posterior_predictive_blind_baseline": false,
+        "17_9_repair_reduces_degradation": true
+      },
+      "residual_fractions": {
+        "coverage95": 0.6591915019179698,
+        "decision_loss": 0.08993246401233093,
+        "mean_nees": 0.4081800256038324
+      }
+    },
+    "failure_partition": {
+      "blindness_signature_unrepaired": false,
+      "gates": {
+        "17_10_crn_integrity": true,
+        "17_11_validity": true,
+        "17_1_regret_rises_baseline": true,
+        "17_2_regret_slope_positive_baseline": true,
+        "17_3_reaches_failure_regime_baseline": true,
+        "17_4_nees_flat_equivalence_baseline": false,
+        "17_5_nees_within_platform_threshold_baseline": true,
+        "17_6_coverage_flat_equivalence_baseline": false,
+        "17_7_coverage_within_platform_threshold_baseline": true,
+        "17_8_posterior_predictive_blind_baseline": false,
+        "17_9_repair_reduces_degradation": true
+      },
+      "residual_fractions": {
+        "coverage95": 0.6554344235216382,
+        "decision_loss": 0.07029817394269505,
+        "mean_nees": 0.3725781845372502
+      }
+    },
+    "staggered_rejoin": {
+      "blindness_signature_unrepaired": false,
+      "gates": {
+        "17_10_crn_integrity": true,
+        "17_11_validity": true,
+        "17_1_regret_rises_baseline": true,
+        "17_2_regret_slope_positive_baseline": true,
+        "17_3_reaches_failure_regime_baseline": true,
+        "17_4_nees_flat_equivalence_baseline": false,
+        "17_5_nees_within_platform_threshold_baseline": true,
+        "17_6_coverage_flat_equivalence_baseline": false,
+        "17_7_coverage_within_platform_threshold_baseline": true,
+        "17_8_posterior_predictive_blind_baseline": false,
+        "17_9_repair_reduces_degradation": true
+      },
+      "residual_fractions": {
+        "coverage95": 0.6580882352941174,
+        "decision_loss": 0.08557090668306773,
+        "mean_nees": 0.3770193922658966
+      }
+    }
+  },
+  "scenarios": [
+    "failure_only",
+    "failure_partition",
+    "staggered_rejoin",
+    "admission_censoring_control"
+  ],
+  "sweep": "results/milestone17_training_v2"
+}

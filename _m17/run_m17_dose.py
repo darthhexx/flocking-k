@@ -206,6 +206,16 @@ def main() -> int:
                         help="minimum seconds between within-dose progress lines")
     parser.add_argument("--progress-log", type=Path, default=None,
                         help="JSON-lines progress file (default: <output>/progress.jsonl)")
+    parser.add_argument("--extra-overrides", type=str, default=None,
+                        help="JSON object mapping scenario name -> extra "
+                             "ExperimentConfig fields, merged into that "
+                             "scenario's dose override. Added for the Amendment "
+                             "003 sec 6 factorial, which varies probation length "
+                             "and censoring duration on the failure_only base. "
+                             "Field names are validated against ExperimentConfig "
+                             "by the suite; the dose field itself is rejected "
+                             "here, because overriding it would silently detach "
+                             "the sweep from its own axis.")
     parser.add_argument("--scenarios", default="all",
                         choices=("all", "control-only"),
                         help="'all' doses every scenario that natively sets "
@@ -261,6 +271,27 @@ def main() -> int:
         DOSABLE_SCENARIOS if args.scenarios == "all"
         else (M9A7_POSITIVE_CONTROL.name,)
     )
+
+    extra_overrides: dict[str, dict[str, object]] = {}
+    if args.extra_overrides:
+        extra_overrides = json.loads(args.extra_overrides)
+        if not isinstance(extra_overrides, dict):
+            raise ValueError("--extra-overrides must be a JSON object")
+        for name, fields in extra_overrides.items():
+            if not isinstance(fields, dict):
+                raise ValueError(
+                    f"--extra-overrides[{name!r}] must be a JSON object")
+            if DOSE_FIELD in fields:
+                raise ValueError(
+                    f"--extra-overrides[{name!r}] sets {DOSE_FIELD!r}, which is "
+                    "the dose axis. Overriding it would pin every dose level to "
+                    "one value while the artifacts continued to be labelled by "
+                    "dose -- a silent null result. Refusing.")
+            if name not in dosed_scenarios:
+                raise ValueError(
+                    f"--extra-overrides names {name!r}, which is not in the "
+                    f"dosed set {dosed_scenarios}. The override would be applied "
+                    "but no dose would vary alongside it.")
     workers = args.workers or min(os.cpu_count() or 2, 8)
     say("=" * 72)
     say(f"M17 dose sweep | phase={args.phase} "
@@ -270,6 +301,9 @@ def main() -> int:
         f"({len(selected)} levels of {DOSE_FIELD})")
     say(f"  dosed     : {len(dosed_scenarios)} scenarios -- "
         f"{', '.join(dosed_scenarios)}")
+    if extra_overrides:
+        for name, fields in sorted(extra_overrides.items()):
+            say(f"  override  : {name} <- {fields}")
     say(f"  workers   : {workers} of {os.cpu_count()} cpus  |  "
         f"python {platform.python_version()}  numpy {np.__version__}")
     say(f"  output    : {output}")
@@ -342,7 +376,8 @@ def main() -> int:
                 ExperimentConfig(),
                 dose_output,
                 scenario_field_overrides={
-                    name: {DOSE_FIELD: censored} for name in dosed_scenarios
+                    name: {DOSE_FIELD: censored, **extra_overrides.get(name, {})}
+                    for name in dosed_scenarios
                 },
                 seed_count=args.seed_count,
                 seed_start=args.seed_start,

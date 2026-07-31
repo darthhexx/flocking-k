@@ -1,0 +1,83 @@
+{
+  "dose_axis": {
+    "dosed_scenarios": [
+      "failure_only",
+      "failure_partition",
+      "staggered_rejoin",
+      "admission_censoring_control"
+    ],
+    "doses": [
+      0.0,
+      0.2,
+      0.4,
+      0.6,
+      0.8,
+      1.0
+    ],
+    "maximum": 6,
+    "minimum": 1,
+    "parameter": "agent_failure_count",
+    "rationale": "Selected by measurement over three candidates; see the module docstring and _m17/DOSE_AXIS_SELECTION.md. Rejoin probation saturated across half its range and was abandoned."
+  },
+  "environment": {
+    "machine": "x86_64",
+    "numpy": "2.2.4",
+    "platform": "Linux",
+    "python": "3.13.5"
+  },
+  "gates_evaluated": false,
+  "milestone": "M17",
+  "negligibility_margins": {
+    "coverage_slope": 0.006,
+    "nees_slope": 0.1,
+    "note": "Predeclared for the equivalence tests in gates 17.4 and 17.6. Flatness is asserted only if the slope's confidence bound falls inside these; a failure to reject is not sufficient."
+  },
+  "note": "This runner materialises the dose sweep. Gate evaluation (17.1-17.11) reads the per-dose artifacts and is deliberately a separate step, so the expensive sweep is not re-run when a threshold is refined.",
+  "per_dose": [
+    {
+      "artifact": "results/milestone17_training_v2/dose_0.00",
+      "censored_agents": 1,
+      "dose": 0.0,
+      "duration_s": 679.8,
+      "verdict": "M9A7-TRAINING-PASS"
+    },
+    {
+      "artifact": "results/milestone17_training_v2/dose_0.20",
+      "censored_agents": 2,
+      "dose": 0.2,
+      "duration_s": 653.3,
+      "verdict": "M9A7-TRAINING-PASS"
+    },
+    {
+      "artifact": "results/milestone17_training_v2/dose_0.40",
+      "censored_agents": 3,
+      "dose": 0.4,
+      "duration_s": 647.7,
+      "verdict": "M9A7-TRAINING-PASS"
+    },
+    {
+      "artifact": "results/milestone17_training_v2/dose_0.60",
+      "censored_agents": 4,
+      "dose": 0.6,
+      "duration_s": 626.3,
+      "verdict": "M9A7-TRAINING-PASS"
+    },
+    {
+      "artifact": "results/milestone17_training_v2/dose_0.80",
+      "censored_agents": 5,
+      "dose": 0.8,
+      "duration_s": 610.7,
+      "verdict": "M9A7-TRAINING-PASS"
+    },
+    {
+      "artifact": "results/milestone17_training_v2/dose_1.00",
+      "censored_agents": 6,
+      "dose": 1.0,
+      "duration_s": 601.4,
+      "verdict": "M9A7-TRAINING-PASS"
+    }
+  ],
+  "phase": "training",
+  "seed_count": 300,
+  "seed_start": 31000
+}

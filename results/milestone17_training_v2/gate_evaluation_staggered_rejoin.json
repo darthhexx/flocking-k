@@ -1,0 +1,312 @@
+{
+  "arm_semantics": {
+    "baseline": "unrepaired M9A.6 assignment posterior",
+    "candidate": "M9A.7 split-admission repair"
+  },
+  "arms": {
+    "baseline": {
+      "_per_dose_cov": [
+        0.9655208333333334,
+        0.9664999999999998,
+        0.9672708333333334,
+        0.9692291666666667,
+        0.9692916666666668,
+        0.9781875
+      ],
+      "_per_dose_loss": [
+        0.28928032128093795,
+        0.3296633390521299,
+        0.32372777957247767,
+        0.42445402958693607,
+        0.4773943451785196,
+        2.5794576568333274
+      ],
+      "_per_dose_nees": [
+        1.770279046781103,
+        1.7600741299770588,
+        1.7560268183323076,
+        1.7122336366002688,
+        1.7117654935589992,
+        1.2655509107879626
+      ],
+      "_top_dose_regret": {
+        "mean": 2.5794576568333274,
+        "ucb": 2.8629295164406967
+      },
+      "coverage95": {
+        "ci": [
+          0.00873214285714286,
+          0.012369122023809527
+        ],
+        "level_first": 0.9655208333333334,
+        "level_last": 0.9781875,
+        "slope": 0.010523809523809529,
+        "spearman_of_means": 1.0
+      },
+      "decision_loss": {
+        "ci": [
+          1.518155456789929,
+          1.9185924445114693
+        ],
+        "level_first": 0.28928032128093795,
+        "level_last": 2.5794576568333274,
+        "slope": 1.7135437065936534,
+        "spearman_of_means": 0.942857142857143
+      },
+      "mean_nees": {
+        "ci": [
+          -0.4226464876758259,
+          -0.3518171134593945
+        ],
+        "level_first": 1.770279046781103,
+        "level_last": 1.2655509107879626,
+        "slope": -0.38747996727884576,
+        "spearman_of_means": -1.0
+      }
+    },
+    "candidate": {
+      "_per_dose_cov": [
+        0.9670833333333333,
+        0.9668333333333332,
+        0.9680833333333332,
+        0.9694375000000001,
+        0.9716041666666666,
+        0.9736458333333333
+      ],
+      "_per_dose_loss": [
+        0.28398030199971874,
+        0.2945803016101926,
+        0.31179305632560284,
+        0.3703058273596568,
+        0.3718992916600836,
+        0.4311676378229703
+      ],
+      "_per_dose_nees": [
+        1.7500995435375717,
+        1.7496822819663764,
+        1.7395613058668542,
+        1.724799428332301,
+        1.6585979483698243,
+        1.6031800727122618
+      ],
+      "_top_dose_regret": {
+        "mean": 0.4311676378229703,
+        "ucb": 0.4355195341218438
+      },
+      "coverage95": {
+        "ci": [
+          0.005110044642857142,
+          0.008717410714285716
+        ],
+        "level_first": 0.9670833333333333,
+        "level_last": 0.9736458333333333,
+        "slope": 0.006925595238095239,
+        "spearman_of_means": 0.942857142857143
+      },
+      "decision_loss": {
+        "ci": [
+          0.1424740795183216,
+          0.15075072457658964
+        ],
+        "level_first": 0.28398030199971874,
+        "level_last": 0.4311676378229703,
+        "slope": 0.14662948861428352,
+        "spearman_of_means": 1.0
+      },
+      "mean_nees": {
+        "ci": [
+          -0.16557284366641195,
+          -0.12607184541990443
+        ],
+        "level_first": 1.7500995435375717,
+        "level_last": 1.6031800727122618,
+        "slope": -0.14608746177867993,
+        "spearman_of_means": -1.0
+      }
+    }
+  },
+  "blindness_signature_unrepaired": false,
+  "doses": [
+    0.0,
+    0.2,
+    0.4,
+    0.6,
+    0.8,
+    1.0
+  ],
+  "environment": {
+    "machine": "aarch64",
+    "numpy": "2.2.6",
+    "platform": "Linux",
+    "python": "3.10.12"
+  },
+  "gate_detail": {
+    "17_10_crn_integrity": {
+      "arm": "all",
+      "dosed_scenarios_declared": [
+        "admission_censoring_control",
+        "failure_only",
+        "failure_partition",
+        "staggered_rejoin"
+      ],
+      "dosed_scenarios_with_moving_fingerprints": [
+        "admission_censoring_control",
+        "failure_only",
+        "failure_partition",
+        "staggered_rejoin"
+      ],
+      "note": "An un-dosed scenario whose fingerprint moves across doses would mean the dose leaked; a dosed scenario whose fingerprint does NOT move would mean it never applied.",
+      "passed": true,
+      "undosed_scenarios_with_moving_fingerprints": []
+    },
+    "17_11_validity": {
+      "arm": "all",
+      "note": "environment, fingerprint algorithm and applied dose recorded and internally consistent in every per-dose artifact",
+      "passed": true,
+      "problems": []
+    },
+    "17_1_regret_rises_baseline": {
+      "arm": "baseline",
+      "passed": true,
+      "slope_lcb": 1.518155456789929,
+      "spearman": 0.942857142857143
+    },
+    "17_2_regret_slope_positive_baseline": {
+      "arm": "baseline",
+      "ci": [
+        1.518155456789929,
+        1.9185924445114693
+      ],
+      "passed": true,
+      "slope": 1.7135437065936534
+    },
+    "17_3_reaches_failure_regime_baseline": {
+      "arm": "baseline",
+      "limit": 0.1,
+      "passed": true,
+      "top_dose_mean": 2.5794576568333274,
+      "top_dose_ucb": 2.8629295164406967
+    },
+    "17_4_nees_flat_equivalence_baseline": {
+      "arm": "baseline",
+      "ci": [
+        -0.4226464876758259,
+        -0.3518171134593945
+      ],
+      "margin": 0.1,
+      "passed": false,
+      "slope": -0.38747996727884576
+    },
+    "17_5_nees_within_platform_threshold_baseline": {
+      "arm": "baseline",
+      "note": "respecified per Amendment 002 against the platform's own mean_nees_max; the original [0.8, 1.5] band was invented",
+      "passed": true,
+      "per_dose": [
+        1.770279046781103,
+        1.7600741299770588,
+        1.7560268183323076,
+        1.7122336366002688,
+        1.7117654935589992,
+        1.2655509107879626
+      ],
+      "threshold": 6.0
+    },
+    "17_6_coverage_flat_equivalence_baseline": {
+      "arm": "baseline",
+      "ci": [
+        0.00873214285714286,
+        0.012369122023809527
+      ],
+      "margin": 0.006,
+      "passed": false,
+      "slope": 0.010523809523809529
+    },
+    "17_7_coverage_within_platform_threshold_baseline": {
+      "arm": "baseline",
+      "note": "respecified per Amendment 002 against coverage95_min",
+      "passed": true,
+      "per_dose": [
+        0.9655208333333334,
+        0.9664999999999998,
+        0.9672708333333334,
+        0.9692291666666667,
+        0.9692916666666668,
+        0.9781875
+      ],
+      "threshold": 0.88
+    },
+    "17_8_posterior_predictive_blind_baseline": {
+      "arm": "baseline",
+      "limit": 0.05,
+      "mean_p_drift_across_doses": 0.18260798291356103,
+      "passed": false,
+      "per_dose": [
+        {
+          "dose": 0.0,
+          "ks_distance_from_uniform": 0.7767119895896036,
+          "mean_p": 0.135468334658952
+        },
+        {
+          "dose": 0.2,
+          "ks_distance_from_uniform": 0.7737790154723163,
+          "mean_p": 0.137837481561252
+        },
+        {
+          "dose": 0.4,
+          "ks_distance_from_uniform": 0.761610224451085,
+          "mean_p": 0.13883474693788694
+        },
+        {
+          "dose": 0.6,
+          "ks_distance_from_uniform": 0.7442642980155156,
+          "mean_p": 0.14923994527545217
+        },
+        {
+          "dose": 0.8,
+          "ks_distance_from_uniform": 0.7422504822887432,
+          "mean_p": 0.14930572813018184
+        },
+        {
+          "dose": 1.0,
+          "ks_distance_from_uniform": 0.396018844085668,
+          "mean_p": 0.31807631757251303
+        }
+      ]
+    },
+    "17_9_repair_reduces_degradation": {
+      "arm": "candidate vs baseline",
+      "baseline_slope": 1.7135437065936534,
+      "candidate_slope": 0.14662948861428352,
+      "note": "respecified per Amendment 002. The original form -- repaired regret UCB <= 0.10 at every dose -- used M9A.7's limit for the NATURAL scenarios, but this is the engineered positive control where even the lowest dose sits at 0.317. The limit was unreachable by construction and tested nothing.",
+      "passed": true,
+      "reduction_factor": 11.686214845236343
+    }
+  },
+  "gates": {
+    "17_10_crn_integrity": true,
+    "17_11_validity": true,
+    "17_1_regret_rises_baseline": true,
+    "17_2_regret_slope_positive_baseline": true,
+    "17_3_reaches_failure_regime_baseline": true,
+    "17_4_nees_flat_equivalence_baseline": false,
+    "17_5_nees_within_platform_threshold_baseline": true,
+    "17_6_coverage_flat_equivalence_baseline": false,
+    "17_7_coverage_within_platform_threshold_baseline": true,
+    "17_8_posterior_predictive_blind_baseline": false,
+    "17_9_repair_reduces_degradation": true
+  },
+  "milestone": "M17",
+  "residual_fractions": {
+    "coverage95": 0.6580882352941174,
+    "decision_loss": 0.08557090668306773,
+    "mean_nees": 0.3770193922658966
+  },
+  "scenario": "staggered_rejoin",
+  "statistics": {
+    "bootstrap_samples": 5000,
+    "method": "per-seed OLS slope; percentile bootstrap over seed-level slopes",
+    "rng_seed": 20260730,
+    "unit_of_analysis": "seed"
+  },
+  "sweep": "results/milestone17_training_v2"
+}

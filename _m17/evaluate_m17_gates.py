@@ -138,6 +138,81 @@ def ppc_uniformity(mats, doses, dof: int = 4):
     return out, drift
 
 
+def crn_and_validity(sweep_dir: Path) -> tuple[dict, dict]:
+    """Gates 17.10 and 17.11.
+
+    17.10 CRN integrity. Every arm within a dose must observe the same exogenous
+    trace, so `trace_fingerprint` must be constant across arms for a given
+    (scenario, seed). The M9A.7 suite emits one row per (scenario, seed) with both
+    arms' metrics on it, so arm-disagreement is structurally impossible *within* a
+    row; what can still be checked, and is the thing that actually matters for a
+    dose sweep, is that the un-dosed scenarios carry an identical fingerprint at
+    every dose. If the dose leaked into a scenario it was not applied to, that
+    fingerprint would move.
+
+    17.11 Validity. The environment and the fingerprint algorithm must be recorded
+    in every per-dose artifact, and the recorded scenario_field_overrides must match
+    the dose the sweep claims to have applied.
+    """
+    sweep = json.loads((sweep_dir / "sweep.json").read_text(encoding="utf-8"))
+    entries = sorted(sweep["per_dose"], key=lambda e: e["dose"])
+    dosed = set(sweep["dose_axis"].get("dosed_scenarios")
+                or [SCENARIO])
+
+    # Fingerprints live in trace_manifest.json, not run_summary.csv: the M9A.7
+    # suite writes one manifest entry per (scenario, seed) rather than a column.
+    fingerprints: dict[str, set[str]] = {}
+    for entry in entries:
+        manifest = json.loads(
+            (sweep_dir / f"dose_{entry['dose']:.2f}" / "trace_manifest.json")
+            .read_text(encoding="utf-8")
+        )
+        for item in manifest["entries"]:
+            key = f"{item['scenario']}|{item['seed']}"
+            fingerprints.setdefault(key, set()).add(str(item["fingerprint"]))
+
+    leaked = sorted({
+        k.split("|")[0] for k, v in fingerprints.items()
+        if len(v) > 1 and k.split("|")[0] not in dosed
+    })
+    moved_as_expected = sorted({
+        k.split("|")[0] for k, v in fingerprints.items()
+        if len(v) > 1 and k.split("|")[0] in dosed
+    })
+    gate_17_10 = {
+        "arm": "all",
+        "passed": not leaked,
+        "undosed_scenarios_with_moving_fingerprints": leaked,
+        "dosed_scenarios_with_moving_fingerprints": moved_as_expected,
+        "note": ("An un-dosed scenario whose fingerprint moves across doses would "
+                 "mean the dose leaked; a dosed scenario whose fingerprint does NOT "
+                 "move would mean it never applied."),
+        "dosed_scenarios_declared": sorted(dosed),
+    }
+
+    problems = []
+    for entry in entries:
+        cfg_path = sweep_dir / f"dose_{entry['dose']:.2f}" / "suite_config.json"
+        cfg = json.loads(cfg_path.read_text(encoding="utf-8"))
+        for field in ("python", "numpy", "fingerprint_algorithm"):
+            if not cfg.get(field):
+                problems.append(f"dose {entry['dose']:.2f}: missing {field}")
+        applied = cfg.get("scenario_field_overrides") or {}
+        for name in dosed:
+            got = (applied.get(name) or {}).get("agent_failure_count")
+            if got != entry.get("censored_agents"):
+                problems.append(
+                    f"dose {entry['dose']:.2f}: {name} recorded "
+                    f"agent_failure_count={got}, sweep claims "
+                    f"{entry.get('censored_agents')}")
+    gate_17_11 = {
+        "arm": "all", "passed": not problems, "problems": problems,
+        "note": "environment, fingerprint algorithm and applied dose recorded and "
+                "internally consistent in every per-dose artifact",
+    }
+    return gate_17_10, gate_17_11
+
+
 def evaluate(sweep_dir: Path, scenario: str) -> dict:
     rng = np.random.default_rng(RNG_SEED)
     arms = {}
@@ -218,6 +293,7 @@ def evaluate(sweep_dir: Path, scenario: str) -> dict:
                     "where even the lowest dose sits at 0.317. The limit was "
                     "unreachable by construction and tested nothing."},
     }
+    gates["17_10_crn_integrity"], gates["17_11_validity"] = crn_and_validity(sweep_dir)
     return {"arms": arms, "gates": gates, "doses": load(sweep_dir, scenario,
                                                         "baseline")[0].tolist()}
 

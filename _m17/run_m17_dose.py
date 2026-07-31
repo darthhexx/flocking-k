@@ -77,6 +77,7 @@ sys.path.insert(0, str(REPO / "src"))
 
 from flockkalman.admission_suite import (  # noqa: E402
     M9A7_POSITIVE_CONTROL,
+    M9A7_SCENARIOS,
     run_admission_evidence_suite,
 )
 from flockkalman.config import ExperimentConfig  # noqa: E402
@@ -89,6 +90,53 @@ from flockkalman.provenance import environment_fingerprint  # noqa: E402
 DOSES = (0.0, 0.2, 0.4, 0.6, 0.8, 1.0)
 FAILURES_MIN, FAILURES_MAX = 1, 6
 DOSE_FIELD = "agent_failure_count"
+
+#: Scenarios the dose axis can reach. A scenario is dosable only if it already sets
+#: `agent_failure_count`; adding the field to one that does not would introduce
+#: failure timing and change the scenario's identity rather than its dose.
+#: Five of twelve qualify. Notably `asymmetric_partition`, named in the protocol's
+#: declared matrix, is NOT among them and cannot be dosed on this axis.
+def _dosable_scenarios() -> tuple[str, ...]:
+    """Scenarios the dose axis can reach across the WHOLE grid.
+
+    Two filters, both computed rather than asserted:
+
+    1. the scenario must already set `agent_failure_count` -- adding the field to one
+       that does not would introduce failure timing and change the scenario's
+       identity rather than its dose;
+    2. every dose level must validate. `raw_channel_colluding_ramp` targets
+       `agent_failure_fault_type=4` and there are only three strategic agents, so it
+       caps at 3 and cannot span the grid. Including it would either truncate the
+       range for everyone -- discarding exactly the region where the training run
+       found a 4x regret effect -- or make the dose mean different things in
+       different scenarios.
+
+    `asymmetric_partition`, named in the protocol's declared matrix, fails filter 1
+    and is not dosable on this axis at all.
+    """
+    from dataclasses import replace as _replace
+
+    from flockkalman.admission_suite import _fit_timing
+
+    base = ExperimentConfig()
+    out = []
+    for scenario in M9A7_SCENARIOS:
+        if scenario.overrides.get(DOSE_FIELD) is None:
+            continue
+        ok = True
+        for dose in DOSES:
+            overrides = dict(scenario.overrides)
+            overrides[DOSE_FIELD] = censored_agents_for_dose(dose)
+            try:
+                _replace(
+                    base, **_fit_timing(overrides, base.steps), seeds=[0]
+                ).validate()
+            except Exception:  # noqa: BLE001 - a scenario that cannot span is excluded
+                ok = False
+                break
+        if ok:
+            out.append(scenario.name)
+    return tuple(out)
 
 #: Predeclared negligibility margins for the equivalence tests. A slope whose
 #: upper confidence bound is below these is "flat" for the purpose of the claim.
@@ -104,6 +152,9 @@ DELTA_COVERAGE_SLOPE = 0.006
 def censored_agents_for_dose(dose: float) -> int:
     """Number of agents whose evidence is censored at this dose."""
     return int(round(FAILURES_MIN + dose * (FAILURES_MAX - FAILURES_MIN)))
+
+
+DOSABLE_SCENARIOS = _dosable_scenarios()
 
 
 def _slope_ci(x: np.ndarray, y: np.ndarray) -> tuple[float, float, float]:
@@ -155,6 +206,12 @@ def main() -> int:
                         help="minimum seconds between within-dose progress lines")
     parser.add_argument("--progress-log", type=Path, default=None,
                         help="JSON-lines progress file (default: <output>/progress.jsonl)")
+    parser.add_argument("--scenarios", default="all",
+                        choices=("all", "control-only"),
+                        help="'all' doses every scenario that natively sets "
+                             "agent_failure_count; 'control-only' reproduces the "
+                             "first training sweep, which dosed only the "
+                             "engineered positive control")
     args = parser.parse_args()
 
     output = args.output or REPO / f"results/milestone17_{args.phase}"
@@ -200,6 +257,10 @@ def main() -> int:
         """
         print(line, flush=True)
 
+    dosed_scenarios = (
+        DOSABLE_SCENARIOS if args.scenarios == "all"
+        else (M9A7_POSITIVE_CONTROL.name,)
+    )
     workers = args.workers or min(os.cpu_count() or 2, 8)
     say("=" * 72)
     say(f"M17 dose sweep | phase={args.phase} "
@@ -207,6 +268,8 @@ def main() -> int:
         f"({args.seed_count})")
     say(f"  doses     : {', '.join(f'{d:.2f}' for d in selected)} "
         f"({len(selected)} levels of {DOSE_FIELD})")
+    say(f"  dosed     : {len(dosed_scenarios)} scenarios -- "
+        f"{', '.join(dosed_scenarios)}")
     say(f"  workers   : {workers} of {os.cpu_count()} cpus  |  "
         f"python {platform.python_version()}  numpy {np.__version__}")
     say(f"  output    : {output}")
@@ -279,7 +342,7 @@ def main() -> int:
                 ExperimentConfig(),
                 dose_output,
                 scenario_field_overrides={
-                    M9A7_POSITIVE_CONTROL.name: {DOSE_FIELD: censored}
+                    name: {DOSE_FIELD: censored} for name in dosed_scenarios
                 },
                 seed_count=args.seed_count,
                 seed_start=args.seed_start,
@@ -325,6 +388,7 @@ def main() -> int:
             "minimum": FAILURES_MIN,
             "maximum": FAILURES_MAX,
             "doses": list(selected),
+            "dosed_scenarios": list(dosed_scenarios),
             "rationale": (
                 "Selected by measurement over three candidates; see the module "
                 "docstring and _m17/DOSE_AXIS_SELECTION.md. Rejoin probation "
